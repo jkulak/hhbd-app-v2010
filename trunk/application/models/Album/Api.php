@@ -11,8 +11,6 @@
 // extends Api
 class Model_Album_Api extends Jkl_Model_Api
 {
-
-  
   /**
    * Creates object and fetches the list from database result
    */
