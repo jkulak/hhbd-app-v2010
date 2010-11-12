@@ -20,6 +20,10 @@ class AlbumController extends Zend_Controller_Action
     $this->view->popularAlbums = $this->albumApi->getPopular(5);
     
     $this->view->albums = $this->albumApi->getNewest();
+    
+    $this->view->subTitle = 'Najnowsze albumy';
+    $this->view->headTitle($this->view->subTitle, 'PREPEND');
+    $this->view->headMeta()->setName('description', 'Lista ostatnio wydanych albumów z polskim hip-hopem');
   }
     
   public function announcedAction()
@@ -29,9 +33,10 @@ class AlbumController extends Zend_Controller_Action
     
     $this->view->albums = $this->albumApi->getAnnounced();
     
-    $this->view->headTitle('Albumy zapowiedziane', 'PREPEND');
-    $this->view->headMeta()->setName('keywords', 'framework, PHP, productivity');
-    $this->view->headMeta()->setName('description', 'Lista zapowiedzianych albumów z polskim hip-hopem');
+    $this->view->subTitle = 'Albumy zapowiedziane';
+    $this->view->headTitle($this->view->subTitle, 'PREPEND');
+    $this->view->headMeta()->setName('keywords', 'zapowiedzi, polski hip-hop, najbliższe premiery');
+    $this->view->headMeta()->setName('description', 'Lista zapowiedzianych albumów z polskim hip-hopem. Sprawdź najbliższe premiery.');
     
     $this->renderScript('album/index.phtml');
   }
@@ -43,6 +48,11 @@ class AlbumController extends Zend_Controller_Action
 
     $params = $this->getRequest()->getParams();    
     $this->view->albums = $this->albumApi->getLike($params['letter'] . '%');
+    
+    $this->view->subTitle = 'Albumy zaczynające się na [' . $params['letter'] . ']';
+    $this->view->headTitle($this->view->subTitle, 'PREPEND');
+    $this->view->headMeta()->setName('keywords', 'albumy, polski hip-hop, najbliższe premiery');
+    $this->view->headMeta()->setName('description', 'Lista albumów z polskim hip-hopem. Sprawdź najbliższe premiery.');
     
     $this->renderScript('album/index.phtml');
   }
