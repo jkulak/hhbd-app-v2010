@@ -1,0 +1,23 @@
+<h1>{$subtitle}</h1>
+
+  <?php echo $this->partial('album/_letterPaging.phtml', array('firstLetters' => $this->firstLetters)) ?>
+
+<div id="main">
+
+
+  <ul class="elemlist">
+  <?php foreach ($this->albums->items as $album) echo $this->partial('album/_album.phtml', array('album' => $album)); ?>
+  </ul>
+
+
+</div>
+
+<div id="additional">
+  <h2>Najpopularniejsze albumy</h2>
+  <ul class="elemlist">
+  <?php foreach ($this->popularAlbums->items as $album) echo $this->partial('album/_album.phtml', array('album' => $album)); ?>
+  </ul>
+</div>
+
+
+  <?php echo $this->partial('album/_letterPaging.phtml', array('firstLetters' => $this->firstLetters)) ?>
