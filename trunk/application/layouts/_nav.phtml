@@ -1,8 +1,17 @@
-<ul> 
-    <li class="active"><a href="http://hhbdevolution.kosiarka/">Strona główna</a></li>
+<div id="nav">
+  <ul> 
     <li><a href="http://hhbdevolution.kosiarka/top10.html">Top 10</a></li> 
     <li><a href="http://hhbdevolution.kosiarka/albumy.html">Albumy</a></li> 
     <li><a href="http://hhbdevolution.kosiarka/albumy/zapowiedziane.html">Zapowiedziane</a></li>
     <li><a href="http://hhbdevolution.kosiarka/wykonawcy.html">Wykonawcy</a></li> 
     <li><a href="http://hhbdevolution.kosiarka/wytwornie.html">Wytwórnie</a></li> 
-</ul>
+  </ul>
+
+  <div id="search">
+    <form action="/q">
+      <label for="q" class="hidden">Szukaj:&nbsp;</label>
+      <input name="q" value="" placeholder="Przeszukuj polski hip-hop..." autocomplete="off" id="q" title="Szukaj" alt="Szukaj" tabindex="1" />
+      <input type="submit" value="Szukaj &rarr;" class="button" />
+    </form>
+  </div>
+</div>

@@ -5,98 +5,70 @@
 
   <?php echo $this->headMeta(); ?>
 
-<?php $this->headLink()->prependStylesheet($this->baseUrl() . '/css/s.css'); ?>
-<?php $this->headLink()->prependStylesheet($this->baseUrl() . '/css/reset.css'); ?>
+<?php $this->headLink()->prependStylesheet($this->baseUrl() . '/css/layout.css'); ?>
+<?php $this->headLink()->prependStylesheet($this->baseUrl() . '/css/design.css'); ?>
+<?php // $this->headLink()->prependStylesheet($this->baseUrl() . '/css/reset.css'); ?>
 <?php echo $this->headLink(); ?>
-
 <?php if (isset($this->appIncludes['jquery'])) $this->headScript()->appendFile($this->baseUrl() . $this->appIncludes['jquery']); ?>
-
 <?php echo $this->headScript(); ?>
-  
 </head>
 <body>
-<p class="hidden"><a href="#content" title="Pomija nawigację i nagłówek strony">Przejdź do głównej treści strony</a></p>
-<div id="page">
-  <div id="header">
-    <?php if ($this->url() != $this->baseUrl() . '/' ): ?>
-      <a href="<?php echo $this->baseUrl(); ?>">
-    <?php endif ?>
-      <h2>hhbd.pl</h2>
-      <?php if ($this->url() != $this->baseUrl() . '/' ): ?>
-        </a>
-      <?php endif ?>
-  </div>
+<div id="body">
+  <p class="hidden"><a href="#content" title="Pomija nawigację i nagłówek strony">Przejdź do głównej treści strony</a></p>
+  <div id="page">
+    <div id="header">
+      <div id="logo">
+        <?php if ($this->url() != $this->baseUrl() . '/' ): ?>
+          <a href="<?php echo $this->baseUrl(); ?>">
+        <?php endif ?>
+        <h2>hhbd.pl</h2>
+        <?php if ($this->url() != $this->baseUrl() . '/' ): ?>
+          </a>
+        <?php endif ?>
+      </div>
+      <?php echo $this->partial('_nav.phtml') ?>
+    </div> <!-- header -->
 
-  <!-- message box -->
-  <?php if (isset($this->messageType)) { ?>
-  <div id="message" class="<?php echo $this->messageType; ?>">
-    <?php echo $this->message; ?>
-  </div>
-  <?php } ?>
+    <!-- message box -->
+    <?php if (isset($this->messageType)) { ?>
+    <div id="message" class="<?php echo $this->messageType; ?>">
+      <?php echo $this->message; ?>
+    </div>
+    <?php } ?>
 
-  <!-- <h3><?php echo $this->translate('Main menu') ?></h3> -->
-  <div id="nav"><!-- <nav> -->
-  <?php
-    // $partial = array('common/nav.phtml', 'default');
-    // $this->navigation()->menu()->setPartial($partial);
-    // echo $this->navigation()->menu()->setOnlyActiveBranch(true);
+    <!-- <h3><?php echo $this->translate('Main menu') ?></h3> -->
+
+    <?php
+      // $partial = array('common/nav.phtml', 'default');
+      // $this->navigation()->menu()->setPartial($partial);
+      // echo $this->navigation()->menu()->setOnlyActiveBranch(true);
   
-    //echo $this->navigation()->menu()->render();
-  ?>
-  <?php echo $this->partial('_topMenu.phtml') ?>
+      //echo $this->navigation()->menu()->render();
+    ?>
+    <!-- <h3><?php echo $this->translate('Breadcrumb') ?></h3> -->
 
-    <form action="/q">
-      <label for="q" class="hidden">Szukaj:&nbsp;</label><input name="q" value="czego szukasz?" id="q" />
-      <input type="submit" value="Szukaj &rarr;" class="button" />
-    </form>
-  </div><!-- </nav> -->
+    <!-- <div id="breadcrumbs">
+      <?php echo $this->navigation()->breadcrumbs()->render(); ?>
+    </div> -->
 
-  <!-- <h3><?php echo $this->translate('Breadcrumb') ?></h3> -->
+    <div id="content">
+    	<?php echo $this->layout()->content; ?>
+    </div>
 
-  <!-- <div id="breadcrumbs">
-    <?php echo $this->navigation()->breadcrumbs()->render(); ?>
-  </div> -->
-
-  <div id="content">
-  	<?php echo $this->layout()->content; ?>
-  </div>
-
-  <div id="footer">
-    <ul>
-      <li>&copy; 2004-<?php echo date('Y'); ?> HHBD.PL</li>
-      <li><a href="/o-nas">O nas</a></li>
-      <li><a href="/blog">Blog</a></li>
-      <li><a href="/kontakt">Kontakt</a></li>
-      <li><a href="/zasady">Zasady użytkowania</a></li>
-      <li><a href="/mapa-strony">Mapa strony</a></li>
-      <li>realizacja: <a href="http://www.webascrazy.net" target="_blank">www.webascrazy.net</a></li>
-    </ul>
+    <div id="footer">
+      <ul>
+        <li>&copy; 2004-<?php echo date('Y'); ?> HHBD.PL</li>
+        <li><a href="/o-nas">O nas</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/kontakt">Kontakt</a></li>
+        <li><a href="/zasady">Zasady użytkowania</a></li>
+        <li><a href="/mapa-strony">Mapa strony</a></li>
+        <li>realizacja: <a href="http://www.webascrazy.net" target="_blank">www.webascrazy.net</a></li>
+      </ul>
+    </div>
   </div>
 </div>
-
-<script type="text/javascript">
-  $(document).ready(function(){
-    $("span.toggle > a").toggle(
-      function () {
-        $(this).text("Pokaż szczegóły");
-        $("li.feat").addClass("hidden");
-      },
-      function () {
-        $(this).text("Ukryj szczegóły");
-        $("li.feat").removeClass("hidden");
-      }
-    );
-  });
-</script>
-
-
-  <script type="text/javascript">
-    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-    var pageTracker = _gat._getTracker("UA-3311418-1");
-    pageTracker._initData();
-    pageTracker._trackPageview();
-  </script>
-
+<?php echo $this->partial('common/_js.phtml'); ?>
+<?php echo $this->partial('common/_googleAnalytics.phtml'); ?>
 </body>
 </html>

@@ -16,9 +16,8 @@ class Model_Album_Api extends Jkl_Model_Api
    */
   public function getList($query)
   {
-    $result = $this->_db->fetchAll($query);
-    $albums = new Jkl_List();
-    
+    $result = $this->_db->fetchAll($query);;
+    $albums = new Jkl_List(); 
     foreach ($result as $params) {
       $albums->add(new Model_Album_Container($params));
     }
@@ -130,7 +129,6 @@ class Model_Album_Api extends Jkl_Model_Api
       'FROM artists AS t1, album_artist_lookup AS t2, albums AS t3, labels AS t4 ' .
       'WHERE (t3.title LIKE "' . $like . '" AND t1.id=t2.artistid AND t2.albumid=t3.id AND t4.id=t3.labelid AND t3.year' . '<="' . date('Y-m-d') . '") ' . 
       'ORDER BY t3.year DESC';
-      
     return $this->getList($query);
   }
   
@@ -141,7 +139,16 @@ class Model_Album_Api extends Jkl_Model_Api
       'WHERE (t1.id=t2.artistid AND t2.albumid=t3.id AND t4.id=t3.labelid AND t3.year' . '<="' . date('Y-m-d') . '") ' . 
       'ORDER BY t3.viewed DESC ' . 
       'LIMIT ' . $count;
-
+    return $this->getList($query);
+  }
+  
+  public function getBest($count = 10)
+  {
+    $query = 'SELECT *, t1.id AS alb_id, t2.rating AS rating, t1.title, t3.artistid AS art_id ' . 
+      'FROM albums t1, ratings_avg t2, album_artist_lookup t3 ' . 
+      ' WHERE (t1.id=t2.albumid AND t3.albumid=t1.id) ' . 
+      'ORDER BY t2.rating DESC ' .
+      'LIMIT ' . $count;
     return $this->getList($query);
   }
   
@@ -152,7 +159,6 @@ class Model_Album_Api extends Jkl_Model_Api
       'WHERE (t1.id=t2.artistid AND t2.albumid=t3.id AND t4.id=t3.labelid AND t3.year' . '<="' . date('Y-m-d') . '") ' . 
       'ORDER BY t3.year DESC ' . 
       'LIMIT ' . $count;
-
     return $this->getList($query);
   }
   
@@ -162,9 +168,7 @@ class Model_Album_Api extends Jkl_Model_Api
       'FROM artists AS t1, album_artist_lookup AS t2, albums AS t3, labels AS t4 ' .
       'WHERE (t1.id=t2.artistid AND t2.albumid=t3.id AND t4.id=t3.labelid AND t3.year' . '>"' . date('Y-m-d') . '") ' . 
       'ORDER BY t3.year ASC ' . 
-      'LIMIT ' . $count;// . 
-       //      'LIMIT ' . HHbd_Config::$defaultPackSize;
-
+      'LIMIT ' . $count;
     return $this->getList($query);
   }
   
