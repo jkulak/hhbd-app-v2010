@@ -22,6 +22,7 @@ class Model_Album_Container
   
   function __construct($params, $full = false)
   {
+    print_r($params);
 
     $this->_appConfig = Zend_Registry::get('Config_App');
 
@@ -57,6 +58,8 @@ class Model_Album_Container
       $this->cover = $this->_appConfig['paths']['albumCoverPath'] . 'cd.png';
       $this->thumbnail = $this->_appConfig['paths']['albumThumbnailPath'] . 'cd.png';
     }
+    
+    $this->rating = $params['rating'];
 
     $this->updated = $params['updated'];
     $this->status = $params['status'];
@@ -66,7 +69,6 @@ class Model_Album_Container
       $this->description = $params['description'];
       $this->eps = $params['eps'];
       $this->duration = $params['duration'];
-      $this->rating = $params['rating'];
       $this->voteCount = $params['votecount'];
     }
     

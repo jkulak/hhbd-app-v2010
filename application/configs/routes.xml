@@ -55,7 +55,7 @@
       </announced>
 
       <album type="Zend_Controller_Router_Route_Regex">
-        <route>album/(.+)-(\d+).html</route>
+        <route>(.+)-a(\d+).html</route>
         <defaults>
           <controller>album</controller>
           <action>view</action>
@@ -64,7 +64,7 @@
           <seo>1</seo>
           <id>2</id>
         </map>
-        <reverse>album/%s-%d.html</reverse>
+        <reverse>%s-a%d.html</reverse>
       </album>
 
       <artists>
@@ -77,7 +77,7 @@
        </artists>
 
        <artist type="Zend_Controller_Router_Route_Regex">
-         <route>wykonawca/(.+)-(\d+).html</route>
+         <route>(.+)-p(\d+).html</route>
          <defaults>
            <controller>artist</controller>
            <action>view</action>
@@ -86,7 +86,7 @@
            <seo>1</seo>
            <id>2</id>
          </map>
-         <reverse>wykonawca/%s-%d.html</reverse>
+         <reverse>%s-p%d.html</reverse>
        </artist>
 
       <labels>

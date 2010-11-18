@@ -1,22 +1,26 @@
-<div class="googleads">
+<div class="box googleads">
   <h2 class="hidden">Google Ads</h2>
   <?php echo $this->partial('common/googleAds/_rectangle.phtml'); ?>
 </div>
 
-<div class="user hidden">
+<div class="box user">
   <h2>Personalizacja</h2>
   <ul>
-    <li>W kolekcji: </li>
-    <li>W chcęliście: </li>
+    <li>W kolekcji: <span class="button">Dodaj do kolekcji</span></li>
+    <li>W chcęliście: <span class="button">Dodaj do chcęlisty</span></li>
   </ul>
 </div>
 
-<div class="teksty lyrics">
+<div class="box teksty lyrics hidden">
   <h2>Teksty piosenek</h2>
   Sprawdź dostępne na naszej stronie teksty piosenek, wystarczy, że wybierzesz któryś utwór z playlisty.
 </div>
 
-<div class="wrzuta chomikuj hidden">
+<?php echo $this->partial('album/box/_bestRated.phtml', array('bestAlbums' => $this->bestAlbums)) ?>
+
+<?php echo $this->partial('album/box/_mostPopular.phtml', array('popularAlbums' => $this->popularAlbums)) ?>
+
+<div class="box wrzuta chomikuj hidden">
   <h2>Linki</h2>
   <ul>
     <li>Wrzuta.pl</li>
