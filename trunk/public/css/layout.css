@@ -73,9 +73,19 @@ h1 {
   border-right: 1px dotted #938548;
 }
 
+#main h1 {
+  float: left;
+}
+
+#main #share {
+  float: right;
+}
+
+
 #additional {
   float: left;
   width: 32%;
+  font-size: 85%;
 }
 
 #footer {
@@ -166,6 +176,7 @@ h1 {
 
 #picture {
   float: left;
+  clear: both;
 }
 
 #brief {
@@ -185,6 +196,7 @@ h1 {
 
 #tracklist table {
   width: 100%;
+  font-size: 85%;
 }
 
 #tracklist table td {
@@ -201,7 +213,8 @@ h1 {
 }
   
 #tracklist table tr td ul li {
-  font-size: 11px;
+  font-size: 12px;
+  margin: 4px 0;
 }
 
 .header {
@@ -224,6 +237,7 @@ h1 {
 
 .box  {
   margin-bottom: 8px;
+  clear: both;
 }
 
 .box h2 {
@@ -241,4 +255,21 @@ h1 {
 
 .box ol li {
   margin-bottom: 4px;
+}
+
+.box ol.covers {
+  list-style-type: none;
+  list-style-position: outside;
+  padding: 0;
+}
+
+.box ol.covers li {
+  float: left;
+  margin-right: 8px;
+}
+
+.box ol.covers img {
+  list-style-type: none;
+  width: 67px;
+  height: 67px;
 }

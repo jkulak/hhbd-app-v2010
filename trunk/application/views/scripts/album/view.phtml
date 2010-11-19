@@ -1,5 +1,14 @@
 <div id="main">
-  <h1><?php echo $this->partial('artist/_link.phtml', array('artist' => $this->album->artist)) ?> - <?php echo $this->album->title ?></h1>
+  <div>
+    <h1><?php echo $this->partial('artist/_link.phtml', array('artist' => $this->album->artist)) ?> - <?php echo $this->album->title ?></h1>
+    <div id="share">
+      <iframe src="http://www.facebook.com/plugins/like.php?href=" . <?php echo $this->currentUrl ?> . "&amp;layout=button_count&amp;show_faces=true&amp;width=260&amp;action=like&amp;font=trebuchet+ms&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:40px; height:21px;" allowTransparency="true"></iframe>
+      <a name="fb_share" type="icon"></a>
+      <script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" 
+              type="text/javascript">
+      </script>
+    </div>
+  </div>
 	<div id="picture">
 	  <img src="<?php echo $this->album->cover ?>" alt="Okładka albumu <?php echo $this->album->title ?>" title="<?php echo $this->album->title . ' - ' . $this->album->artist->name ?>" class="image" />
     <!-- <span id="case"></span> -->
@@ -24,7 +33,7 @@
       <?php if (!empty($this->album->label)): ?>
         <?php echo $this->partial('label/_link.phtml', array('label' => $this->album->label)); ?>
       <?php else: ?>
-        brak informacji
+        --
       <?php endif ?>
       </li>
       
@@ -68,7 +77,7 @@
   <?php if (!empty($this->album->tracklist->items)): ?>
   <div id="tracklist">
     <div class="header">
-      <h2>Lista utworów</h2> <span class="toggle"><a href="?hideDetailes=1">Ukryj szczegóły</a></span>
+      <h2>Lista utworów</h2> <span class="toggle"><a href="?hideDetailes=1">Pokaż szczegóły</a></span>
     </div>
     <table border="0" cellspacing="0" cellpadding="0">
       <caption class="hidden">
@@ -80,7 +89,7 @@
       <tbody>
       <?php foreach ($this->album->tracklist->items as $song): ?>
         <tr>
-          <td><?php echo $song->track ?>.</td>
+          <td><?php echo $song->track ?></td>
           <td class="align">
             <?php foreach ($song->artist->items as $key => $feat): ?>
               <?php echo $this->partial('artist/_link.phtml', array('artist' => $feat)) ?><?php if (sizeof($song->artist->items)-1 > $key): ?>, <?php endif ?>
@@ -89,18 +98,20 @@
           
           <td>
             <?php echo $this->partial('song/_link.phtml', array('song' => $song)) ?>
-            <ul>
-            <li class="feat">
-              <?php foreach ($song->featuring->items as $feat): ?>
-                gościnnie: <?php echo $this->partial('artist/_link.phtml', array('artist' => $feat)) ?> (<?php echo $feat->featType ?>)<br />
-              <?php endforeach ?>
-            </li>
-            <li class="feat">
+            <ul class="feat hidden">
+            <?php if (!empty($song->featuring->items)): ?>
+              <li>gościnnie: 
+                <?php foreach ($song->featuring->items as $key => $feat): ?>
+                  <?php echo $this->partial('artist/_link.phtml', array('artist' => $feat)) ?> (<?php echo $feat->featType ?>)<?php if (sizeof($song->featuring->items)-1 > $key): ?>, <?php endif ?>
+                <?php endforeach ?>
+              </li>
+            <?php endif ?>
+            <li>
               <?php foreach ($song->music->items as $feat): ?>
                 muzyka: <?php echo $this->partial('artist/_link.phtml', array('artist' => $feat)) ?><br />
               <?php endforeach ?>
             </li>
-            <li class="feat">
+            <li>
               <?php foreach ($song->scratch->items as $feat): ?>
                 skrecze: <?php echo $this->partial('artist/_link.phtml', array('artist' => $feat)) ?><br />
               <?php endforeach ?>
@@ -118,7 +129,7 @@
   <?php if (!empty($this->album->description)): ?>
   <div id="description">
     <div class="header">
-      <h2>Opis albumu</h2> <span class="toggle hidden"><a href="?readFullDescription=1">Czytaj całość</a></span>
+      <h2>Opis albumu</h2><span class="toggle hidden"><a href="?readFullDescription=1">Czytaj całość</a></span>
     </div>
   	<p><?php echo $this->album->description ?></p>
   </div>
@@ -126,18 +137,20 @@
 
 </div> <!-- main -->
 
-<div id="additional"><?php echo $this->partial('album/_additional.phtml', array('popularAlbums' => $this->popularAlbums, 'bestAlbums' => $this->bestAlbums)) ?></div>
+<div id="additional">
+  <?php echo $this->render('album/_additional.phtml') ?>
+</div>
 
 <script type="text/javascript">
   $(document).ready(function(){
     $("span.toggle > a").toggle(
       function () {
-        $(this).text("Pokaż szczegóły");
-        $("li.feat").addClass("hidden");
+        $(this).text("Ukryj szczegóły");
+        $("ul.feat").removeClass("hidden");        
       },
       function () {
-        $(this).text("Ukryj szczegóły");
-        $("li.feat").removeClass("hidden");
+        $(this).text("Pokaż szczegóły");
+        $("ul.feat").addClass("hidden");
       }
     );
   });

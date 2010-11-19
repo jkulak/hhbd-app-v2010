@@ -26,7 +26,7 @@ class Model_Album_Api extends Jkl_Model_Api
   
   public function find($id, $full = false)
   {
-    $query = "SELECT *, t1.id as alb_id, t1.epfor as epforid, t1.added as alb_added, t1.addedby as alb_addedby, t1.viewed as alb_viewed, t3.id as art_id " . 
+    $query = "SELECT *, t1.id as alb_id, t1.labelid AS lab_id, t1.epfor as epforid, t1.added as alb_added, t1.addedby as alb_addedby, t1.viewed as alb_viewed, t3.id as art_id " . 
     "FROM albums t1, album_artist_lookup t2, artists t3 " . 
     "WHERE (t3.id=t2.artistid AND t2.albumid=t1.id AND t1.id='" . $id . "')";
     $result = $this->_db->fetchAll($query);
@@ -47,11 +47,11 @@ class Model_Album_Api extends Jkl_Model_Api
   {
     $query = 'SELECT rating FROM ratings_avg WHERE albumid=' . $id;
     $result = $this->_db->fetchAll($query);
-    if (!empty($result)) {
-      $rating = sprintf("%01.2f", $result[0]['rating']);
+    if (isset($result[0])) {
+      $rating = $result[0]['rating'];
     }
     else {
-      $rating = '--';
+      $rating = '';
     }
     return $rating;
   }
@@ -176,5 +176,45 @@ class Model_Album_Api extends Jkl_Model_Api
   {
     $query = 'SELECT DISTINCT(SUBSTR(title, 1,1)) as name from albums order by name ASC';
     return  $this->_db->fetchAll($query);
+  }
+  
+  public function getArtistsAlbums($id, $exclude = array(), $count = 10) {
+    $excludeCondition = '';
+    if (!empty($exclude)) {
+      foreach ($exclude as $key => $value) {
+        $excludeCondition .= ' AND t3.id<>' . $value . ' ';
+      }
+    }    
+    $query = 'SELECT *, t3.id as alb_id, t1.id as art_id, t4.id as lab_id, t3.added as alb_added, t3.addedby as alb_addedby, t3.viewed as alb_viewed ' .
+      'FROM artists AS t1, album_artist_lookup AS t2, albums AS t3, labels AS t4 ' .
+      'WHERE (t1.id=t2.artistid AND t2.albumid=t3.id AND t4.id=t3.labelid AND t1.id="' . $id . '"' . 
+      $excludeCondition . 
+      ') ' . 
+      'ORDER BY t3.viewed DESC ' . 
+      'LIMIT ' . $count;
+    return $this->getList($query);
+  }
+  
+  public function getLabelsAlbums($id, $exclude = array(), $count = 10) {
+    $excludeCondition = '';
+    if (!empty($exclude)) {
+      foreach ($exclude as $key => $value) {
+        $excludeCondition .= ' AND t3.id<>' . $value . ' ';
+      }
+    }
+    $query = 'SELECT *, t3.id as alb_id, t1.id as art_id, t4.id as lab_id, t3.added as alb_added, t3.addedby as alb_addedby, t3.viewed as alb_viewed ' .
+      'FROM artists AS t1, album_artist_lookup AS t2, albums AS t3, labels AS t4 ' .
+      'WHERE (t1.id=t2.artistid AND t2.albumid=t3.id AND t4.id=t3.labelid AND t4.id="' . $id . '"' . 
+      $excludeCondition . 
+      ') ' . 
+      'ORDER BY t3.viewed DESC ' . 
+      'LIMIT ' . $count;
+    return $this->getList($query);
+  }
+  
+  public function increaseViewed($id)
+  {
+    $query = 'UPDATE albums SET viewed=viewed+1 WHERE id=' . $id;
+    $this->_db->query($query);
   }
 }

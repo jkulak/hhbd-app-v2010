@@ -19,11 +19,6 @@ class Model_Artist_Container
   {
     $this->id = $params['id'];
     $this->name = $params['name'];
-  }
-
-  public function url($canonical = false)
-  {
-    return Jkl_Tools_Url::createUrl($this->name);
-    // return $this->title;
+    $this->url = Jkl_Tools_Url::createUrl($this->name);
   }
 }

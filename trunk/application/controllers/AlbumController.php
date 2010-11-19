@@ -60,11 +60,18 @@ class AlbumController extends Zend_Controller_Action
   public function viewAction()
   {
     $params = $this->getRequest()->getParams();
-    // $album = $this->albumApi->find($params['id'], true);
-    // $this->view->album = $album;
+    $album = $this->albumApi->find($params['id'], true);
+    $this->view->album = $album;
+    $this->albumApi->increaseViewed($album->id);
     
-    // $this->view->popularAlbums = $this->albumApi->getPopular(10);
+    $this->view->artistsAlbums = $this->albumApi->getArtistsAlbums($album->artist->id, array($album->id), 10);
+    $this->view->popularAlbums = $this->albumApi->getPopular(10);
     $this->view->bestAlbums = $this->albumApi->getBest(10);
+    if (!empty($album->label)) {
+      $this->view->labelsAlbums = $this->albumApi->getLabelsAlbums($album->label->id, array($album->id), 10);
+    }
+    
+//    $this->view->currentUrl = $this->baseUrl . $this->getRequest()->getRequestUri();
     
     $this->view->headTitle()->set($album->artist->name . ' - ' . $album->title . ' | HHBD.PL');
     $this->view->headMeta()->setName('keywords', $album->artist->name . ', ' . $album->title . ', download, tekst, wrzuta, chomikuj');
