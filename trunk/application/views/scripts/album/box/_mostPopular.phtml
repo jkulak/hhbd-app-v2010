@@ -1,8 +1,0 @@
-<div class="box" id="mostpopular">
-  <h2>Najpopularniejsze albumy</h2>
-  <ol>
-    <?php foreach ($this->popularAlbums->items as $key => $album): ?>
-      <li><?php echo $this->partial('album/_link.phtml', array('album' => $album, 'showArtist' => true)) ?></li>
-    <?php endforeach ?>
-  </ol>
-</div>
