@@ -22,18 +22,24 @@ class Model_Album_Container
   
   function __construct($params, $full = false)
   {
-    print_r($params);
-
+    
+    // echo get_class($this) . '->' . __FUNCTION__ . '(' .$params['alb_id'] . ')<br />';
+    
     $this->_appConfig = Zend_Registry::get('Config_App');
 
     $this->id = $params['alb_id'];
     $this->title = $params['title'];
     
-    $artistApi = new Model_Artist_Api();
-    $this->artist = $artistApi->find($params['art_id'], $full);
+    if (!empty($params['art_id'])) {
+      $artistApi = new Model_Artist_Api();
+      $this->artist = $artistApi->find($params['art_id'], $full);
+    }    
     
-    $labelApi = new Model_Label_Api();
-    $this->label = $labelApi->find($params['labelid'], $full);
+    if (!empty($params['lab_id'])) {
+      $labelApi = new Model_Label_Api();
+      $this->label = $labelApi->find($params['lab_id'], $full);
+      if ($this->label->name == 'BRAK') $this->label = null;
+    }    
     
     $this->legal = ($params['legal']=='y')?true:false;
     $this->releaseDate = $params['year'];
@@ -44,10 +50,11 @@ class Model_Album_Container
     $this->ep = $params['singiel'];
 
     // TODO: users api
-    $this->addedBy = $params['alb_addedby'];
-    $this->added = $params['alb_added'];
+    if (!empty($params['alb_addedby'])) $this->addedBy = $params['alb_addedby'];
+    if (!empty($params['alb_added'])) $this->added = $params['alb_added'];
+    if (!empty($params['alb_viewed'])) $this->views = $params['alb_viewed'];
+    
     $this->updated = $params['updated'];
-    $this->views = $params['alb_viewed'];
     
     if (!empty($params['cover'])) {
       $this->cover = $this->_appConfig['paths']['albumCoverPath'] . $params['cover'];
@@ -59,7 +66,11 @@ class Model_Album_Container
       $this->thumbnail = $this->_appConfig['paths']['albumThumbnailPath'] . 'cd.png';
     }
     
-    $this->rating = $params['rating'];
+    if (!empty($params['rating'])) {
+      $this->rating = number_format($params['rating'], 1);
+    } else {
+      $this->rating = '--';
+    }
 
     $this->updated = $params['updated'];
     $this->status = $params['status'];
@@ -72,6 +83,8 @@ class Model_Album_Container
       $this->voteCount = $params['votecount'];
     }
     
+    $this->url = Jkl_Tools_Url::createUrl($this->title);
+    
   }
   
   /**
@@ -79,12 +92,6 @@ class Model_Album_Container
    */
   public function isAnnounced() {
     return ($this->releaseDate >= date('Y-m-d'));
-  }
-  
-  public function url($canonical = false)
-  {
-    return Jkl_Tools_Url::createUrl($this->title);
-    // return $this->title;
   }
 }
      // [premier] => 
