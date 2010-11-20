@@ -38,8 +38,10 @@ class Model_Album_Container
     if (!empty($params['lab_id'])) {
       $labelApi = new Model_Label_Api();
       $this->label = $labelApi->find($params['lab_id'], $full);
-      if ($this->label->name == 'BRAK') $this->label = null;
-    }    
+      if ($this->label->name == 'BRAK') $this->label->name = '--';
+    } else {
+      $this->label->name = '--';
+    }
     
     $this->legal = ($params['legal']=='y')?true:false;
     $this->releaseDate = $params['year'];
