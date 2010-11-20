@@ -1,14 +1,6 @@
 <div id="main">
-  <div>
     <h1><?php echo $this->partial('artist/_link.phtml', array('artist' => $this->album->artist)) ?> - <?php echo $this->album->title ?></h1>
-    <div id="share">
-      <iframe src="http://www.facebook.com/plugins/like.php?href=" . <?php echo $this->currentUrl ?> . "&amp;layout=button_count&amp;show_faces=true&amp;width=260&amp;action=like&amp;font=trebuchet+ms&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:40px; height:21px;" allowTransparency="true"></iframe>
-      <a name="fb_share" type="icon"></a>
-      <script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" 
-              type="text/javascript">
-      </script>
-    </div>
-  </div>
+  <?php echo $this->partial('common/_share.phtml', array('currentUrl' => $this->currentUrl, 'title' => $this->title)) ?>
 	<div id="picture">
 	  <img src="<?php echo $this->album->cover ?>" alt="Okładka albumu <?php echo $this->album->title ?>" title="<?php echo $this->album->title . ' - ' . $this->album->artist->name ?>" class="image" />
     <!-- <span id="case"></span> -->

@@ -17,7 +17,8 @@ class AlbumController extends Zend_Controller_Action
   public function indexAction()
   {
     $this->view->firstLetters = $this->albumApi->getFirstLetters();
-    $this->view->popularAlbums = $this->albumApi->getPopular(5);
+    $this->view->popularAlbums = $this->albumApi->getPopular(10);
+    $this->view->bestAlbums = $this->albumApi->getBest(10);
     
     $this->view->albums = $this->albumApi->getNewest();
     
@@ -71,10 +72,11 @@ class AlbumController extends Zend_Controller_Action
       $this->view->labelsAlbums = $this->albumApi->getLabelsAlbums($album->label->id, array($album->id), 10);
     }
     
-//    $this->view->currentUrl = $this->baseUrl . $this->getRequest()->getRequestUri();
+    $this->view->currentUrl = $this->getRequest()->getBaseUrl() . $this->getRequest()->getRequestUri();
     
-    $this->view->headTitle()->set($album->artist->name . ' - ' . $album->title . ' | HHBD.PL');
+    $this->view->title = $album->artist->name . ' - ' . $album->title . ' | HHBD.PL';
+    $this->view->headTitle()->set($this->view->title);
     $this->view->headMeta()->setName('keywords', $album->artist->name . ', ' . $album->title . ', download, tekst, wrzuta, chomikuj');
-    $this->view->headMeta()->setName('description', 'Lista utworów, okładka, linki oraz inne szczegółowe informacje o albumie: ' . $album->artist->name . ' - ' . $album->title . ' na największej polskiej stroni o polskim hip-hopie.');
+    $this->view->headMeta()->setName('description', 'Lista utworów, okładka, linki oraz inne szczegółowe informacje o albumie: ' . $album->artist->name . ' - ' . $album->title . ' na największej polskiej stronie o polskim hip-hopie.');
   }
 }
