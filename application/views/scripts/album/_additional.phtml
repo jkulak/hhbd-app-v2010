@@ -1,10 +1,10 @@
 <div class="box googleads">
-  <h2 class="hidden">Google Ads</h2>
+  <h3 class="hidden">Google Ads</h3>
   <?php echo $this->partial('common/googleAds/_rectangle.phtml'); ?>
 </div>
 
 <div class="box user">
-  <h2>Personalizacja</h2>
+  <h3>Personalizacja</h3>
   <ul>
     <li>W kolekcji: <span class="button">Dodaj do kolekcji</span></li>
     <li>W chcęliście: <span class="button">Dodaj do chcęlisty</span></li>
@@ -12,13 +12,13 @@
 </div>
 
 <div class="box teksty lyrics hidden">
-  <h2>Teksty piosenek</h2>
+  <h3>Teksty piosenek</h3>
   Sprawdź dostępne na naszej stronie teksty piosenek, wystarczy, że wybierzesz któryś utwór z playlisty.
 </div>
 
 <?php echo $this->partial('album/box/_list.phtml', array('boxId' => 'artistsalbums', 'boxHeader' => 'Inne albumy ' . $this->album->artist->name, 'albums' => $this->artistsAlbums, 'showCovers' => true)) ?>
 
-<?php if (!empty($this->album->label)): ?>
+<?php if (!empty($this->album->label) AND ($this->album->label->name != '--')): ?>
   <?php echo $this->partial('album/box/_list.phtml', array('boxId' => 'labelsalbums', 'boxHeader' => 'Inne albumy wydane przez ' . $this->album->label->name, 'albums' => $this->labelsAlbums, 'showCovers' => false)) ?>
 <?php endif ?>
 
@@ -27,7 +27,7 @@
 <?php echo $this->partial('album/box/_list.phtml', array('boxId' => 'artistsalbums', 'boxHeader' => 'Najpopularniejsze albumy', 'albums' => $this->popularAlbums)) ?>
 
 <div class="box wrzuta chomikuj hidden">
-  <h2>Linki</h2>
+  <h3>Linki</h3>
   <ul>
     <li>Wrzuta.pl</li>
     <li>Chomikuj.pl</li>

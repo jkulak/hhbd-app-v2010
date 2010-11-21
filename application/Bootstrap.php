@@ -45,7 +45,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     
     $routes = new Zend_Config_Xml(APPLICATION_PATH . '/configs/routes.xml', APPLICATION_ENV);
     
-    $router->removeDefaultRoutes();
+    //$router->removeDefaultRoutes();
     
     $router->addConfig($routes, 'routes');
     
@@ -72,7 +72,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     $view->headMeta()->setName('robots', 'index,follow');
     $view->headMeta()->setName('author', 'Jakub Kułak, www.webascrazy.net');
     
-    $view->headTitle()->setSeparator(' - ');
+    $view->headTitle()->setSeparator(' | ');
     $view->headTitle('HHBD.PL');
     
     $translator = new Zend_Translate('array', '../lang/en.php', 'en');

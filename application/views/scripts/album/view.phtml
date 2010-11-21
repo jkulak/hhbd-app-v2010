@@ -71,20 +71,21 @@
     <div class="header">
       <h2>Lista utworów</h2> <span class="toggle"><a href="?hideDetailes=1">Pokaż szczegóły</a></span>
     </div>
-    <table border="0" cellspacing="0" cellpadding="0">
+    <table>
       <caption class="hidden">
         Lista utworów z płyty: <?php echo $this->album->title ?>
       </caption>
-      <theader>
+      <thead>
         <tr class="hidden"><th>Numer</th><th>Wykonawca</th><th>Tytuł</th><th>Czas trwania</th></tr>
-      </theader>
+      </thead>
       <tbody>
       <?php foreach ($this->album->tracklist->items as $song): ?>
         <tr>
           <td><?php echo $song->track ?></td>
           <td class="align">
             <?php foreach ($song->artist->items as $key => $feat): ?>
-              <?php echo $this->partial('artist/_link.phtml', array('artist' => $feat)) ?><?php if (sizeof($song->artist->items)-1 > $key): ?>, <?php endif ?>
+              <!-- <?php echo $this->partial('artist/_link.phtml', array('artist' => $feat)) ?><?php if (sizeof($song->artist->items)-1 > $key): ?>, <?php endif ?> -->
+                <?php echo $feat->name ?><?php if (sizeof($song->artist->items)-1 > $key): ?>, <?php endif ?>
             <?php endforeach ?>
           </td>
           

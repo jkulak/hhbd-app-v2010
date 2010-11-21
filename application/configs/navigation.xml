@@ -19,15 +19,14 @@
           <controller>album</controller>
           <action>index</action>
           <route>albums</route>
-           <pages>
-              <announced>
-                <label>Announced</label>
-                <route>announced</route>
-                <controller>album</controller>
-                <action>announced</action>
-              </announced>
-            </pages>
         </albums>
+        
+        <announced>
+          <label>Announced</label>
+          <route>announced</route>
+          <controller>album</controller>
+          <action>announced</action>
+        </announced>
 
         <artists>
           <label>Artists</label>

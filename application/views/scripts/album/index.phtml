@@ -1,30 +1,33 @@
 <div id="main">
-  <h1><?php echo $this->subTitle ?></h1>
-  <?php // echo $this->partial('album/_letterPaging.phtml', array('firstLetters' => $this->firstLetters)) ?>
+  <h1><?php echo $this->title ?></h1>
+  <?php echo $this->paginator; ?>
+  
   <div id="albumlist">
-    <table border="0" cellspacing="0" cellpadding="0">
-      <caption class="hidden">
-        Lista utworów z płyty: <?php echo $this->album->title ?>
-      </caption>
-      <theader>
-      <tr class="hidden"><th>Okładka</th><th>Album (wykonawca - tytuł)</th><th>Wytwórnia</th><th>Data wydania</th></tr>
-      </theader>
+    <table>
+      <caption class="hidden">Lista wydawnictw hip-hopowych wydanych w Polsce</caption>
+      <thead>
+        <tr class="hidden"><th>Okładka</th><th>Album (wykonawca - tytuł)</th><th>Wytwórnia</th><th>Data wydania</th></tr>
+      </thead>
       <tbody>
       <?php foreach ($this->albums->items as $album): ?>
-        <tr><td><a href="<?php echo $this->url(array('id' => $album->id, 'seo' => ($album->artist->url . ' - ' . $album->url)), 'album'); ?>"><img  src="<?php echo $album->thumbnail ?>" alt="<?php echo $album->artist->name . ' - ' . $album->title ?>" /></a></td><td><?php echo $this->partial('album/_link.phtml', array('album' => $album, 'showArtist' => true)) ?></td><td><?php echo $this->partial('label/_link.phtml', array('label' => $album->label)) ?></td><td><?php echo $album->releaseDateNormalized ?></td></tr>
+        <tr>
+          <td><a href="<?php echo $this->url(array('id' => $album->id, 'seo' => ($album->artist->url . ' - ' . $album->url)), 'album'); ?>"><img  src="<?php echo $album->thumbnail ?>" alt="<?php echo $album->artist->name . ' - ' . $album->title ?>" /></a></td>
+          <td><?php echo $this->partial('album/_link.phtml', array('album' => $album, 'showArtist' => true)) ?></td>
+          <td><?php echo $this->partial('label/_link.phtml', array('label' => $album->label)) ?></td>
+          <td><?php echo $album->releaseDateNormalized ?></td></tr>
       <?php endforeach ?>    
       </tbody>
     </table>
   </div>
+  <?php echo $this->paginator; ?>
 </div>
 
 <div id="additional">
   <div class="box googleads">
-    <h2 class="hidden">Google Ads</h2>
+    <h3 class="hidden">Google Ads</h3>
     <?php echo $this->partial('common/googleAds/_rectangle.phtml'); ?>
   </div>
   <?php echo $this->render('album/box/_bestRated.phtml') ?>
 
   <?php echo $this->partial('album/box/_list.phtml', array('boxId' => 'artistsalbums', 'boxHeader' => 'Najpopularniejsze albumy', 'albums' => $this->popularAlbums)) ?>
 </div>
-<?php // echo $this->partial('album/_letterPaging.phtml', array('firstLetters' => $this->firstLetters)) ?>
