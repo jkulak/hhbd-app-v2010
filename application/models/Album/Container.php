@@ -32,12 +32,12 @@ class Model_Album_Container
     
     if (!empty($params['art_id'])) {
       $artistApi = new Model_Artist_Api();
-      $this->artist = $artistApi->find($params['art_id'], $full);
+      $this->artist = $artistApi->find($params['art_id']);
     }    
     
     if (!empty($params['lab_id'])) {
       $labelApi = new Model_Label_Api();
-      $this->label = $labelApi->find($params['lab_id'], $full);
+      $this->label = $labelApi->find($params['lab_id']);
       if ($this->label->name == 'BRAK') $this->label->name = '--';
     } else {
       $this->label->name = '--';
