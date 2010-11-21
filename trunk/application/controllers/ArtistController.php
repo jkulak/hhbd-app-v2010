@@ -12,6 +12,8 @@ class ArtistController extends Zend_Controller_Action
     $this->view->headMeta()->setName('keywords', 'hhbd.pl, polski hip-hop, albumy');
     $this->view->headTitle()->headTitle('Album');
     $this->view->headMeta()->setName('description', 'Albumy w hhbd.pl');
+    
+    $this->params = $this->getRequest()->getParams();
   }
 
   public function indexAction()
@@ -24,8 +26,7 @@ class ArtistController extends Zend_Controller_Action
   
   public function viewAction()
   {
-    $params = $this->getRequest()->getParams();
-    $artist = $this->artistApi->find($params['id'], true);
+    $artist = $this->artistApi->find($this->params['id'], true);
     $this->view->artist = $artist;
   }
 }

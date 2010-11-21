@@ -1,0 +1,104 @@
+<div id="main">
+    <h1><?php echo $this->artist->name ?></h1>
+  <?php echo $this->partial('common/_share.phtml', array('currentUrl' => $this->currentUrl, 'title' => $this->title)) ?>
+	<div id="picture">
+	  <img src="<?php echo $this->artist->photos->items[0]->url ?>" alt="Zdjęcie <?php echo $this->artist->name ?>" title="<?php echo $this->artist->name ?>" class="image" />
+	</div>
+  	
+	<div id="brief">
+  	<h2 class="hidden">Informacje podstawowe</h2>
+  	
+  	<ul id="essential">
+      <li>Nazywa się:</li>
+    </ul>
+
+    <ul id="details">
+      <!-- <li>Dodany: <?php echo $this->album->added ?></li> -->
+      <!-- <?php if ($this->artist->voteCount > 3): ?>
+        <li><span>Ocena:</span> <?php echo $this->album->rating ?>/10 (<?php echo $this->album->voteCount ?> głosów)</li>
+      <?php endif ?> -->
+  	</ul>
+  </div> <!-- brief -->
+  
+  <?php if (!empty($this->album->tracklist->items)): ?>
+  <div id="tracklist">
+    <div class="header">
+      <h2>Lista utworów</h2> <span class="toggle"><a href="?hideDetailes=1">Pokaż szczegóły</a></span>
+    </div>
+    <table>
+      <caption class="hidden">
+        Lista utworów z płyty: <?php echo $this->album->title ?>
+      </caption>
+      <thead>
+        <tr class="hidden"><th>Numer</th><th>Wykonawca</th><th>Tytuł</th><th>Czas trwania</th></tr>
+      </thead>
+      <tbody>
+      <?php foreach ($this->album->tracklist->items as $song): ?>
+        <tr>
+          <td><?php echo $song->track ?></td>
+          <td class="align">
+            <?php foreach ($song->artist->items as $key => $feat): ?>
+              <!-- <?php echo $this->partial('artist/_link.phtml', array('artist' => $feat)) ?><?php if (sizeof($song->artist->items)-1 > $key): ?>, <?php endif ?> -->
+                <?php echo $feat->name ?><?php if (sizeof($song->artist->items)-1 > $key): ?>, <?php endif ?>
+            <?php endforeach ?>
+          </td>
+          
+          <td>
+            <?php echo $this->partial('song/_link.phtml', array('song' => $song)) ?>
+            <ul class="feat hidden">
+            <?php if (!empty($song->featuring->items)): ?>
+              <li>gościnnie: 
+                <?php foreach ($song->featuring->items as $key => $feat): ?>
+                  <?php echo $this->partial('artist/_link.phtml', array('artist' => $feat)) ?> (<?php echo $feat->featType ?>)<?php if (sizeof($song->featuring->items)-1 > $key): ?>, <?php endif ?>
+                <?php endforeach ?>
+              </li>
+            <?php endif ?>
+            <li>
+              <?php foreach ($song->music->items as $feat): ?>
+                muzyka: <?php echo $this->partial('artist/_link.phtml', array('artist' => $feat)) ?><br />
+              <?php endforeach ?>
+            </li>
+            <li>
+              <?php foreach ($song->scratch->items as $feat): ?>
+                skrecze: <?php echo $this->partial('artist/_link.phtml', array('artist' => $feat)) ?><br />
+              <?php endforeach ?>
+            </li>
+          </ul>
+          </td>
+          <td class="align"><?php echo $song->duration ?></td>
+        </tr>
+      <?php endforeach ?>
+      </tbody>
+    </table>
+  </div>
+  <?php endif ?>
+
+  <?php if (!empty($this->album->description)): ?>
+  <div id="description">
+    <div class="header">
+      <h2>Opis albumu</h2><span class="toggle hidden"><a href="?readFullDescription=1">Czytaj całość</a></span>
+    </div>
+  	<p><?php echo $this->album->description ?></p>
+  </div>
+  <?php endif ?>
+
+</div> <!-- main -->
+
+<div id="additional">
+  <?php echo $this->render('artist/_additional.phtml') ?>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("span.toggle > a").toggle(
+      function () {
+        $(this).text("Ukryj szczegóły");
+        $("ul.feat").removeClass("hidden");        
+      },
+      function () {
+        $(this).text("Pokaż szczegóły");
+        $("ul.feat").addClass("hidden");
+      }
+    );
+  });
+</script>
