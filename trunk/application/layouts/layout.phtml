@@ -5,8 +5,7 @@
 
   <?php echo $this->headMeta(); ?>
 
-<?php $this->headLink()->prependStylesheet($this->baseUrl() . '/css/layout.css'); ?>
-<?php $this->headLink()->prependStylesheet($this->baseUrl() . '/css/design.css'); ?>
+<?php $this->headLink()->prependStylesheet($this->baseUrl() . '/css/s.css'); ?>
 <?php // $this->headLink()->prependStylesheet($this->baseUrl() . '/css/reset.css'); ?>
 <?php echo $this->headLink(); ?>
 <?php if (isset($this->appIncludes['jquery'])) $this->headScript()->appendFile($this->baseUrl() . $this->appIncludes['jquery']); ?>
@@ -24,7 +23,7 @@
         <?php if ($this->url() != $this->baseUrl() . '/' ): ?>
           <a href="<?php echo $this->baseUrl(); ?>">
         <?php endif ?>
-        <h2>hhbd.pl</h2>
+        <div>hhbd.pl</div>
         <?php if ($this->url() != $this->baseUrl() . '/' ): ?>
           </a>
         <?php endif ?>

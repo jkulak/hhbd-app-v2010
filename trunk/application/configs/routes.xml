@@ -30,10 +30,21 @@
           <controller>album</controller>
           <action>index</action>
         </defaults>
-        <reverse>albumy.html</reverse>
       </albums>
+      
+      <!-- <albumsByPage type="Zend_Controller_Router_Route_Regex">
+        <route>albumy.html?page=(/d+)</route>
+        <defaults>
+          <controller>album</controller>
+          <action>index</action>
+        </defaults>
+        <map>
+          <page>1</page>
+        </map>
+        <reverse>albumy/%d.html</reverse>
+      </albumsByPage> -->
 
-      <albumsByLetter type="Zend_Controller_Router_Route_Regex">
+      <!-- <albumsByLetter type="Zend_Controller_Router_Route_Regex">
         <route>albumy/(.).html</route>
         <defaults>
           <controller>album</controller>
@@ -43,15 +54,14 @@
           <letter>1</letter>
         </map>
         <reverse>albumy/%s.html</reverse>
-      </albumsByLetter>
+      </albumsByLetter> -->
 
       <announced>
-        <route>albumy/zapowiedziane.html</route>
+        <route>zapowiedziane.html</route>
         <defaults>
           <controller>album</controller>
           <action>announced</action>
         </defaults>
-        <reverse>albumy/zapowiedziane.html</reverse>
       </announced>
 
       <album type="Zend_Controller_Router_Route_Regex">

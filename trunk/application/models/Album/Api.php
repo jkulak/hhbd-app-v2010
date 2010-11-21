@@ -152,23 +152,28 @@ class Model_Album_Api extends Jkl_Model_Api
     return $this->getList($query);
   }
   
-  public function getNewest($count = 20)
+  public function getNewest($count = 20, $page = 1)
   {
+    $page = (int)$page - 1;
+    // die($page);
     $query = 'SELECT *, t3.id as alb_id, t1.id as art_id, t4.id as lab_id, t3.added as alb_added, t3.addedby as alb_addedby, t3.viewed as alb_viewed ' .
       'FROM artists AS t1, album_artist_lookup AS t2, albums AS t3, labels AS t4 ' .
       'WHERE (t1.id=t2.artistid AND t2.albumid=t3.id AND t4.id=t3.labelid AND t3.year' . '<="' . date('Y-m-d') . '") ' . 
       'ORDER BY t3.year DESC ' . 
-      'LIMIT ' . $count;
+      'LIMIT ' . $count . ' ' . 
+      'OFFSET ' . ($page*$count);
     return $this->getList($query);
   }
   
-  public function getAnnounced($count = 20)
+  public function getAnnounced($count = 20, $page = 1)
   {
+    $page = (int)$page - 1;
     $query = 'SELECT *, t3.id as alb_id, t1.id as art_id, t4.id as lab_id, t3.added as alb_added, t3.addedby as alb_addedby, t3.viewed as alb_viewed ' .
       'FROM artists AS t1, album_artist_lookup AS t2, albums AS t3, labels AS t4 ' .
       'WHERE (t1.id=t2.artistid AND t2.albumid=t3.id AND t4.id=t3.labelid AND t3.year' . '>"' . date('Y-m-d') . '") ' . 
       'ORDER BY t3.year ASC ' . 
-      'LIMIT ' . $count;
+      'LIMIT ' . $count . ' ' . 
+      'OFFSET ' . ($page*$count);
     return $this->getList($query);
   }
   
@@ -216,5 +221,19 @@ class Model_Album_Api extends Jkl_Model_Api
   {
     $query = 'UPDATE albums SET viewed=viewed+1 WHERE id=' . $id;
     $this->_db->query($query);
+  }
+  
+  public function getAlbumCount()
+  {
+    $query = 'SELECT count(id) as albumcount FROM albums WHERE (year<="' . date('Y-m-d') . '")';
+    $result = $this->_db->fetchAll($query);
+    return (int)$result[0]['albumcount'];    
+  }
+
+  public function getAnnouncedCount()
+  {
+    $query = 'SELECT count(id) as albumcount FROM albums WHERE (year>"' . date('Y-m-d') . '")';
+    $result = $this->_db->fetchAll($query);
+    return (int)$result[0]['albumcount'];    
   }
 }
