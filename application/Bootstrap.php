@@ -50,7 +50,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     $router->addConfig($routes, 'routes');
     
     // This should be read form applcation.ini
-    $frontController->setBaseUrl('http://hhbdevolution.kosiarka');
+    $frontController->setBaseUrl('http://hhbd.megiteam.pl');
   }
        
   protected function _initView()
