@@ -40,12 +40,22 @@ class Model_Artist_Container
     if ($full) {
       $this->realName = $params['realname'];
       $this->profile = $params['profile'];
-      $this->concertInfo = $params['concertinfo'];
+      
+      //it happens it has only spaces, so it's trimmed
+      $this->concertInfo = trim($params['concertinfo']);
       
       $this->type = $this->_artistTypes[$params['type']];
       $this->isSpecial = ($params['special']==1)?true:false;
-      $this->trivia = $params['trivia'];
-      $this->website = $params['website'];
+      
+      $this->trivia = trim($params['trivia']);
+      
+      if (!empty($params['website'])) {
+        $website = $params['website'];
+        if (substr_count($website, 'http://') == 0) {
+          $website = 'http://' . $website;
+        }
+        $this->website = $website;
+      }
 
       $this->added = $params['added'];
       $this->addedBy = $params['addedby'];
@@ -68,11 +78,50 @@ class Model_Artist_Container
       }
       
       // member of bands
-      $this->projects = $params['projects'];
-      
+      if (!empty($params['projects'])) {
+        $this->projects = $params['projects'];
+      }
+
       // city
       $this->cities = $params['cities'];
       
+      if (!empty($params['albums'])) {
+        $this->albums = $params['albums'];
+      }
+      
+      if (!empty($params['projectalbums'])) {
+        $this->projectAlbums = $params['projectalbums'];
+      }
     }
+  }
+  
+  public function addAlbums($albums)
+  {
+    $this->albums = $albums;
+  }
+  
+  public function addProjectAlbums($albums)
+  {
+    $this->projectAlbums = $albums;
+  }
+  
+  public function addFeaturing($albums)
+  {
+    $this->featuring = $albums;
+  }
+  
+  public function addMusic($albums)
+  {
+    $this->music = $albums;
+  }
+  
+  public function addScratch($albums)
+  {
+    $this->scratch = $albums;
+  }
+  
+  public function addPopularSongs($list)
+  {
+    $this->popularSongs = $list;
   }
 }

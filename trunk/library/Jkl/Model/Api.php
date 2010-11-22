@@ -16,6 +16,7 @@ abstract class Jkl_Model_Api
       'dbname' => $this->_db['params']['dbname'],
       'username' => $this->_db['params']['username'],
       'password' => $this->_db['params']['password'],
+      'port' => (isset($this->_db['params']['port'])?$this->_db['params']['port']:''),
       'charset' => 'utf8',
       'driver_options' => $pdoParams);
 
@@ -30,7 +31,7 @@ abstract class Jkl_Model_Api
     }
     catch( Zend_Exception $e )
     {
-      echo 'Jkl_Model_Api::__construct->catch( Zend_Exception $e )';
+      echo 'Jkl_Model_Api::__construct, wyjątek';
     }
   }
 }

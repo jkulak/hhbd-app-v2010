@@ -43,20 +43,30 @@ class Model_Album_Container
       $this->label->name = '--';
     }
     
-    $this->legal = ($params['legal']=='y')?true:false;
+    if (!empty($params['legal'])) {
+      $this->legal = ($params['legal']=='y')?true:false;
+    }
+    
     $this->releaseDate = $params['year'];
     $this->releaseDateNormalized = Jkl_Tools_Date::getNormalDate($this->releaseDate);
-    $this->catalogNumber = $params['catalog_cd'];
     
-    $this->epFor = $params['epfor'];
-    $this->ep = $params['singiel'];
+    if (!empty($params['catalog_cd'])) {
+      $this->catalogNumber = $params['catalog_cd'];
+    }
+    
+    if (!empty($params['epfor'])) {
+      $this->epFor = $params['epfor'];
+    }
+    
+    if (!empty($params['singiel'])) {
+      $this->ep = $params['singiel'];
+    }
 
     // TODO: users api
     if (!empty($params['alb_addedby'])) $this->addedBy = $params['alb_addedby'];
     if (!empty($params['alb_added'])) $this->added = $params['alb_added'];
     if (!empty($params['alb_viewed'])) $this->views = $params['alb_viewed'];
-    
-    $this->updated = $params['updated'];
+    if (!empty($params['updated'])) $this->updated = $params['updated'];
     
     if (!empty($params['cover'])) {
       $this->cover = $this->_appConfig['paths']['albumCoverPath'] . $params['cover'];
@@ -73,9 +83,13 @@ class Model_Album_Container
     } else {
       $this->rating = '--';
     }
-
-    $this->updated = $params['updated'];
-    $this->status = $params['status'];
+    if (!empty($params['updated'])) {
+      $this->updated = $params['updated'];
+    }
+    
+    if (!empty($params['status'])) {
+      $this->status = $params['status'];
+    }
     
     if ($full) {
       $this->tracklist = $params['tracklist'];

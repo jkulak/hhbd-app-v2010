@@ -183,7 +183,7 @@ class Model_Album_Api extends Jkl_Model_Api
     return  $this->_db->fetchAll($query);
   }
   
-  public function getArtistsAlbums($id, $exclude = array(), $count = 10) {
+  public function getArtistsAlbums($id, $exclude = array(), $count = 10, $order = 'viewed') {
     $excludeCondition = '';
     if (!empty($exclude)) {
       foreach ($exclude as $key => $value) {
@@ -195,9 +195,9 @@ class Model_Album_Api extends Jkl_Model_Api
       'WHERE (t1.id=t2.artistid AND t2.albumid=t3.id AND t4.id=t3.labelid AND t1.id="' . $id . '"' . 
       $excludeCondition . 
       ') ' . 
-      'ORDER BY t3.viewed DESC ' . 
-      'LIMIT ' . $count;
-    return $this->getList($query);
+      'ORDER BY t3.' . $order . ' DESC ' . 
+      (($count)?'LIMIT ' . $count:'');
+    return self::getList($query);
   }
   
   public function getLabelsAlbums($id, $exclude = array(), $count = 10) {
@@ -217,6 +217,7 @@ class Model_Album_Api extends Jkl_Model_Api
     return $this->getList($query);
   }
   
+  // This needs to be moved to separate counting system, not to kill datbase
   public function increaseViewed($id)
   {
     $query = 'UPDATE albums SET viewed=viewed+1 WHERE id=' . $id;
@@ -235,5 +236,89 @@ class Model_Album_Api extends Jkl_Model_Api
     $query = 'SELECT count(id) as albumcount FROM albums WHERE (year>"' . date('Y-m-d') . '")';
     $result = $this->_db->fetchAll($query);
     return (int)$result[0]['albumcount'];    
+  }
+  
+  public function getFeaturingByArtist($id, $limit = 10)
+  {
+    $query = 'SELECT DISTINCT(t4.id) as alb_id, t4.cover, t4.title, t4.year, t4.singiel, t6.urlname AS labelurlname, t6.name, t1.id AS art_id, t1.name AS artist ' .
+      'FROM artists AS t1, songs AS t2, feature_lookup AS t3, albums AS t4, album_lookup AS t5, labels AS t6 ' . 
+      'WHERE (t1.id=' . $id . ' AND t3.artistid=t1.id AND t3.songid=t2.id AND t5.songid=t2.id AND t5.albumid=t4.id AND t4.labelid=t6.id) ' . // AND t7.albumid=t4.id AND t7.labelid=t6.id
+      'ORDER BY t4.viewed DESC ' . 
+      'LIMIT ' . $limit;              
+              
+    $query = 'SELECT DISTINCT(a1.id) as alb_id
+                   FROM albums a1, songs a2, feature_lookup a3, album_lookup a4
+                   WHERE (a3.artistid=' . $id . ' AND a3.songid=a2.id AND a2.id=a4.songid AND a1.id=a4.albumid)';
+    $albumIds = $this->_db->fetchAll($query);
+    if (empty($albumIds)) {
+      return false;
+    }
+    
+    $condition = array();
+    
+    foreach ($albumIds as $key => $value) {
+      $condition[] = 't3.albumid=' . $value['alb_id'];
+    }
+    
+    $query = 'SELECT *, t1.id AS alb_id, t2.id AS art_id
+              FROM albums t1, artists t2, album_artist_lookup t3
+              WHERE (t2.id=t3.artistid AND t1.id=t3.albumid AND (
+              ' . implode($condition, ' OR ') . ')
+              )
+              LIMIT ' . $limit;
+
+    return $this->getList($query);
+  }
+  
+  public function getMusicByArtist($id, $limit = 10)
+  {
+    $query = 'SELECT DISTINCT(a1.id) as alb_id
+              FROM albums a1, songs a2, music_lookup a3, album_lookup a4
+              WHERE (a3.artistid=' . $id . ' AND a3.songid=a2.id AND a2.id=a4.songid AND a1.id=a4.albumid)';
+    $albumIds = $this->_db->fetchAll($query);
+    if (empty($albumIds)) {
+      return false;
+    }
+    
+    $condition = array();
+    
+    foreach ($albumIds as $key => $value) {
+      $condition[] = 't3.albumid=' . $value['alb_id'];
+    }
+    
+    $query = 'SELECT *, t1.id AS alb_id, t2.id AS art_id
+              FROM albums t1, artists t2, album_artist_lookup t3
+              WHERE (t2.id=t3.artistid AND t1.id=t3.albumid AND (
+              ' . implode($condition, ' OR ') . ')
+              )
+              LIMIT ' . $limit;
+
+    return $this->getList($query);
+  }
+  
+  public function getScratchByArtist($id, $limit = 10)
+  {
+    $query = 'SELECT DISTINCT(a1.id) as alb_id
+              FROM albums a1, songs a2, scratch_lookup a3, album_lookup a4
+              WHERE (a3.artistid=' . $id . ' AND a3.songid=a2.id AND a2.id=a4.songid AND a1.id=a4.albumid)';
+    $albumIds = $this->_db->fetchAll($query);
+    if (empty($albumIds)) {
+      return false;
+    }
+    
+    $condition = array();
+    
+    foreach ($albumIds as $key => $value) {
+      $condition[] = 't3.albumid=' . $value['alb_id'];
+    }
+    
+    $query = 'SELECT *, t1.id AS alb_id, t2.id AS art_id
+              FROM albums t1, artists t2, album_artist_lookup t3
+              WHERE (t2.id=t3.artistid AND t1.id=t3.albumid AND (
+              ' . implode($condition, ' OR ') . ')
+              )
+              LIMIT ' . $limit;
+
+    return $this->getList($query);
   }
 }

@@ -47,7 +47,7 @@
       <?php endif ?>
       <?php if (!empty($this->album->eps->items)): ?>
         <li><span>Poprzedzony singlami:</span>
-        <ul class="singles">
+        <ul class="list">
           <?php foreach ($this->album->eps->items as $ep): ?>
             <li><?php echo $this->partial('album/_link.phtml', array('album' => $ep)) ?></li>
           <?php endforeach ?>

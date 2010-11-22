@@ -21,13 +21,14 @@ class Model_Image_Container
     
   function __construct($params)
   {
-    // print_r($params);
+    $this->id = (isset($params['id']))?$params['id']:null;
+    $this->filename = (isset($params['filename']))?$params['filename']:null;
+    $this->url = isset($params['url'])?$params['url']:null;
+    $this->source = isset($params['source'])?$params['source']:null;
+    $this->sourceUrl = isset($params['sourceurl'])?$params['sourceurl']:null;
+    if (isset($params['main'])) {
+      $this->isMain = ($params['main'] == 'y');
+    }
     
-    $this->id = $params['id'];
-    $this->filename = $params['filename'];
-    $this->url = $params['url'];
-    $this->source = $params['source'];
-    $this->sourceUrl = $params['sourceurl'];
-    $this->isMain = ($params['main'] == 'y');
   }
 }

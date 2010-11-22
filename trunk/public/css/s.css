@@ -207,14 +207,22 @@ table {
 #brief {
   float: left;
   margin-left: 8px;
-  }
+  
+  /*TODO, this shouldnt be set, layout should be floating, this is problem with Also Known As - line get to long,
+  and #brief goes under the photo*/
+  max-width: 313px;
+}
 
-#brief ul.singles {
+#brief ul.list {
   margin-left: 30px;
   list-style-type: square;
 }
+
+#booking {
+  margin-left: 10px;
+}
   
-#tracklist, #description {
+#tracklist, #description, .albumlist {
   clear: both;
   margin-bottom: 16px;
 }
@@ -303,31 +311,29 @@ table {
   height: 67px;
 }
 
-#albumlist table {
+.albumlist table {
   clear: both;
   width: 100%;
   cell-spacing: 0px;
-  margin-bottom: 16px;
-  
+  margin-bottom: 16px; 
 }
 
-#albumlist table tr {
-
-}
-
-#albumlist table td {
+.albumlist table td {
   vertical-align: middle;
   border-bottom: 1px solid #BFAD5E;
   padding: 6px 0 2px 10px;
   margin: 0;
 }
 
-#albumlist table img {
+.albumlist table td:first-child {
+  width: 60px;
+}
+.albumlist table img {
   width: 40px;
   height: 40px;
 }
 
-#albumlist table td:last-child {
+.albumlist table td:last-child {
   text-align: right;
   width: 170px;
 }
