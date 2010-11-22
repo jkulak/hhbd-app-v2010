@@ -22,45 +22,13 @@
   </ul>
 </div>
 
-<div class="box featuring">
-  <h3>Występy gościnne</h3>
-  <ul>
-    <li>Tytuł (2010, RRX)</li>
-    <li>Tytuł (2010, RRX)</li>
-    <li>Tytuł (2010, RRX)</li>
-    <li>Tytuł (2010, RRX)</li>
-  </ul>
-</div>
+<?php echo $this->partial('album/box/_list.phtml', array('boxId' => 'featuring', 'boxHeader' => 'Występy gościnne', 'albums' => $this->artist->featuring, 'showCovers' => true)) ?>
 
-<div class="box music">
-  <h3>Muzyka</h3>
-  <ol>
-    <li>Tytuł (2010, RRX)</li>
-    <li>Tytuł (2010, RRX)</li>
-    <li>Tytuł (2010, RRX)</li>
-    <li>Tytuł (2010, RRX)</li>
-  </ol>
-</div>
+<?php echo $this->partial('album/box/_list.phtml', array('boxId' => 'musicby', 'boxHeader' => 'Muzyka na  albumach', 'albums' => $this->artist->music, 'showCovers' => false)) ?>
 
-<div class="box songs">
-  <h3>Najpopularniejsze utwory</h3>
-  <ul>
-    <li>Tytuł (2010, RRX)</li>
-    <li>Tytuł (2010, RRX)</li>
-    <li>Tytuł (2010, RRX)</li>
-    <li>Tytuł (2010, RRX)</li>
-  </ul>
-</div>
+<?php echo $this->partial('album/box/_list.phtml', array('boxId' => 'scratch', 'boxHeader' => 'Scratch na  albumach', 'albums' => $this->artist->scratch, 'showCovers' => false)) ?>
 
-<div class="box music">
-  <h3>Rap</h3>
-  <ul>
-    <li>Tytuł (2010, RRX)</li>
-    <li>Tytuł (2010, RRX)</li>
-    <li>Tytuł (2010, RRX)</li>
-    <li>Tytuł (2010, RRX)</li>
-  </ul>
-</div>
+<?php echo $this->partial('song/box/_list.phtml', array('boxId' => 'songs', 'boxHeader' => 'Najpopularniejsze utwory', 'songs' => $this->artist->popularSongs)) ?>
 
 <div class="box teksty lyrics hidden">
   <h3>Teksty piosenek</h3>

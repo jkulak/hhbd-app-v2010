@@ -10,7 +10,19 @@
 
 class Model_Song_Api extends Jkl_Model_Api
 {
-
+  /**
+   * Creates object and fetches the list from database result
+   */
+  private function _getList($query)
+  {
+    $result = $this->_db->fetchAll($query);;
+    $list = new Jkl_List(); 
+    foreach ($result as $params) {
+      $list->add(new Model_Song_Container($params));
+    }
+    return $list;
+  }
+  
   public function find($id, $full = false)
   {
     $query = 'select * from songs where id=' . $id;
@@ -93,5 +105,15 @@ class Model_Song_Api extends Jkl_Model_Api
       $featuring->add($artistApi->find($params['id']));
       }
     return $featuring;
+  }
+  
+  public function getMostPopularByArtist($id, $limit = 10)
+  {
+    $query = 'SELECT *
+              FROM songs t1, artist_lookup t2, artists t3
+              WHERE (t1.id=t2.songid AND t2.artistid=t3.id AND t3.id=' . $id . ')
+              ORDER BY t1.viewed DESC
+              ' . (($limit)?'LIMIT ' . $limit:'');
+    return $this->_getList($query);    
   }
 }

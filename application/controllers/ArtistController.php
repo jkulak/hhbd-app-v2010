@@ -27,6 +27,27 @@ class ArtistController extends Zend_Controller_Action
   public function viewAction()
   {
     $artist = $this->artistApi->find($this->params['id'], true);
+    
+    $albumApi = new Model_Album_Api();
+    $artist->addAlbums($albumApi->getArtistsAlbums($artist->id, array(), false, 'year'));
+    
+    if (!empty($artist->projects->items)) {
+      $projectAlbums = new Jkl_List('Projects list');
+      $temp = new Jkl_List('Temp');
+      foreach ($artist->projects->items as $key => $value) {
+        $temp = $albumApi->getArtistsAlbums($value->id, array(), false, 'year');
+        $projectAlbums->items = array_merge($temp->items, $projectAlbums->items);
+      }
+      $artist->addProjectAlbums($projectAlbums);
+    }
+    
+    $artist->addFeaturing($albumApi->getFeaturingByArtist($artist->id, 10000));
+    $artist->addMusic($albumApi->getMusicByArtist($artist->id, 10000));
+    $artist->addScratch($albumApi->getScratchByArtist($artist->id, 10000));
+    
+    $songApi = new Model_Song_Api();
+    $artist->addPopularSongs($songApi->getMostPopularByArtist($artist->id, 10));    
+      
     $this->view->artist = $artist;
   }
 }

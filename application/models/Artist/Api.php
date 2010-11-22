@@ -31,17 +31,15 @@ class Model_Artist_Api extends Jkl_Model_Api
       // also known as
       $params['aka'] = $this->_getAka($id);
 
-      if ($params['type']=='b') {
         // band members
-        $params['members'] = $this->_getMembers($id);
-      } else {
-        // member of bands
-        $params['projects'] = $this->_getProjects($id);
-      }
+      $params['members'] = $this->_getMembers($id);
+
+      // member of bands
+      $params['projects'] = $this->_getProjects($id);
 
       // city
       $params['cities'] = $this->_getCities($id);
-    }
+    } // full
     
     $item = new Model_Artist_Container($params, $full);
     return $item;
@@ -56,7 +54,6 @@ class Model_Artist_Api extends Jkl_Model_Api
     foreach ($result as $key => $value) {
       $list->add($value);
     }
-    
     return $list;
   }
   
@@ -81,24 +78,45 @@ class Model_Artist_Api extends Jkl_Model_Api
     $result = $this->_db->fetchAll($query);
     $aka = new Jkl_List('Also known as list');
     foreach ($result as $key => $value) {
-      $aka->add($value);
+      $aka->add($value['altname']);
     }
-    
     return $aka;
   }
   
-  private function _getPhotos($id)
+  private function _getMainPhoto($id)
   {
-    $query = 'SELECT * FROM artists_photos WHERE (artistid=' . $id . ')';
+    $query = 'SELECT * FROM artists_photos WHERE (artistid=' . $id . ' AND main="y")';
     $result = $this->_db->fetchAll($query);
     $pictures = new Jkl_List('Picture list');
-    foreach ($result as $key => $value) {
-      $value['url'] = $this->_appConfig['paths']['artistPhotoPath'] . $value['filename'];
-      $pictures->add(new Model_Image_Container($value));
+    if (sizeof($result) != 0) {
+      foreach ($result as $key => $value) {
+        $value['url'] = $this->_appConfig['paths']['artistPhotoPath'] . $value['filename'];
+        $pictures->add(new Model_Image_Container($value));
+      }
+    } else {
+      $params['url'] = $this->_appConfig['paths']['artistPhotoPath'] . 'no.png';
+      $pictures->add(new Model_Image_Container($params));
     }
     return $pictures;
   }
-  
+
+  private function _getPhotos($id)
+  {
+    $query = 'SELECT * FROM artists_photos WHERE (artistid=' . $id . ') ORDER BY main';
+    $result = $this->_db->fetchAll($query);
+    $pictures = new Jkl_List('Picture list');
+    if (sizeof($result) != 0) {
+      foreach ($result as $key => $value) {
+        $value['url'] = $this->_appConfig['paths']['artistPhotoPath'] . $value['filename'];
+        $pictures->add(new Model_Image_Container($value));
+      }
+    } else {
+      $params['url'] = $this->_appConfig['paths']['artistPhotoPath'] . 'no.png';
+      $pictures->add(new Model_Image_Container($params));
+    }
+    return $pictures;
+  }
+
   /**
    * Creates object and fetches the list from database result
    */
