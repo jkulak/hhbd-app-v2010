@@ -49,58 +49,20 @@ class Model_Album_Api extends Jkl_Model_Api
     $result = $this->_db->fetchAll($query);
     $params = $result[0];    
     if ($full) { 
-      $params['tracklist'] = $this->getTracklist($id);
+      $params['tracklist'] = Model_Song_Api::getInstance()->getTracklist($id);
       $params['eps'] = $this->getEps($id);
       if (!empty($params['epforid'])) $params['epfor'] = $this->getEpFor($params['epforid']);
-      $params['duration'] = $this->getDuration($id);
-      $params['votecount'] = $this->getVoteCount($id);
-      $params['rating'] = $this->getRating($id);
+      $params['duration'] = Model_Song_Api::getInstance()->getAlbumDuration($id);
+      $params['votecount'] = Model_Rating_Api::getInstance()->getAlbumVoteCount($id);
+      $params['rating'] = Model_Rating_Api::getInstance()->getAlbumRating($id);
     }
     $item = new Model_Album_Container($params, $full);
     return $item;
   }
-  
-  private function getRating($id)
-  {
-    $query = 'SELECT rating FROM ratings_avg WHERE albumid=' . $id;
-    $result = $this->_db->fetchAll($query);
-    if (isset($result[0])) {
-      $rating = $result[0]['rating'];
-    }
-    else {
-      $rating = '';
-    }
-    return $rating;
-  }
 
-  private function getVoteCount($id)
-  {
-     $query = 'SELECT COUNT(id) as votecount FROM ratings WHERE albumid="' . $id . '"';
-     $result = $this->_db->fetchAll($query);
-     return $result[0]['votecount'];
-  }
-  
-  private function getDuration($id)
-  {
-    $query = 'SELECT sum(t1.length) as duration ' .
-      'FROM songs AS t1, album_lookup AS t2 ' .
-      'WHERE (t2.songid=t1.id AND t2.albumid=' . $id . ')';
-    $result = $this->_db->fetchAll($query);
-    if ($result[0]['duration'] > 0) {
-      $duration = sprintf( "%02.2d:%02.2d", floor( $result[0]['duration'] / 60 ), $result[0]['duration'] % 60 );
-    }
-    else
-    {
-      $duration = 0;
-    }
-    return $duration;
-  }
-  
   private function getEpFor($id)
   {
-    $albumApi = Model_Album_Api::getInstance();
-    $epFor = $albumApi->find($id);
-    return $epFor;
+    return Model_Album_Api::getInstance()->find($id);
   }
   
   private function getEps($id)
@@ -115,31 +77,7 @@ class Model_Album_Api extends Jkl_Model_Api
     }
     return $eps;
   }
-  
-  private function getTracklist($id)
-  {
-    $query = 'SELECT t1.id, t2.track ' . 
-        'FROM songs AS t1, album_lookup AS t2 ' .
-        'WHERE (t1.id=t2.songid AND t2.albumid=' . $id . ') ' . 
-        'ORDER BY t2.track';
-    $result = $this->_db->fetchAll($query);
-    $tracklist = new Jkl_List();
-    $songApi = Model_Song_Api::getInstance();
-    foreach ($result as $params) {  
-      $song = $songApi->find($params['id']);
-      if (strlen($params['track']) > 2) {
-        $song->track = substr($params['track'], 0, 1) . '-' . substr($params['track'], 1, 2);
 
-      }
-      else {
-        $song->track = $params['track'];
-      }
-      
-      $tracklist->add($song);
-    }
-    return $tracklist;
-  }
-  
   public function getLike($like = '')
   {
     $query = 'SELECT *, t3.id as alb_id, t1.id as art_id, t4.id as lab_id, t3.added as alb_added, t3.addedby as alb_addedby, t3.viewed as alb_viewed ' .
@@ -172,7 +110,6 @@ class Model_Album_Api extends Jkl_Model_Api
   public function getNewest($count = 20, $page = 1)
   {
     $page = (int)$page - 1;
-    // die($page);
     $query = 'SELECT *, t3.id as alb_id, t1.id as art_id, t4.id as lab_id, t3.added as alb_added, t3.addedby as alb_addedby, t3.viewed as alb_viewed ' .
       'FROM artists AS t1, album_artist_lookup AS t2, albums AS t3, labels AS t4 ' .
       'WHERE (t1.id=t2.artistid AND t2.albumid=t3.id AND t4.id=t3.labelid AND t3.year' . '<="' . date('Y-m-d') . '") ' . 
@@ -257,15 +194,9 @@ class Model_Album_Api extends Jkl_Model_Api
   
   public function getFeaturingByArtist($id, $limit = 10)
   {
-    $query = 'SELECT DISTINCT(t4.id) as alb_id, t4.cover, t4.title, t4.year, t4.singiel, t6.urlname AS labelurlname, t6.name, t1.id AS art_id, t1.name AS artist ' .
-      'FROM artists AS t1, songs AS t2, feature_lookup AS t3, albums AS t4, album_lookup AS t5, labels AS t6 ' . 
-      'WHERE (t1.id=' . $id . ' AND t3.artistid=t1.id AND t3.songid=t2.id AND t5.songid=t2.id AND t5.albumid=t4.id AND t4.labelid=t6.id) ' . // AND t7.albumid=t4.id AND t7.labelid=t6.id
-      'ORDER BY t4.viewed DESC ' . 
-      'LIMIT ' . $limit;              
-              
     $query = 'SELECT DISTINCT(a1.id) as alb_id
-                   FROM albums a1, songs a2, feature_lookup a3, album_lookup a4
-                   WHERE (a3.artistid=' . $id . ' AND a3.songid=a2.id AND a2.id=a4.songid AND a1.id=a4.albumid)';
+              FROM albums a1, songs a2, feature_lookup a3, album_lookup a4
+              WHERE (a3.artistid=' . $id . ' AND a3.songid=a2.id AND a2.id=a4.songid AND a1.id=a4.albumid)';
     $albumIds = $this->_db->fetchAll($query);
     if (empty($albumIds)) {
       return false;

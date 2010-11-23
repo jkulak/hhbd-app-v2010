@@ -26,7 +26,7 @@ class Model_Song_Api extends Jkl_Model_Api
 
       return self::$_instance;
   }
-  
+
   /**
    * Creates object and fetches the list from database result
    */
@@ -46,10 +46,10 @@ class Model_Song_Api extends Jkl_Model_Api
     $result = $this->_db->fetchAll($query);
     $params = $result[0];
     
-    $params['featuring'] = $this->getFeaturing($id);
-    $params['music'] = $this->getMusic($id);
-    $params['scratch'] = $this->getScratch($id);
-    $params['artist'] = $this->getArtist($id);
+    $params['featuring'] = Model_Artist_Api::getInstance()->getSongFeaturing($id);
+    $params['music'] = Model_Artist_Api::getInstance()->getSongMusic($id);
+    $params['scratch'] = Model_Artist_Api::getInstance()->getSongScratch($id);
+    $params['artist'] = Model_Artist_Api::getInstance()->getSongArtist($id);
     // getSamples
     // getLyrics
 
@@ -57,73 +57,46 @@ class Model_Song_Api extends Jkl_Model_Api
     return $item;
   }
   
-  private function getFeaturing($id)
+  public function getTracklist($id)
   {
-    $query = 'SELECT t1.id, t3.feattype ' . 
-      'FROM artists t1, feature_lookup t2, feattypes t3 ' . 
-      'WHERE (t2.artistid=t1.id AND t3.id=t2.feattype AND t2.songid="' . $id . '") ' . 
-      'ORDER BY t1.name';
-    
-    
+    $query = 'SELECT t1.id, t2.track ' . 
+        'FROM songs AS t1, album_lookup AS t2 ' .
+        'WHERE (t1.id=t2.songid AND t2.albumid=' . $id . ') ' . 
+        'ORDER BY t2.track';
     $result = $this->_db->fetchAll($query);
-    $featuring = new Jkl_List();
-    $artistApi = Model_Artist_Api::getInstance();
-    foreach ($result as $params) {
-      $artist = $artistApi->find($params['id']);
-      $artist->featType = $params['feattype'];
-      $featuring->add($artist);
+    $tracklist = new Jkl_List();
+    $songApi = Model_Song_Api::getInstance();
+    foreach ($result as $params) {  
+      $song = $songApi->find($params['id']);
+      if (strlen($params['track']) > 2) {
+        $song->track = substr($params['track'], 0, 1) . '-' . substr($params['track'], 1, 2);
+
       }
-    return $featuring;
+      else {
+        $song->track = $params['track'];
+      }
+      
+      $tracklist->add($song);
+    }
+    return $tracklist;
   }
 
-  private function getMusic($id)
+  public function getAlbumDuration($id)
   {
-    $query = 'SELECT t1.id ' .
-      'FROM artists AS t1, music_lookup AS t2 ' .
-      'WHERE (t1.id=t2.artistid AND t2.songid=' . $id . ') ' .
-      'ORDER BY t1.name';
-    
+    $query = 'SELECT sum(t1.length) as duration ' .
+      'FROM songs AS t1, album_lookup AS t2 ' .
+      'WHERE (t2.songid=t1.id AND t2.albumid=' . $id . ')';
     $result = $this->_db->fetchAll($query);
-    $featuring = new Jkl_List();
-    $artistApi = Model_Artist_Api::getInstance();
-    foreach ($result as $params) {
-      $featuring->add($artistApi->find($params['id']));
-      }
-    return $featuring;
-  }
-  
-  private function getScratch($id)
-  {
-    $query = 'SELECT t1.id ' .
-      'FROM artists AS t1, scratch_lookup AS t2 ' .
-      'WHERE (t1.id=t2.artistid AND t2.songid=' . $id . ') ' .
-      'ORDER BY t1.name';
-    
-    $result = $this->_db->fetchAll($query);
-    $featuring = new Jkl_List();
-    $artistApi = Model_Artist_Api::getInstance();
-    foreach ($result as $params) {
-      $featuring->add($artistApi->find($params['id']));
-      }
-    return $featuring;
+    if ($result[0]['duration'] > 0) {
+      $duration = sprintf( "%02.2d:%02.2d", floor( $result[0]['duration'] / 60 ), $result[0]['duration'] % 60 );
+    }
+    else
+    {
+      $duration = 0;
+    }
+    return $duration;
   }
 
-  private function getArtist($id)
-  {
-    $query = 'SELECT t1.id ' .
-      'FROM artists AS t1, artist_lookup AS t2 ' .
-      'WHERE (t1.id=t2.artistid AND t2.songid=' . $id . ') ' .
-      'ORDER BY t1.name';
-    
-    $result = $this->_db->fetchAll($query);
-    $featuring = new Jkl_List();
-    $artistApi = Model_Artist_Api::getInstance();
-    foreach ($result as $params) {
-      $featuring->add($artistApi->find($params['id']));
-      }
-    return $featuring;
-  }
-  
   public function getMostPopularByArtist($id, $limit = 10)
   {
     $query = 'SELECT *

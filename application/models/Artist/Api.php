@@ -9,9 +9,7 @@
  **/
 
 class Model_Artist_Api extends Jkl_Model_Api
-{  
-  
-  private $_appConfig;
+{
   static private $_instance;
   
   /**
@@ -28,9 +26,18 @@ class Model_Artist_Api extends Jkl_Model_Api
       return self::$_instance;
   }
   
-  function __construct() {
-    $this->_appConfig = Zend_Registry::get('Config_App');
-    parent::__construct();
+  /**
+   * Creates object and fetches the list from database result
+   */
+  public function getList($query)
+  {
+    $result = $this->_db->fetchAll($query);
+    $artists = new Jkl_List();
+    
+    foreach ($result as $params) {
+      $artists->add(new Model_Artist_Container($params));
+    }
+    return $artists;
   }
   
   public function find($id, $full = false)
@@ -41,7 +48,7 @@ class Model_Artist_Api extends Jkl_Model_Api
     
     if ($full) {
       // photos
-      $params['photos'] = $this->_getPhotos($id);
+      $params['photos'] = Model_Image_Api::getInstance()->getArtistPhotos($id);
     
       // also known as
       $params['aka'] = $this->_getAka($id);
@@ -53,23 +60,11 @@ class Model_Artist_Api extends Jkl_Model_Api
       $params['projects'] = $this->_getProjects($id);
 
       // city
-      $params['cities'] = $this->_getCities($id);
+      $params['cities'] = Model_City_Api::getInstance()->getArtistCities($id);
     } // full
     
     $item = new Model_Artist_Container($params, $full);
     return $item;
-  }
-  
-  private function _getCities($id)
-  {
-    $query = 'SELECT t1.name AS city FROM cities AS t1, artists AS t2, artist_city_lookup AS t3 ' .
-    	   'WHERE (t3.cityid=t1.id AND t3.artistid=t2.id AND t2.id=' . $id . ')';
-    $result = $this->_db->fetchAll($query);
-    $list = new Jkl_List('Also known as list');
-    foreach ($result as $key => $value) {
-      $list->add($value);
-    }
-    return $list;
   }
   
   private function _getMembers($id)
@@ -98,60 +93,59 @@ class Model_Artist_Api extends Jkl_Model_Api
     return $aka;
   }
   
-  private function _getMainPhoto($id)
-  {
-    $query = 'SELECT * FROM artists_photos WHERE (artistid=' . $id . ' AND main="y")';
-    $result = $this->_db->fetchAll($query);
-    $pictures = new Jkl_List('Picture list');
-    if (sizeof($result) != 0) {
-      foreach ($result as $key => $value) {
-        $value['url'] = $this->_appConfig['paths']['artistPhotoPath'] . $value['filename'];
-        $pictures->add(new Model_Image_Container($value));
-      }
-    } else {
-      $params['url'] = $this->_appConfig['paths']['artistPhotoPath'] . 'no.png';
-      $pictures->add(new Model_Image_Container($params));
-    }
-    return $pictures;
-  }
-
-  private function _getPhotos($id)
-  {
-    $query = 'SELECT * FROM artists_photos WHERE (artistid=' . $id . ') ORDER BY main';
-    $result = $this->_db->fetchAll($query);
-    $pictures = new Jkl_List('Picture list');
-    if (sizeof($result) != 0) {
-      foreach ($result as $key => $value) {
-        $value['url'] = $this->_appConfig['paths']['artistPhotoPath'] . $value['filename'];
-        $pictures->add(new Model_Image_Container($value));
-      }
-    } else {
-      $params['url'] = $this->_appConfig['paths']['artistPhotoPath'] . 'no.png';
-      $pictures->add(new Model_Image_Container($params));
-    }
-    return $pictures;
-  }
-
-  /**
-   * Creates object and fetches the list from database result
-   */
-  public function getList($query)
-  {
-    $result = $this->_db->fetchAll($query);
-    $artists = new Jkl_List();
-    
-    foreach ($result as $params) {
-      $artists->add(new Model_Artist_Container($params));
-    }
-    return $artists;
-  }
-  
-  public function getNewest($num = 20)
+  private function _getNewest($num = 20)
   {
     $query = 'SELECT * ' . 
     'FROM artists ' .
     'ORDER by added DESC ' . 
     'LIMIT ' . $num;
     return $this->getList($query);
+  }
+  
+  public function getSongFeaturing($id)
+  {
+    $query = 'SELECT t1.id, t3.feattype ' . 
+      'FROM artists t1, feature_lookup t2, feattypes t3 ' . 
+      'WHERE (t2.artistid=t1.id AND t3.id=t2.feattype AND t2.songid="' . $id . '") ' . 
+      'ORDER BY t1.name';
+    
+    $result = $this->_db->fetchAll($query);
+    $featuring = new Jkl_List();
+    foreach ($result as $params) {
+      $artist = $this->find($params['id']);
+      $artist->featType = $params['feattype'];
+      $featuring->add($artist);
+      }
+    return $featuring;
+  }
+
+  public function getSongMusic($id)
+  {
+    $query = 'SELECT * ' .
+      'FROM artists AS t1, music_lookup AS t2 ' .
+      'WHERE (t1.id=t2.artistid AND t2.songid=' . $id . ') ' .
+      'ORDER BY t1.name';
+
+    return $this->getList($query);
+  }
+  
+  public function getSongScratch($id)
+  {
+    $query = 'SELECT * ' .
+      'FROM artists AS t1, scratch_lookup AS t2 ' .
+      'WHERE (t1.id=t2.artistid AND t2.songid=' . $id . ') ' .
+      'ORDER BY t1.name';
+    
+   return $this->getList($query);
+  }
+
+  public function getSongArtist($id)
+  {
+    $query = 'SELECT * ' .
+      'FROM artists AS t1, artist_lookup AS t2 ' .
+      'WHERE (t1.id=t2.artistid AND t2.songid=' . $id . ') ' .
+      'ORDER BY t1.name';
+    
+   return $this->getList($query);
   }
 }
