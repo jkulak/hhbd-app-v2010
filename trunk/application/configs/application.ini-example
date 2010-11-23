@@ -21,6 +21,10 @@ app.paths.albumCoverPath = /database/albums/
 app.paths.albumThumbnailPath = /database/albums-thumbs/
 app.paths.albumThumbnailSuffix = _75.jpg
 
+app.paths.artistPhotoPath = /database/artists/
+app.paths.artistThumbnailPath = /database/artists-thumbs/
+;app.paths.albumThumbnailSuffix = _75.jpg
+
 autoloadernamespaces.jkl = Jkl_
 
 [staging : production]
