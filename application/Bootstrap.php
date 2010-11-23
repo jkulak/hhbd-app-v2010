@@ -20,29 +20,25 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     $registry = new Zend_Registry(array(), ArrayObject::ARRAY_AS_PROPS);
     Zend_Registry::setInstance($registry);
     
-    // Pobieranie danych z pliku konfiguracyjnego (zaladowanego przez Bootstrap) i dodanie ich do rejestru
-    $this->config = $this->getOptions();
-    Zend_Registry::set('Config', $this->config);
+    // Load configuration from file, put it in the registry
+    $appConfig = $this->getOption('app');
+    Zend_Registry::set('Config_App', $appConfig);
 
-    // Odczytanie opcji z sekcj app
+    // Read Resources section and put it in registry
     $resourcesConfig = $this->getOption('resources');
-    Zend_Registry::set('Config_Resources_Db', $resourcesConfig['db']);
-    
-    // debugging
-    $writer = new Zend_Log_Writer_Firebug();
-    $this->logger = new Zend_Log($writer);
+    Zend_Registry::set('Config_Resources', $resourcesConfig);
 
-    // // routing
+    // Start routing
     $frontController = Zend_Controller_Front::getInstance();
     $router = $frontController->getRouter();
-    $frontController->setBaseUrl($this->config['resources']['frontController']['baseUrl']);
-
+    // In case I want to turn on translation
     // Zend_Controller_Router_Route::setDefaultTranslator($translator);
-    
     $routes = new Zend_Config_Xml(APPLICATION_PATH . '/configs/routes.xml', APPLICATION_ENV);
-    
     //$router->removeDefaultRoutes();
-    $router->addConfig($routes, 'routes');    
+    $router->addConfig($routes, 'routes');
+    
+    // In case I need baseUrl()
+    //$frontController->setBaseUrl($this->config['resources']['frontController']['baseUrl'] . '/hhbd');
   }
        
   protected function _initView()
@@ -53,33 +49,25 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
     $view->doctype('HTML5');
     $view->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
-    $view->headMeta()->setCharset('utf-8');
-    
-    $appConfig = $this->getOption('app');
-    Zend_Registry::set('Config_App', $appConfig);
-    
-    $view->appIncludes = $appConfig['includes'];
-  
-    
+    $view->headMeta()->setCharset('utf-8');    
     $view->headMeta()->setName('robots', 'index,follow');
     $view->headMeta()->setName('author', 'Jakub Kułak, www.webascrazy.net');
-    
     $view->headTitle()->setSeparator(' | ');
     $view->headTitle('HHBD.PL');
     
-    $translator = new Zend_Translate('array', '../lang/en.php', 'en');
-    $translator->addTranslation('../lang/pl.php', 'pl');
+    $configApp = Zend_Registry::get('Config_App');
+    $view->headIncludes = $configApp['includes'];
     
-    $translator->setLocale('pl');
+    // Navigation, not used
+    // $navigation = new Zend_Config_Xml(APPLICATION_PATH . '/configs/navigation.xml', 'nav');
+    // $container = new Zend_Navigation($navigation);
+    // Zend_Registry::set('Zend_Navigation', $navigation);
     
-    $navigation = new Zend_Config_Xml(APPLICATION_PATH . '/configs/navigation.xml', 'nav');
-    $container = new Zend_Navigation($navigation);
-    
-    $view->navigation()->setTranslator($translator);    
-    $view->navigation($container);
-    
-    Zend_Registry::set('Zend_Navigation', $navigation);
-
+    // In case I want to turn translation on
+    // $translator = new Zend_Translate('array', '../lang/en.php', 'en');
+    // $translator->addTranslation('../lang/pl.php', 'pl');
+    // $translator->setLocale('pl');
+    // $view->navigation()->setTranslator($translator);
+    // $view->navigation($container);
   }
-
 }

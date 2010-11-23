@@ -10,6 +10,23 @@
 
 class Model_Song_Api extends Jkl_Model_Api
 {
+  
+  static private $_instance;
+  
+  /**
+   * Singleton instance
+   *
+   * @return Model_Song_Api
+   */
+  public static function getInstance()
+  {
+      if (null === self::$_instance) {
+          self::$_instance = new self();
+      }
+
+      return self::$_instance;
+  }
+  
   /**
    * Creates object and fetches the list from database result
    */
@@ -50,7 +67,7 @@ class Model_Song_Api extends Jkl_Model_Api
     
     $result = $this->_db->fetchAll($query);
     $featuring = new Jkl_List();
-    $artistApi = new Model_Artist_Api();
+    $artistApi = Model_Artist_Api::getInstance();
     foreach ($result as $params) {
       $artist = $artistApi->find($params['id']);
       $artist->featType = $params['feattype'];
@@ -68,7 +85,7 @@ class Model_Song_Api extends Jkl_Model_Api
     
     $result = $this->_db->fetchAll($query);
     $featuring = new Jkl_List();
-    $artistApi = new Model_Artist_Api();
+    $artistApi = Model_Artist_Api::getInstance();
     foreach ($result as $params) {
       $featuring->add($artistApi->find($params['id']));
       }
@@ -84,7 +101,7 @@ class Model_Song_Api extends Jkl_Model_Api
     
     $result = $this->_db->fetchAll($query);
     $featuring = new Jkl_List();
-    $artistApi = new Model_Artist_Api();
+    $artistApi = Model_Artist_Api::getInstance();
     foreach ($result as $params) {
       $featuring->add($artistApi->find($params['id']));
       }
@@ -100,7 +117,7 @@ class Model_Song_Api extends Jkl_Model_Api
     
     $result = $this->_db->fetchAll($query);
     $featuring = new Jkl_List();
-    $artistApi = new Model_Artist_Api();
+    $artistApi = Model_Artist_Api::getInstance();
     foreach ($result as $params) {
       $featuring->add($artistApi->find($params['id']));
       }

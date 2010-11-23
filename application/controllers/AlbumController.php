@@ -7,7 +7,7 @@ class AlbumController extends Zend_Controller_Action
   
   public function init()
   {
-    $this->albumApi = new Model_Album_Api();
+    $this->albumApi = Model_Album_Api::getInstance();
     
     $this->view->headMeta()->setName('keywords', 'polski hip-hop, albumy');
     $this->view->headTitle()->headTitle('Albumy', 'PREPEND');

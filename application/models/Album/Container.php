@@ -18,20 +18,15 @@ class Model_Album_Container
   public $releaseDate;
   public $cover;
   
-  private $_appConfig;
-  
   function __construct($params, $full = false)
   {
-    
-    // echo get_class($this) . '->' . __FUNCTION__ . '(' .$params['alb_id'] . ')<br />';
-    
-    $this->_appConfig = Zend_Registry::get('Config_App');
+    $configApp = Zend_Registry::get('Config_App');
 
     $this->id = $params['alb_id'];
     $this->title = $params['title'];
     
     if (!empty($params['art_id'])) {
-      $artistApi = new Model_Artist_Api();
+      $artistApi = Model_Artist_Api::getInstance();
       $this->artist = $artistApi->find($params['art_id']);
     }    
     
@@ -69,13 +64,13 @@ class Model_Album_Container
     if (!empty($params['updated'])) $this->updated = $params['updated'];
     
     if (!empty($params['cover'])) {
-      $this->cover = $this->_appConfig['paths']['albumCoverPath'] . $params['cover'];
-      $this->thumbnail = $this->_appConfig['paths']['albumThumbnailPath'] . substr($params['cover'], 0, -4) . $this->_appConfig['paths']['albumThumbnailSuffix'];
+      $this->cover = $configApp['paths']['albumCoverPath'] . $params['cover'];
+      $this->thumbnail = $configApp['paths']['albumThumbnailPath'] . substr($params['cover'], 0, -4) . $configApp['paths']['albumThumbnailSuffix'];
     }
     else
     {
-      $this->cover = $this->_appConfig['paths']['albumCoverPath'] . 'cd.png';
-      $this->thumbnail = $this->_appConfig['paths']['albumThumbnailPath'] . 'cd.png';
+      $this->cover = $configApp['paths']['albumCoverPath'] . 'cd.png';
+      $this->thumbnail = $configApp['paths']['albumThumbnailPath'] . 'cd.png';
     }
     
     if (!empty($params['rating'])) {

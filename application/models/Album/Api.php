@@ -11,6 +11,23 @@
 // extends Api
 class Model_Album_Api extends Jkl_Model_Api
 {
+  
+  static private $_instance;
+  
+  /**
+   * Singleton instance
+   *
+   * @return Model_Album_Api
+   */
+  public static function getInstance()
+  {
+      if (null === self::$_instance) {
+          self::$_instance = new self();
+      }
+
+      return self::$_instance;
+  }
+  
   /**
    * Creates object and fetches the list from database result
    */
@@ -81,7 +98,7 @@ class Model_Album_Api extends Jkl_Model_Api
   
   private function getEpFor($id)
   {
-    $albumApi = new Model_Album_Api();
+    $albumApi = Model_Album_Api::getInstance();
     $epFor = $albumApi->find($id);
     return $epFor;
   }
@@ -91,7 +108,7 @@ class Model_Album_Api extends Jkl_Model_Api
     $query = 'SELECT id FROM albums WHERE epfor=' . $id . ' ORDER BY year DESC';
     $result = $this->_db->fetchAll($query);
     $eps = new Jkl_List();
-    $albumApi = new Model_Album_Api();
+    $albumApi = Model_Album_Api::getInstance();
     foreach ($result as $params) {  
       $ep = $albumApi->find($params['id']);
       $eps->add($ep);
@@ -107,7 +124,7 @@ class Model_Album_Api extends Jkl_Model_Api
         'ORDER BY t2.track';
     $result = $this->_db->fetchAll($query);
     $tracklist = new Jkl_List();
-    $songApi = new Model_Song_Api();
+    $songApi = Model_Song_Api::getInstance();
     foreach ($result as $params) {  
       $song = $songApi->find($params['id']);
       if (strlen($params['track']) > 2) {

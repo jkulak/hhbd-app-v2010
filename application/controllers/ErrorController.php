@@ -34,14 +34,6 @@ class ErrorController extends Zend_Controller_Action
         }
         
         $this->view->request   = $errors->request;
-        /*
-          TODO if environment
-        */
-        echo '<h3>' . $errors->exception->getMessage() . '</h3>';
-        
-        // echo '<pre>';
-        // print_r($this->getRequest()->getParams());
-        // echo '</pre>';
     }
 
     public function getLog()
