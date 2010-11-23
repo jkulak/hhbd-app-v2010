@@ -14,11 +14,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     
   }
   
-  // protectedfunction _initDupa($value='')
-  // {
-  //   echo $value . '_initDupa()';
-  // }
-  
   protected function _initApplication()
   {
     
@@ -26,8 +21,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     Zend_Registry::setInstance($registry);
     
     // Pobieranie danych z pliku konfiguracyjnego (zaladowanego przez Bootstrap) i dodanie ich do rejestru
-    // $this->config = $this->getOptions();
-    // Zend_Registry::set('config', $this->config);
+    $this->config = $this->getOptions();
+    Zend_Registry::set('Config', $this->config);
 
     // Odczytanie opcji z sekcj app
     $resourcesConfig = $this->getOption('resources');
@@ -40,17 +35,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     // // routing
     $frontController = Zend_Controller_Front::getInstance();
     $router = $frontController->getRouter();
-    
+    $frontController->setBaseUrl($this->config['resources']['frontController']['baseUrl']);
+
     // Zend_Controller_Router_Route::setDefaultTranslator($translator);
     
     $routes = new Zend_Config_Xml(APPLICATION_PATH . '/configs/routes.xml', APPLICATION_ENV);
     
     //$router->removeDefaultRoutes();
-    
-    $router->addConfig($routes, 'routes');
-    
-    // This should be read form applcation.ini
-    $frontController->setBaseUrl('http://hhbd.megiteam.pl');
+    $router->addConfig($routes, 'routes');    
   }
        
   protected function _initView()
