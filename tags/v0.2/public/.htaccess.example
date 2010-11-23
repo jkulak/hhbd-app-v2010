@@ -1,0 +1,12 @@
+# nazwa srodowiska aplikacji
+SetEnv APPLICATION_ENV development
+
+# sciezka do biblioteki Zenda
+SetEnv EXTERNAL_ZEND_PATH /usr/httpd/lib/external
+
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [NC,L]
+RewriteRule ^.*$ index.php [NC,L]

@@ -1,0 +1,50 @@
+[production]
+phpSettings.display_startup_errors = 0
+phpSettings.display_errors = 0
+phpSettings.date.timezone = "UTC"
+
+bootstrap.path = APPLICATION_PATH "/Bootstrap.php"
+bootstrap.class = "Bootstrap"
+
+resources.frontController.controllerDirectory = APPLICATION_PATH "/controllers"
+resources.frontController.baseUrl = ""
+resources.layout.layoutpath = APPLICATION_PATH "/layouts"
+
+app.includes.jquery = "/js/jquery-1.4.3.js"
+;app.includes.jdupa = 
+;app.includes.extjs = "/ext/ext-all.js"
+
+; turn on/off firephp debuging
+app.debug.firePhpEnable = 0
+
+app.paths.albumCoverPath = /database/albums/
+app.paths.albumThumbnailPath = /database/albums-thumbs/
+app.paths.albumThumbnailSuffix = _75.jpg
+
+app.paths.artistPhotoPath = /database/artists/
+app.paths.artistThumbnailPath = /database/artists-thumbs/
+;app.paths.albumThumbnailSuffix = _75.jpg
+
+autoloadernamespaces.jkl = Jkl_
+
+[staging : production]
+
+[testing : production]
+phpSettings.display_startup_errors = 1
+phpSettings.display_errors = 1
+
+[development : production]
+phpSettings.display_startup_errors = 1
+phpSettings.display_errors = 1
+
+; baza danych
+resources.db.adapter = PDO_MYSQL
+resources.db.params.host = 
+resources.db.params.username = 
+resources.db.params.password = 
+resources.db.params.dbname = 
+
+;app.includes.jdupa = 
+;app.includes.jquery = 
+
+app.debug.firePhpEnable = 1
