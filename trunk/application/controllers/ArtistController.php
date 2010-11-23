@@ -7,7 +7,7 @@ class ArtistController extends Zend_Controller_Action
   
   public function init()
   {
-    $this->artistApi = new Model_Artist_Api();
+    $this->artistApi = Model_Artist_Api::getInstance();
     
     $this->view->headMeta()->setName('keywords', 'hhbd.pl, polski hip-hop, albumy');
     $this->view->headTitle()->headTitle('Album');
@@ -18,9 +18,6 @@ class ArtistController extends Zend_Controller_Action
 
   public function indexAction()
   {
-    // $this->view->firstLetters = $this->albumApi->getFirstLetters();
-    // $this->view->popularAlbums = $this->albumApi->getPopular(5);
-
     $this->view->artists = $this->artistApi->getNewest();
   }
   
@@ -28,7 +25,7 @@ class ArtistController extends Zend_Controller_Action
   {
     $artist = $this->artistApi->find($this->params['id'], true);
     
-    $albumApi = new Model_Album_Api();
+    $albumApi = Model_Album_Api::getInstance();
     $artist->addAlbums($albumApi->getArtistsAlbums($artist->id, array(), false, 'year'));
     
     if (!empty($artist->projects->items)) {
@@ -45,7 +42,7 @@ class ArtistController extends Zend_Controller_Action
     $artist->addMusic($albumApi->getMusicByArtist($artist->id, 10000));
     $artist->addScratch($albumApi->getScratchByArtist($artist->id, 10000));
     
-    $songApi = new Model_Song_Api();
+    $songApi = Model_Song_Api::getInstance();
     $artist->addPopularSongs($songApi->getMostPopularByArtist($artist->id, 10));    
       
     $this->view->artist = $artist;

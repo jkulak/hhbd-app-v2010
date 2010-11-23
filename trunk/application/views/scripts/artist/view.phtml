@@ -1,9 +1,11 @@
 <div id="main">
     <h1><?php echo $this->artist->name ?></h1>
   <?php echo $this->partial('common/_share.phtml', array('currentUrl' => $this->currentUrl, 'title' => $this->title)) ?>
-	<div id="picture">
-	  <img src="<?php echo $this->artist->photos->items[0]->url ?>" alt="Zdjęcie <?php echo $this->artist->name ?>" title="<?php echo $this->artist->name ?>" class="image" />
-	</div>
+	<?php if ($this->artist->name != 'V/A'): ?>
+	  <div id="picture">
+  	  <img src="<?php echo $this->artist->photos->items[0]->url ?>" alt="Zdjęcie <?php echo $this->artist->name ?>" title="<?php echo $this->artist->name ?>" class="image" />
+  	</div>
+	<?php endif ?>
   	
 	<div id="brief">
   	<h2 class="hidden">Informacje podstawowe</h2>
@@ -61,7 +63,11 @@
   <?php if (!empty($this->artist->albums->items)): ?>
   <div class="albumlist">
     <div class="header">
-      <h2>Lista wydanych albumów</h2> <span class="toggle hidden"><a href="?hideDetailes=1">Pokaż szczegóły</a></span>
+      <h2>Lista wydanych <?php if ($this->artist->name == 'V/A'): ?>
+        składanek
+      <?php else: ?>
+        albumów
+      <?php endif ?></h2> <span class="toggle hidden"><a href="?hideDetailes=1">Pokaż szczegóły</a></span>
     </div>
     <?php echo $this->partial('album/_table.phtml', array('albums' => $this->artist->albums)) ?>
   </div>

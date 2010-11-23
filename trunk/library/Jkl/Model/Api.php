@@ -8,21 +8,20 @@ abstract class Jkl_Model_Api
   
   function __construct()
   {
-    $this->_db = Zend_Registry::get('Config_Resources_Db');
+    $dbRes = Zend_Registry::get('Config_Resources');
     
     $pdoParams = array( 'MYSQL_ATTR_INIT_COMMAND' => 'SET NAMES utf8' );
     $params = array(
-      'host' => $this->_db['params']['host'],
-      'dbname' => $this->_db['params']['dbname'],
-      'username' => $this->_db['params']['username'],
-      'password' => $this->_db['params']['password'],
-      'port' => (isset($this->_db['params']['port'])?$this->_db['params']['port']:''),
-      'charset' => 'utf8',
+      'host'      => $dbRes['db']['params']['host'],
+      'dbname'    => $dbRes['db']['params']['dbname'],
+      'username'  => $dbRes['db']['params']['username'],
+      'password'  => $dbRes['db']['params']['password'],
+      'port'      => (isset($dbRes['db']['params']['port'])?$dbRes['db']['params']['port']:''),
+      'charset'   => 'utf8',
       'driver_options' => $pdoParams);
-
     try
     {
-      $this->_db = Zend_Db::factory( $this->_db['adapter'], $params );
+      $this->_db = Zend_Db::factory($dbRes['db']['adapter'], $params );
       $this->_db->getConnection();
     }
     catch( Zend_Db_Adapter_Exception $e )
@@ -31,7 +30,7 @@ abstract class Jkl_Model_Api
     }
     catch( Zend_Exception $e )
     {
-      echo 'Jkl_Model_Api::__construct, wyjątek';
+      echo 'Jkl_Model_Api::__construct, Exception';
     }
   }
 }

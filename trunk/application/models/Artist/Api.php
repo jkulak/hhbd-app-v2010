@@ -12,6 +12,21 @@ class Model_Artist_Api extends Jkl_Model_Api
 {  
   
   private $_appConfig;
+  static private $_instance;
+  
+  /**
+   * Singleton instance
+   *
+   * @return Model_Artist_Api
+   */
+  public static function getInstance()
+  {
+      if (null === self::$_instance) {
+          self::$_instance = new self();
+      }
+
+      return self::$_instance;
+  }
   
   function __construct() {
     $this->_appConfig = Zend_Registry::get('Config_App');
