@@ -1,0 +1,11 @@
+<script type="text/javascript" charset="utf-8">
+  $(document).ready(function(){
+    $("#q").focus(function(){
+      if($(this).text() == "Szukaj...") $(this).text("")
+    });
+    $("#q").blur(function(){
+      // if($(this).text() == "") $("#q").html("aleeee")
+    })
+    $("#q").focus();
+  });    
+</script>
