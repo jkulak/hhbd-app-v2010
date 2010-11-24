@@ -1,0 +1,3 @@
+<?php foreach ($this->firstLetters as $value): ?>
+  <li><a href="<?php echo $this->url(array('letter' => $value['name']), $this->url) ?>"><?php echo $value['name'] ?></a></li>
+<?php endforeach ?>
