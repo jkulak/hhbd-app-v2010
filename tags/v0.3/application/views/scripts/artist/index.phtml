@@ -1,0 +1,10 @@
+<h1><?php echo $this->subTitle ?></h1>
+
+<div id="brief">
+  <ul>
+    
+<?php foreach ($this->artists->items as $artist): ?>
+  <li><?php echo $this->partial('artist/_link.phtml', array('artist' => $artist)) ?></li>
+<?php endforeach ?>
+</ul>
+</div>
