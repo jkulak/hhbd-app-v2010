@@ -93,7 +93,7 @@ class Model_Artist_Api extends Jkl_Model_Api
     return $aka;
   }
   
-  private function _getNewest($num = 20)
+  public function getNewest($num = 20)
   {
     $query = 'SELECT * ' . 
     'FROM artists ' .
