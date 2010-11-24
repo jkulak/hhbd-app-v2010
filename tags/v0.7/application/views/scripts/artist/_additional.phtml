@@ -1,0 +1,44 @@
+<div class="box googleads">
+  <h3 class="hidden">Google Ads</h3>
+  <?php echo $this->partial('common/googleAds/_rectangle.phtml'); ?>
+</div>
+
+<div class="box user">
+  <h3>Personalizacja</h3>
+  <ul>
+    <li>Ulubiony: <span class="button">Dodaj do ulubionych</span></li>
+  </ul>
+</div>
+
+<div class="box stats">
+  <h3>Statystyki</h3>
+  <ul>
+    <li>Popularność: </li>
+    <li>Wydanych albumów: </li>
+    <li>W tym w projektach: </li>
+    <li>Gościnnych występów: </li>
+    <li>Muzyka na {} albumach</li>
+    <li>Rap na {} albumach</li>
+  </ul>
+</div>
+
+<?php echo $this->partial('album/box/_list.phtml', array('boxId' => 'featuring', 'boxHeader' => 'Występy gościnne', 'albums' => $this->artist->featuring, 'showCovers' => true)) ?>
+
+<?php echo $this->partial('album/box/_list.phtml', array('boxId' => 'musicby', 'boxHeader' => 'Muzyka na  albumach', 'albums' => $this->artist->music, 'showCovers' => false)) ?>
+
+<?php echo $this->partial('album/box/_list.phtml', array('boxId' => 'scratch', 'boxHeader' => 'Scratch na  albumach', 'albums' => $this->artist->scratch, 'showCovers' => false)) ?>
+
+<?php echo $this->partial('song/box/_list.phtml', array('boxId' => 'songs', 'boxHeader' => 'Najpopularniejsze utwory', 'songs' => $this->artist->popularSongs)) ?>
+
+<div class="box teksty lyrics hidden">
+  <h3>Teksty piosenek</h3>
+  Sprawdź dostępne na naszej stronie teksty piosenek, wystarczy, że wybierzesz któryś utwór z playlisty.
+</div>
+
+<div class="box wrzuta chomikuj hidden">
+  <h3>Linki</h3>
+  <ul>
+    <li>Wrzuta.pl</li>
+    <li>Chomikuj.pl</li>
+  </ul>
+</div>
