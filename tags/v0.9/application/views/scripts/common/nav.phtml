@@ -1,0 +1,10 @@
+<nav>
+  <ul>
+<?php
+foreach ($this->container as $page)
+{
+  echo '<li>' . $page->getLabel() . '</li>'; 
+}
+?>
+  </ul>
+</nav>
