@@ -37,6 +37,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     //$router->removeDefaultRoutes();
     $router->addConfig($routes, 'routes');
     
+    $this->_initMemcached();
+    
     // In case I need baseUrl()
     //$frontController->setBaseUrl($this->config['resources']['frontController']['baseUrl'] . '/hhbd');
   }
@@ -69,5 +71,34 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     // $translator->setLocale('pl');
     // $view->navigation()->setTranslator($translator);
     // $view->navigation($container);
+  }
+  
+  private function _initMemcached()
+  {
+    $config = Zend_Registry::get('Config_App');
+
+    $oBackend = new Zend_Cache_Backend_Memcached(array(
+          'servers' =>array(
+            array(
+            'host' => $config['cache']['backend']['host'],
+            'port' => $config['cache']['backend']['port']
+            )
+          ),
+          'compression' => $config['cache']['backend']['compression']
+        ));
+          
+          $oFrontend = new Zend_Cache_Core(
+              array(
+                  'caching' => true,
+                  'cache_id_prefix' => 'hhbdpl',
+                  'logging' => false,
+                  'write_control' => true,
+                  'automatic_serialization' => true,
+                  'ignore_user_abort' => true,
+                  'lifetime' => 3600
+              ) );
+
+    $cache = Zend_Cache::factory($oFrontend, $oBackend);
+    Zend_Registry::set('Memcached', $cache);        
   }
 }
