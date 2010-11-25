@@ -6,6 +6,7 @@
   <a href="<?php echo $this->url(array(), 'albums') ?>">Pokaż wszystkie albumy</a>
 </div>
 
+<?php if (!empty($this->announcedList->items)): ?>
 <div id="latest">
   <h1>Zapowiedziane premiery</h1>
   <ul class="elemlist">
@@ -13,6 +14,7 @@
   </ul>
   <a href="<?php echo $this->url(array(), 'announced') ?>">Pokaż wszystkie zapowiedzi</a>
 </div>
+<?php endif ?>
 
 <div id="intro">
 <h1>Polski hip-hop w pigułce</h1>

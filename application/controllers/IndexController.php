@@ -9,8 +9,7 @@ class IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
-      $albumApi = new Model_Album_Api();
-      $this->view->newestList = $albumApi->getNewest(3);
-      $this->view->announcedList = $albumApi->getAnnounced(3);
+      $this->view->newestList = Model_Album_Api::getInstance()->getNewest(3);
+      $this->view->announcedList = Model_Album_Api::getInstance()->getAnnounced(3);
     }
 }

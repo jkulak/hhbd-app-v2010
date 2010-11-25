@@ -27,11 +27,9 @@ abstract class Jkl_Model_Api
     }
     catch( Zend_Db_Adapter_Exception $e )
     {
-        // problem z zaladowaniem odpowiedniego adaptera bazy
+      throw new Jkl_Model_Exception('oh no!', Jkl_Model_Exception::EXCEPTION_DB_CONNECTION_FAILED);
     }
     catch( Zend_Exception $e )
-    {
-      echo 'Jkl_Model_Api::__construct, Exception';
-    }
+    {}
   }
 }

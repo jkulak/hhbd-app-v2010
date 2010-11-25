@@ -37,6 +37,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     //$router->removeDefaultRoutes();
     $router->addConfig($routes, 'routes');
     
+    // $frontController->throwExceptions(false);
+    
     $this->_initMemcached();
     
     // In case I need baseUrl()
