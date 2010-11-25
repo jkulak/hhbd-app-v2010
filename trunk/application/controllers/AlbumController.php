@@ -2,13 +2,9 @@
 
 class AlbumController extends Zend_Controller_Action
 {
-
-  private $albumApi;
   
   public function init()
   {
-    $this->albumApi = Model_Album_Api::getInstance();
-    
     $this->view->headMeta()->setName('keywords', 'polski hip-hop, albumy');
     $this->view->headTitle()->headTitle('Albumy', 'PREPEND');
     $this->view->headMeta()->setName('description', 'Albumy w hhbd.pl');
@@ -19,11 +15,10 @@ class AlbumController extends Zend_Controller_Action
   {
     $page = (!empty($this->params['page']))?$this->params['page']:1;
     
-    $this->view->firstLetters = $this->albumApi->getFirstLetters();
-    $this->view->popularAlbums = $this->albumApi->getPopular(10);
-    $this->view->bestAlbums = $this->albumApi->getBest(10);
-    $this->view->albums = $this->albumApi->getNewest(12, $page);
-    $albumCount =  $this->albumApi->getAlbumCount();
+    $this->view->popularAlbums = Model_Album_Api::getInstance()->getPopular(10);
+    $this->view->bestAlbums = Model_Album_Api::getInstance()->getBest(10);
+    $this->view->albums = Model_Album_Api::getInstance()->getNewest(12, $page);
+    $albumCount =  Model_Album_Api::getInstance()->getAlbumCount();
     
     // pagination
     $paginator = Zend_Paginator::factory($albumCount);
@@ -50,13 +45,17 @@ class AlbumController extends Zend_Controller_Action
     
   public function announcedAction()
   {
+    
+    $this->view->title = 'Albumy zapowiedziane';
+    $this->view->headTitle($this->view->title, 'PREPEND');
+    
     $page = (!empty($this->params['page']))?$this->params['page']:1;
     
-    $this->view->popularAlbums = $this->albumApi->getPopular(10);
-    $this->view->bestAlbums = $this->albumApi->getBest(10);
+    $this->view->popularAlbums = Model_Album_Api::getInstance()->getPopular(10);
+    $this->view->bestAlbums = Model_Album_Api::getInstance()->getBest(10);
     
-    $albumCount =  $this->albumApi->getAnnouncedCount();
-    $this->view->albums = $this->albumApi->getAnnounced(12, $page);
+    $albumCount =  Model_Album_Api::getInstance()->getAnnouncedCount();
+    $this->view->albums = Model_Album_Api::getInstance()->getAnnounced(12, $page);
     
     $paginator = Zend_Paginator::factory($albumCount);
     $paginator->setCurrentPageNumber($page);
@@ -65,8 +64,7 @@ class AlbumController extends Zend_Controller_Action
     Zend_View_Helper_PaginationControl::setDefaultViewPartial('common/_paginatorTable.phtml');
     $this->view->paginator = $paginator;
     
-    $this->view->title = 'Albumy zapowiedziane';
-    $this->view->headTitle($this->view->title, 'PREPEND');
+
     
     $keywords = array();
     $description = array();
@@ -77,21 +75,7 @@ class AlbumController extends Zend_Controller_Action
     
     $this->view->headMeta()->setName('keywords', 'lista albumów, ' . implode(array_unique($keywords), ', '));
     $this->view->headMeta()->setName('description', 'Lista zapowiedzianych w polsce albumów hip-hopowych, ' . implode(array_unique($description), ', ') . '. Sprawdź najbliższe premiery!');
-    
-    $this->renderScript('album/index.phtml');
-  }
-  
-  public function firstletterAction()
-  {
-    $this->view->firstLetters = $this->albumApi->getFirstLetters();
-    $this->view->popularAlbums = $this->albumApi->getPopular(5);
- 
-    $this->view->albums = $this->albumApi->getLike($this->params['letter'] . '%');
-    
-    $this->view->subTitle = 'Albumy zaczynające się na [' . $params['letter'] . ']';
-    $this->view->headTitle($this->view->subTitle, 'PREPEND');
-    $this->view->headMeta()->setName('keywords', 'albumy, polski hip-hop, najbliższe premiery');
-    $this->view->headMeta()->setName('description', 'Lista albumów z polskim hip-hopem. Sprawdź najbliższe premiery.');
+
     
     $this->renderScript('album/index.phtml');
   }
@@ -99,15 +83,15 @@ class AlbumController extends Zend_Controller_Action
   public function viewAction()
   {
     $params = $this->getRequest()->getParams();
-    $album = $this->albumApi->find($params['id'], true);
+    $album = Model_Album_Api::getInstance()->find($params['id'], true);
     $this->view->album = $album;
     $this->albumApi->increaseViewed($album->id);
     
-    $this->view->artistsAlbums = $this->albumApi->getArtistsAlbums($album->artist->id, array($album->id), 10);
-    $this->view->popularAlbums = $this->albumApi->getPopular(10);
-    $this->view->bestAlbums = $this->albumApi->getBest(10);
+    $this->view->artistsAlbums = Model_Album_Api::getInstance()->getArtistsAlbums($album->artist->id, array($album->id), 10);
+    $this->view->popularAlbums = Model_Album_Api::getInstance()->getPopular(10);
+    $this->view->bestAlbums = Model_Album_Api::getInstance()->getBest(10);
     if (!empty($album->label)) {
-      $this->view->labelsAlbums = $this->albumApi->getLabelsAlbums($album->label->id, array($album->id), 10);
+      $this->view->labelsAlbums = Model_Album_Api::getInstance()->getLabelsAlbums($album->label->id, array($album->id), 10);
     }
     
     $this->view->currentUrl = $this->getRequest()->getBaseUrl() . $this->getRequest()->getRequestUri();
