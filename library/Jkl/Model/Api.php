@@ -21,7 +21,8 @@ abstract class Jkl_Model_Api
       'driver_options' => $pdoParams);
     try
     {
-      $this->_db = Zend_Db::factory($dbRes['db']['adapter'], $params );
+      //Jkl_Db::factory zwraca inny obiekt, dlatego nie diala przeciazenie
+      $this->_db = Jkl_Db::factory($dbRes['db']['adapter'], $params);
       $this->_db->getConnection();
     }
     catch( Zend_Db_Adapter_Exception $e )
