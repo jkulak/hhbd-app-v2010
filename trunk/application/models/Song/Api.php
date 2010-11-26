@@ -86,8 +86,9 @@ class Model_Song_Api extends Jkl_Model_Api
     $query = 'SELECT sum(t1.length) as duration ' .
       'FROM songs AS t1, album_lookup AS t2 ' .
       'WHERE (t2.songid=t1.id AND t2.albumid=' . $id . ')';
-
-    $duration = Zend_Registry::get('Memcached')->load(md5($query));
+    
+//    $duration = Zend_Registry::get('Memcached')->load(md5($query));
+    
     if (empty($duration)) {
       $result = $this->_db->fetchAll($query);
       if ($result[0]['duration'] > 0) {
@@ -97,7 +98,7 @@ class Model_Song_Api extends Jkl_Model_Api
       {
         $duration = 0;
       }
-      Zend_Registry::get('Memcached')->save($duration, md5($query));
+//      Zend_Registry::get('Memcached')->save($duration, md5($query));
     }
     return $duration;
   }

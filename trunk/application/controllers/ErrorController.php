@@ -26,8 +26,8 @@ class ErrorController extends Zend_Controller_Action
                 // $this->view->exception = $errors->exception;
                 $this->getResponse()->setHttpResponseCode(500);
                 switch($errors->exception->getCode()) {
+                  
                   case Jkl_Model_Exception::EXCEPTION_DB_CONNECTION_FAILED:
-                    
                     $this->_forward('exception-db-connection-failed');
                     break;
                     

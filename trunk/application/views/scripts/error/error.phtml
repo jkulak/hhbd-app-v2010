@@ -14,6 +14,9 @@
   <p>
       <b>Message:</b> <?php echo $this->exception->getMessage() ?>
   </p>
+  <p>
+      <b>Code:</b> <?php echo $this->exception->getCode() ?>
+  </p>
 
   <h3>Stack trace:</h3>
   <pre><?php echo $this->exception->getTraceAsString() ?>
