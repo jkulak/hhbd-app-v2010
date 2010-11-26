@@ -75,7 +75,6 @@ class AlbumController extends Zend_Controller_Action
     
     $this->view->headMeta()->setName('keywords', 'lista albumów, ' . implode(array_unique($keywords), ', '));
     $this->view->headMeta()->setName('description', 'Lista zapowiedzianych w polsce albumów hip-hopowych, ' . implode(array_unique($description), ', ') . '. Sprawdź najbliższe premiery!');
-
     
     $this->renderScript('album/index.phtml');
   }
@@ -85,7 +84,7 @@ class AlbumController extends Zend_Controller_Action
     $params = $this->getRequest()->getParams();
     $album = Model_Album_Api::getInstance()->find($params['id'], true);
     $this->view->album = $album;
-    $this->albumApi->increaseViewed($album->id);
+    Model_Album_Api::getInstance()->increaseViewed($album->id);
     
     $this->view->artistsAlbums = Model_Album_Api::getInstance()->getArtistsAlbums($album->artist->id, array($album->id), 10);
     $this->view->popularAlbums = Model_Album_Api::getInstance()->getPopular(10);

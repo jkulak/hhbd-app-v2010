@@ -22,8 +22,7 @@ abstract class Jkl_Model_Api
     try
     {
       //Jkl_Db::factory zwraca inny obiekt, dlatego nie diala przeciazenie
-      $this->_db = Jkl_Db::factory($dbRes['db']['adapter'], $params);
-      $this->_db->getConnection();
+      $this->_db = Jkl_Db::getInstance($dbRes['db']['adapter'], $params);
     }
     catch( Zend_Db_Adapter_Exception $e )
     {
