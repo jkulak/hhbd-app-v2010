@@ -35,11 +35,16 @@ class Jkl_Db extends Jkl_Cache
   public function fetchAll($query)
   {
     $this->_queryCount++;
-    
-    $result = unserialize($this->_cache->load(md5($query)));
-    if (empty($result)) {
+
+    $cache = $this->_cache->load(md5($query));
+    if (empty($cache)) {
       $result = $this->_db->fetchAll($query);
-      $this->_cache->save(serialize($result), md5($query));
+      
+      $test = $this->_cache->save(serialize($result), md5($query));    
+      Zend_Registry::get('Logger')->info(md5($query) . ' - db: ' . $this->_queryCount . '. - ' . $query);
+    }
+    else {
+      $result = unserialize($cache);
     }
     return $result;
   }

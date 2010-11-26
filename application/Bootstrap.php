@@ -37,7 +37,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     //$router->removeDefaultRoutes();
     $router->addConfig($routes, 'routes');
     
-    // $frontController->throwExceptions(false);
+    $logger = new Zend_Log(new Zend_Log_Writer_Stream('/tmp/hhbdevolution/db.txt'));
+    Zend_Registry::set('Logger', $logger);
     
     // In case I need baseUrl()
     //$frontController->setBaseUrl($this->config['resources']['frontController']['baseUrl'] . '/hhbd');
