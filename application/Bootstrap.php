@@ -37,9 +37,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     //$router->removeDefaultRoutes();
     $router->addConfig($routes, 'routes');
     
-    $logger = new Zend_Log(new Zend_Log_Writer_Stream('/tmp/hhbdevolution/db.txt'));
-    Zend_Registry::set('Logger', $logger);
     
+    $this->_setUpLogger();
     // In case I need baseUrl()
     //$frontController->setBaseUrl($this->config['resources']['frontController']['baseUrl'] . '/hhbd');
   }
@@ -72,5 +71,24 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     // $translator->setLocale('pl');
     // $view->navigation()->setTranslator($translator);
     // $view->navigation($container);
+  }
+
+  private function _setUpLogger() {
+    $dir = $path = '/tmp/logs';
+    
+    if (!file_exists($dir)) {
+      $result = mkdir($dir, 0777, true);
+      if (!$result) {
+        throw new Jkl_Exception('Cannot created log directory: ' . $dir);
+      }
+    }
+
+    $file = $path . '/log.txt';
+    file_put_contents($file, '', FILE_APPEND);
+
+    $logger = new Zend_Log(new Zend_Log_Writer_Stream($file));
+    Zend_Registry::set('Logger', $logger);
+    
+    return true;
   }
 }

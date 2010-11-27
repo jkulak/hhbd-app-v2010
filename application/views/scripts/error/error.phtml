@@ -4,8 +4,14 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Zend Framework Default Application</title>
 </head>
-<body>
-  <h1>Coś chwilowo nie działa, ale nie przejmuj się, to nie Twoja wina! :)</h1>
+<body class="error">
+  <h1>
+    <?php if (!empty($this->title)): ?>
+      <?php echo $this->title ?>
+    <?php else: ?>
+      Coś chwilowo nie działa, ale nie przejmuj się, to nie Twoja wina! :)
+    <?php endif ?>
+  </h1>
   <h2><?php echo $this->message ?></h2>
 
   <?php if (isset($this->exception)): ?>

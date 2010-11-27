@@ -19,7 +19,8 @@ class ErrorController extends Zend_Controller_Action
         
                 // 404 error -- controller or action not found
                 $this->getResponse()->setHttpResponseCode(404);
-                $this->view->message = 'Tym razem nie odnaleziono strony. Sprawdź czy wpisałeś dobry adres, a najlepiej kliknij w logo hhbd.pl';
+                $this->view->title = 'Błąd 404: Nieeee, nie mamy takiej strony (jeszcze)!';
+                $this->view->message = 'Ale nie przejmuj się tym, to nie Twoja wina :) Sprawdź czy wpisałeś dobry adres, a najlepiej chodź na <a href="/">stronę główną</a> lub wpisz czego szukasz w naszej wyszukiwarce!';
                 break;
                 
             case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_OTHER:
