@@ -67,6 +67,7 @@ table {
   border: 1px solid #e3d9ab;
   padding: 8px;
   overflow: hidden;
+  min-height: 500px;
 }
 
 #main {
@@ -371,4 +372,8 @@ table {
   padding: 2px 7px 0 6px;
   background: #f3edd5;
   border: 1px solid #BFAD5E;
+}
+
+.error h1 {
+  margin: 0 0 80px 0;
 }
