@@ -78,18 +78,22 @@
     <div class="header">
       <h2>Lista wydanych albumów w projektach</h2> <span class="toggle hidden"><a href="?hideDetailes=1">Pokaż szczegóły</a></span>
     </div>
-    <?php echo $this->partial('album/_table.phtml', array('albums' => $this->artist->projectAlbums)) ?>
+    <?php echo $this->partial('album/_table.phtml', array('albums' => $this->artist->projectAlbums)); ?>
   </div>
   <?php endif ?>
 
-  <?php if (!empty($this->artist->profile)): ?>
   <div id="description">
     <div class="header">
       <h2>Profil wykonawcy</h2>
     </div>
-  	<p><?php echo $this->artist->profile ?></p>
+  	<p>
+  	  <?php if (!empty($this->artist->profile)): ?>
+  	    <?php echo $this->artist->profile ?>
+  	  <?php else: ?>
+  	    <?php echo $this->partial('artist/_description.phtml') ?>
+	    <?php endif ?>
+  	</p>
   </div>
-  <?php endif ?>
 
 </div> <!-- main -->
 
