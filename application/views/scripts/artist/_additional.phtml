@@ -3,22 +3,29 @@
   <?php echo $this->partial('common/googleAds/_rectangle.phtml'); ?>
 </div>
 
-<div class="box user">
+<!-- <div class="box user">
   <h3>Personalizacja</h3>
   <ul>
     <li>Ulubiony: <span class="button">Dodaj do ulubionych</span></li>
   </ul>
-</div>
+</div> -->
 
 <div class="box stats">
   <h3>Statystyki</h3>
   <ul>
-    <li>Popularność: </li>
-    <li>Wydanych albumów: </li>
-    <li>W tym w projektach: </li>
-    <li>Gościnnych występów: </li>
-    <li>Muzyka na {} albumach</li>
-    <li>Rap na {} albumach</li>
+    <!-- <li>Popularność: </li> -->
+    <?php if (!empty($this->artist->albums->items)): ?>
+      <li>Wydanych albumów solo: <?php echo sizeof($this->artist->albums->items) ?></li>
+    <?php endif ?>
+    <?php if (!empty($this->artist->projectAlbums->items)): ?>
+      <li>Albumy wydane w projektach: <?php echo sizeof($this->artist->projectAlbums->items) ?></li>
+    <?php endif ?>
+    <?php if (!empty($this->artist->featuring->items)): ?>
+      <li>Albumów z gościnnymi występami: <?php echo sizeof($this->artist->featuring->items) ?></li>
+    <?php endif ?>
+    <?php if (!empty($this->artist->music->items)): ?>
+      <li><?php echo $this->artist->name ?> zrobił muzykę na <?php echo sizeof($this->artist->music->items) ?> albumach.</li>
+    <?php endif ?>
   </ul>
 </div>
 

@@ -212,8 +212,8 @@ class Model_Album_Api extends Jkl_Model_Api
               FROM albums t1, artists t2, album_artist_lookup t3
               WHERE (t2.id=t3.artistid AND t1.id=t3.albumid AND (
               ' . implode($condition, ' OR ') . ')
-              )
-              LIMIT ' . $limit;
+              )' . 
+              (($limit != null)?' LIMIT ' . $limit:'');
 
     return $this->getList($query);
   }
@@ -238,8 +238,8 @@ class Model_Album_Api extends Jkl_Model_Api
               FROM albums t1, artists t2, album_artist_lookup t3
               WHERE (t2.id=t3.artistid AND t1.id=t3.albumid AND (
               ' . implode($condition, ' OR ') . ')
-              )
-              LIMIT ' . $limit;
+              )' . 
+              (($limit != null)?' LIMIT ' . $limit:'');
 
     return $this->getList($query);
   }
@@ -264,8 +264,8 @@ class Model_Album_Api extends Jkl_Model_Api
               FROM albums t1, artists t2, album_artist_lookup t3
               WHERE (t2.id=t3.artistid AND t1.id=t3.albumid AND (
               ' . implode($condition, ' OR ') . ')
-              )
-              LIMIT ' . $limit;
+              )' . 
+              (($limit != null)?' LIMIT ' . $limit:'');
 
     return $this->getList($query);
   }

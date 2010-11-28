@@ -33,11 +33,11 @@ class ArtistController extends Zend_Controller_Action
       $artist->addProjectAlbums($projectAlbums);
     }
     
-    $artist->addFeaturing(Model_Album_Api::getInstance()->getFeaturingByArtist($artist->id, 10000));
-    $artist->addMusic(Model_Album_Api::getInstance()->getMusicByArtist($artist->id, 10000));
-    $artist->addScratch(Model_Album_Api::getInstance()->getScratchByArtist($artist->id, 10000));
+    $artist->addFeaturing(Model_Album_Api::getInstance()->getFeaturingByArtist($artist->id, null));
+    $artist->addMusic(Model_Album_Api::getInstance()->getMusicByArtist($artist->id, null));
+    $artist->addScratch(Model_Album_Api::getInstance()->getScratchByArtist($artist->id, null));
     
-    $artist->addPopularSongs(Model_Song_Api::getInstance()->getMostPopularByArtist($artist->id, 10));    
+    $artist->addPopularSongs(Model_Song_Api::getInstance()->getMostPopularByArtist($artist->id, 10));
       
     $this->view->artist = $artist;
   }
