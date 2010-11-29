@@ -1,0 +1,5 @@
+<?php if (!empty($this->song->featured)): ?>
+  <?php echo $this->partial('album/box/_list.phtml', array('boxId' => 'featured', 'boxHeader' => '"' . $this->song->title . '" jest na albumach', 'albums' => $this->song->featured, 'showCovers' => true)) ?>
+<?php endif ?>
+
+<?php echo $this->partial('song/box/_list.phtml', array('boxId' => 'songs', 'boxHeader' => 'Najpopularniejsze utwory na www.hhbd.pl', 'songs' => $this->popularSongs)) ?>

@@ -112,4 +112,13 @@ class Model_Song_Api extends Jkl_Model_Api
               ' . (($limit)?'LIMIT ' . $limit:'');
     return $this->_getList($query);    
   }
+  
+  public function getMostPopular($limit = 10)
+  {
+    $query = 'SELECT *
+              FROM songs t1
+              ORDER BY t1.viewed DESC
+              ' . (($limit)?'LIMIT ' . $limit:'');
+    return $this->_getList($query);    
+  }
 }

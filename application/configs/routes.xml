@@ -122,7 +122,7 @@
         </label>
 
         <song type="Zend_Controller_Router_Route_Regex">
-          <route>hip-hop/(.+)-(\d+).html</route>
+          <route>(.+)-s(\d+).html</route>
           <defaults>
             <controller>song</controller>
             <action>view</action>
@@ -131,7 +131,7 @@
             <seo>1</seo>
             <id>2</id>
           </map>
-          <reverse>hip-hop/%s-%d.html</reverse>
+          <reverse>%s-s%d.html</reverse>
         </song>
         
     </routes>

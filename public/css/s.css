@@ -68,7 +68,6 @@ table {
   border: 1px solid #e3d9ab;
   padding: 8px;
   overflow: hidden;
-  min-height: 500px;
 }
 
 #main {
@@ -223,8 +222,9 @@ table {
 #booking {
   margin-left: 10px;
 }
-  
-#tracklist, #description, .albumlist {
+
+/* used for panels on the left side*/
+.pane {
   clear: both;
   margin-bottom: 16px;
 }

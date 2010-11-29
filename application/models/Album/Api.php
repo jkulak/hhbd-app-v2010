@@ -269,4 +269,15 @@ class Model_Album_Api extends Jkl_Model_Api
 
     return $this->getList($query);
   }
+  
+  // List of albums that feature a song with given ID
+  public function getSongAlbums($id, $limit)
+  {
+    $query = "SELECT *, t1.id as alb_id, t3.id as art_id  
+              FROM albums t1, album_lookup t2, artists t3, album_artist_lookup t4 
+              WHERE (t1.id=t2.albumid AND t2.songid='$id' AND t4.albumid=t1.id AND t4.artistid=t3.id)
+              " .
+              (($limit != null)?' LIMIT ' . $limit:'');
+    return $this->getList($query);
+  }
 }
