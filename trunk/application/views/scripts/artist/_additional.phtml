@@ -15,7 +15,7 @@
   <ul>
     <!-- <li>Popularność: </li> -->
     <?php if (!empty($this->artist->albums->items)): ?>
-      <li>Wydanych albumów solo: <?php echo sizeof($this->artist->albums->items) ?></li>
+      <li>Wydanych albumów i singli: <?php echo sizeof($this->artist->albums->items) ?></li>
     <?php endif ?>
     <?php if (!empty($this->artist->projectAlbums->items)): ?>
       <li>Albumy wydane w projektach: <?php echo sizeof($this->artist->projectAlbums->items) ?></li>

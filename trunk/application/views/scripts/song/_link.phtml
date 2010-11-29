@@ -2,5 +2,7 @@
   <?php echo $this->song->title ?>
 </a>
 <?php if ($this->showDuration): ?>
- (<?php echo $this->song->duration ?>)
+  <?php if (!empty($this->song->duration)): ?>
+     (<?php echo $this->song->duration ?>)
+  <?php endif ?>
 <?php endif ?>

@@ -11,6 +11,9 @@
 
 class Model_Song_Container
 {
+  
+  public $lyrics = '';
+  
   function __construct($params, $full = false)
   {
     
@@ -20,11 +23,12 @@ class Model_Song_Container
     $this->title = $params['title'];
     
     $this->track = (!empty($params['track'])?$params['track']:null);
-    if (empty($params['length'])) {
-      $this->duration = '--:--';
+    
+    if (!empty($params['length'])) {
+      $this->duration = sprintf( "%02.2d:%02.2d", floor( $params['length'] / 60 ), $params['length'] % 60 );
     }
     else {
-      $this->duration = sprintf( "%02.2d:%02.2d", floor( $params['length'] / 60 ), $params['length'] % 60 );
+      $this->duration = null;
     }
     $this->bpm = $params['bpm'];
     
@@ -42,6 +46,10 @@ class Model_Song_Container
     
     if (!empty($params['artist'])) {
       $this->artist = $params['artist'];
+    }
+    
+    if (!empty($params['lyrics'])) {
+      $this->lyrics = $params['lyrics'];
     }
   }
 }
