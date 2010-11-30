@@ -214,7 +214,7 @@ table {
   max-width: 313px;
 }
 
-#brief ul.list {
+ul ul.list {
   margin-left: 30px;
   list-style-type: square;
 }
@@ -296,18 +296,18 @@ table {
   margin-bottom: 4px;
 }
 
-.box ol.covers {
+.box .covers {
   list-style-type: none;
   list-style-position: outside;
   padding: 0;
 }
 
-.box ol.covers li {
+.covers li {
   float: left;
   margin-right: 8px;
 }
 
-.box ol.covers img {
+.covers img {
   list-style-type: none;
   width: 67px;
   height: 67px;

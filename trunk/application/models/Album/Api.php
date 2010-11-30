@@ -33,7 +33,7 @@ class Model_Album_Api extends Jkl_Model_Api
    */
   public function getList($query)
   {
-    $result = $this->_db->fetchAll($query);;
+    $result = $this->_db->fetchAll($query);
     $albums = new Jkl_List(); 
     foreach ($result as $params) {
       $albums->add(new Model_Album_Container($params));

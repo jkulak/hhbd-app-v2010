@@ -1,21 +1,27 @@
 <div id="main">
-   <h1><?php if (!empty($this->song->artist->items)): ?>
+  <h1>
+   <?php if (!empty($this->song->artist->items)): ?>
  	  <?php foreach ($this->song->artist->items as $key => $feat): ?>
-       <?php echo $this->partial('artist/_link.phtml', array('artist' => $feat)) ?><?php if (sizeof($this->song->artist->items)-1 > $key): ?>, <?php endif ?>        
+       <?php echo $feat->name ?><?php if (sizeof($this->song->artist->items)-1 > $key): ?>, <?php endif ?>        
      <?php endforeach ?> - 
-	  <?php endif ?><?php echo $this->song->title ?></h1>
+     <?php elseif (!empty($this->song->featuring->items)): ?>
+	    <?php foreach ($this->song->featuring->items as $key => $feat): ?>
+         <?php echo $feat->name ?><?php if (sizeof($this->song->featuring->items)-1 > $key): ?>, <?php endif ?>        
+       <?php endforeach ?> - 
+    <?php endif ?>
+      <?php echo $this->song->title ?><?php if (!empty($this->song->lyrics)): ?>
+	    <span class="hidden">tekst</span>
+	  <?php endif ?>
+	</h1>
   <?php echo $this->partial('common/_share.phtml', array('currentUrl' => $this->currentUrl, 'title' => $this->title)) ?>
-
 	<div class="pane">
   	<h2 class="hidden">Informacje podstawowe</h2>
-  	
   	<ul id="essential">
-  	  
-      <!-- <?php if (!empty($this->song->artist->items)): ?>
+      <?php if (!empty($this->song->artist->items)): ?>
         <li>Wykonawcy: <?php foreach ($this->song->artist->items as $key => $feat): ?>
           <?php echo $this->partial('artist/_link.phtml', array('artist' => $feat)) ?><?php if (sizeof($this->song->artist->items)-1 > $key): ?>, <?php endif ?>        
         <?php endforeach ?></li>
-      <?php endif ?> -->
+      <?php endif ?>
   	  
   	  <?php if (!empty($this->song->music->items)): ?>
     	  <li>Muzyka: <?php foreach ($this->song->music->items as $key => $feat): ?>
@@ -36,21 +42,29 @@
   	  <?php endif ?>
 	  </ul>
 	  <ul id="details">
-  	
-  	  <li>Czas trwania:   
   	  <?php if (!empty($this->song->duration)): ?>
+	      	  <li>Czas trwania:   
     	   <?php echo $this->song->duration ?>
-  	  <?php else: ?> 
-    	   --:--
-  	  <?php endif ?>
-  	  </li>
+	     	  </li>
+      <?php endif ?>
+
   	  <?php if (!empty($this->song->bpm)): ?>
   	    <li>Prędkość utworu: <?php echo $this->song->bpm ?> bpm</li>
   	  <?php endif ?>
+  	    <?php if (!empty($this->song->featured->items)): ?>
+    	    <li>
+    	    Na albumach:
+    	   <ol class="covers">
+    	     <?php foreach ($this->song->featured->items as $key => $album): ?>
+    	       <li><a href="<?php echo $this->url(array('id' => $album->id, 'seo' => ($album->artist->url . ' - ' . $album->url)), 'album') ?>">
+             	  <img src="<?php echo $album->thumbnail ?>" alt="Okładka albumu <?php echo $album->title ?>" title="<?php echo $album->title . ' - ' . $album->artist->name ?>" class="thumb" />
+             	  </a></li>
+    	     <?php endforeach ?>
+    	   </ol>
+  	   </li>
+    	<?php endif ?>
 	  </ul>
 	</div>
-
-
   <div id="lyrics" class="pane">
     <h2>Wykorzystane sample</h2>
     <?php if (!empty($this->song->samples)): ?>
@@ -59,15 +73,12 @@
       Brak informacji. Jeżeli znasz, to _dodaj_.
     <?php endif ?>
   </div>
-
-
 <?php if (!empty($this->song->lyrics)): ?>
   <div id="lyrics" class="pane">
     <h2>Tekst utworu</h2>
     <p><?php echo $this->song->lyrics ?></p>
   </div>
 <?php endif ?>
-
   <div id="description">
     <h2>Opis</h2>
     Utwór "<?php echo $this->song->title ?>"
@@ -100,10 +111,7 @@
         Nie mamy jeszcze informacji o tym jakie sample zostały wykorzystane w tym utworze.
   	  <?php endif ?>
   </div>
-
 </div>
-
 <div id="additional">
   <?php echo $this->render('song/_additional.phtml') ?>
 </div>
-
