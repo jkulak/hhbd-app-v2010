@@ -1,0 +1,102 @@
+<div id="main">
+    <h1><?php echo $this->artist->name ?></h1>
+  <?php echo $this->partial('common/_share.phtml', array('currentUrl' => $this->currentUrl, 'title' => $this->title)) ?>
+	<?php if ($this->artist->name != 'V/A'): ?>
+	  <div id="picture">
+  	  <img src="<?php echo $this->artist->photos->items[0]->url ?>" alt="Zdjęcie <?php echo $this->artist->name ?>" title="<?php echo $this->artist->name ?>" class="image" />
+  	</div>
+	<?php endif ?>
+  	
+	<div id="brief">
+  	<h2 class="hidden">Informacje podstawowe</h2>
+  	
+  	<ul id="essential">
+      <?php if (!empty($this->artist->realName)): ?>
+        <li>Nazywa się: <?php echo $this->artist->realName ?></li>
+      <?php endif ?>
+      <?php if (!empty($this->artist->alsoKnownAs->items)): ?>
+        <li>Znany także jako: <?php echo implode($this->artist->alsoKnownAs->items, ', ') ?></li>
+      <?php endif ?>
+      <?php if (!empty($this->artist->website)): ?>
+        <li>Oficjalna strona internetowa: <a href="<?php echo $this->artist->website ?>" target="_blank"><?php echo $this->artist->website ?></a></li>
+      <?php endif ?>
+      <?php if (!empty($this->artist->projects->items)): ?>
+        <li>Projekty:
+          <ul class="list">
+            <?php foreach ($this->artist->projects->items as $key => $value): ?>
+              <li><?php echo $this->partial('artist/_link.phtml', array('artist' => $value)); ?></li>
+            <?php endforeach ?>
+          </ul>
+      <?php endif ?>
+      <?php if (!empty($this->artist->members->items)): ?>
+        <li>Skład:
+          <ul class="list">
+            <?php foreach ($this->artist->members->items as $key => $value): ?>
+              <li><?php echo $this->partial('artist/_link.phtml', array('artist' => $value)); ?></li>
+            <?php endforeach ?>
+          </ul>
+      <?php endif ?>
+      <?php if (!empty($this->artist->cities->items)): ?>
+        <li>Miasto:
+          <ul class="list">
+            <?php foreach ($this->artist->cities->items as $key => $value): ?>
+              <li><?php echo $value['city'] ?></li>
+            <?php endforeach ?>
+          </ul>
+      <?php endif ?>
+    </ul>
+
+    <ul id="details">
+      <?php if (!empty($this->artist->concertInfo)): ?>
+        <li>Informacje koncertowe/booking: <div id="booking"><?php echo $this->artist->concertInfo ?></div></li>
+      <?php endif ?>
+      <?php if (!empty($this->artist->trivia)): ?>
+        <li>Ciekawostki: <?php echo $this->artist->trivia ?></li>
+      <?php endif ?>
+      <!-- <li>Dodany: <?php echo $this->artist->added ?></li>
+           <?php if ($this->artist->voteCount > 3): ?>
+             <li><span>Ocena:</span> <?php echo $this->artist->rating ?>/10 (<?php echo $this->artist->voteCount ?> głosów)</li>
+           <?php endif ?> -->
+  	</ul>
+  </div> <!-- brief -->
+  
+  <?php if (!empty($this->artist->albums->items)): ?>
+  <div class="albumlist pane">
+    <div class="header">
+      <h2>Lista wydanych <?php if ($this->artist->name == 'V/A'): ?>
+        składanek
+      <?php else: ?>
+        albumów
+      <?php endif ?></h2> <span class="toggle hidden"><a href="?hideDetailes=1">Pokaż szczegóły</a></span>
+    </div>
+    <?php echo $this->partial('album/_table.phtml', array('albums' => $this->artist->albums)) ?>
+  </div>
+  <?php endif ?>
+  
+  <?php if (!empty($this->artist->projectAlbums->items)): ?>
+  <div class="albumlist pane">
+    <div class="header">
+      <h2>Lista wydanych albumów w projektach</h2> <span class="toggle hidden"><a href="?hideDetailes=1">Pokaż szczegóły</a></span>
+    </div>
+    <?php echo $this->partial('album/_table.phtml', array('albums' => $this->artist->projectAlbums)); ?>
+  </div>
+  <?php endif ?>
+
+  <div id="description" class="pane">
+    <div class="header">
+      <h2>Profil wykonawcy</h2>
+    </div>
+  	<p>
+  	  <?php if (!empty($this->artist->profile)): ?>
+  	    <?php echo $this->artist->profile ?>
+  	  <?php else: ?>
+  	    <?php echo $this->partial('artist/_description.phtml') ?>
+	    <?php endif ?>
+  	</p>
+  </div>
+
+</div> <!-- main -->
+
+<div id="additional">
+  <?php echo $this->render('artist/_additional.phtml') ?>
+</div>
