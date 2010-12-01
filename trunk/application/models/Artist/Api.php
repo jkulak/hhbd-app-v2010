@@ -108,7 +108,6 @@ class Model_Artist_Api extends Jkl_Model_Api
       'FROM artists t1, feature_lookup t2, feattypes t3 ' . 
       'WHERE (t2.artistid=t1.id AND t3.id=t2.feattype AND t2.songid="' . $id . '") ' . 
       'ORDER BY t1.name';
-    
     $result = $this->_db->fetchAll($query);
     $featuring = new Jkl_List();
     foreach ($result as $params) {
@@ -116,6 +115,7 @@ class Model_Artist_Api extends Jkl_Model_Api
       $artist->featType = $params['feattype'];
       $featuring->add($artist);
       }
+      
     return $featuring;
   }
 

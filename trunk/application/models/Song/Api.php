@@ -42,7 +42,7 @@ class Model_Song_Api extends Jkl_Model_Api
   
   public function find($id, $full = false)
   {
-    $query = 'select * from songs where id=' . $id;
+    $query = 'select *, id as song_id from songs where id=' . $id;
     $result = $this->_db->fetchAll($query);
     $params = $result[0];
     
@@ -50,24 +50,20 @@ class Model_Song_Api extends Jkl_Model_Api
     $params['music'] = Model_Artist_Api::getInstance()->getSongMusic($id);
     $params['scratch'] = Model_Artist_Api::getInstance()->getSongScratch($id);
     $params['artist'] = Model_Artist_Api::getInstance()->getSongArtist($id);
-    // getSamples
-    // getLyrics
-
     $item = new Model_Song_Container($params, $full);
     return $item;
   }
   
   public function getTracklist($id)
   {
-    $query = 'SELECT t1.id, t2.track ' . 
+    $query = 'SELECT t1.id as song_id, t2.track ' . 
         'FROM songs AS t1, album_lookup AS t2 ' .
         'WHERE (t1.id=t2.songid AND t2.albumid=' . $id . ') ' . 
         'ORDER BY t2.track';
     $result = $this->_db->fetchAll($query);
     $tracklist = new Jkl_List();
-    $songApi = Model_Song_Api::getInstance();
     foreach ($result as $params) {  
-      $song = $songApi->find($params['id']);
+      $song = $this->find($params['song_id']);
       if (strlen($params['track']) > 2) {
         $song->track = substr($params['track'], 0, 1) . '-' . substr($params['track'], 1, 2);
 
@@ -105,7 +101,7 @@ class Model_Song_Api extends Jkl_Model_Api
 
   public function getMostPopularByArtist($id, $limit = 10)
   {
-    $query = 'SELECT *
+    $query = 'SELECT *, t1.id as song_id
               FROM songs t1, artist_lookup t2, artists t3
               WHERE (t1.id=t2.songid AND t2.artistid=t3.id AND t3.id=' . $id . ')
               ORDER BY t1.viewed DESC
@@ -115,7 +111,7 @@ class Model_Song_Api extends Jkl_Model_Api
   
   public function getMostPopular($limit = 10)
   {
-    $query = 'SELECT *
+    $query = 'SELECT *, t1.id as song_id
               FROM songs t1
               ORDER BY t1.viewed DESC
               ' . (($limit)?'LIMIT ' . $limit:'');

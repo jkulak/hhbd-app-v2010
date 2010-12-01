@@ -124,4 +124,8 @@ class Model_Artist_Container
   {
     $this->popularSongs = $list;
   }
+  
+  public function isBand() {
+    return !empty($this->members->items);
+  }
 }
