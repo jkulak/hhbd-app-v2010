@@ -1,0 +1,113 @@
+<div id="main">
+  <h1>
+   <?php if (!empty($this->song->artist->items)): ?>
+ 	  <?php foreach ($this->song->artist->items as $key => $feat): ?>
+       <?php echo $feat->name ?><?php if (sizeof($this->song->artist->items)-1 > $key): ?>, <?php endif ?>        
+     <?php endforeach ?> - 
+     <?php elseif (!empty($this->song->featuring->items)): ?>
+	    <?php foreach ($this->song->featuring->items as $key => $feat): ?>
+         <?php echo $feat->name ?><?php if (sizeof($this->song->featuring->items)-1 > $key): ?>, <?php endif ?>        
+       <?php endforeach ?> - 
+    <?php endif ?>
+      <?php echo $this->song->title ?><?php if (!empty($this->song->lyrics)): ?>
+	    <span class="hidden">tekst</span>
+	  <?php endif ?>
+	</h1>
+  <?php echo $this->partial('common/_share.phtml', array('currentUrl' => $this->currentUrl, 'title' => $this->title)) ?>
+	<div class="pane">
+  	<h2 class="hidden">Informacje podstawowe</h2>
+  	<ul id="essential">
+      <?php if (!empty($this->song->artist->items)): ?>
+        <li>Wykonawcy: <?php foreach ($this->song->artist->items as $key => $feat): ?>
+          <?php echo $this->partial('artist/_link.phtml', array('artist' => $feat)) ?><?php if (sizeof($this->song->artist->items)-1 > $key): ?>, <?php endif ?>        
+        <?php endforeach ?></li>
+      <?php endif ?>
+  	  
+  	  <?php if (!empty($this->song->music->items)): ?>
+    	  <li>Muzyka: <?php foreach ($this->song->music->items as $key => $feat): ?>
+          <?php echo $this->partial('artist/_link.phtml', array('artist' => $feat)) ?><?php if (sizeof($this->song->music->items)-1 > $key): ?>, <?php endif ?>        
+        <?php endforeach ?></li>
+  	  <?php endif ?>
+  	  
+  	  <?php if (!empty($this->song->featuring->items)): ?>
+    	  <li>Gościnne: <?php foreach ($this->song->featuring->items as $key => $feat): ?>
+          <?php echo $this->partial('artist/_link.phtml', array('artist' => $feat)) ?><?php if (!empty($feat->featType)): ?>
+            (<?php echo $feat->featType ?>)<?php endif ?><?php if (sizeof($this->song->featuring->items)-1 > $key): ?>, <?php endif ?>        
+        <?php endforeach ?></li>
+  	  <?php endif ?>
+  	  
+  	  <?php if (!empty($this->song->scratch->items)): ?>
+    	  <li>Skrecze/cuty: <?php foreach ($this->song->scratch->items as $key => $feat): ?>
+          <?php echo $this->partial('artist/_link.phtml', array('artist' => $feat)) ?><?php if (sizeof($this->song->scratch->items)-1 > $key): ?>, <?php endif ?>        
+        <?php endforeach ?></li>
+  	  <?php endif ?>
+	  </ul>
+	  <ul id="details">
+  	  <?php if (!empty($this->song->duration)): ?>
+	      	  <li>Czas trwania:   
+    	   <?php echo $this->song->duration ?>
+	     	  </li>
+      <?php endif ?>
+
+  	  <?php if (!empty($this->song->bpm)): ?>
+  	    <li>Prędkość utworu: <?php echo $this->song->bpm ?> bpm</li>
+  	  <?php endif ?>
+  	    <?php if (!empty($this->song->featured->items)): ?>
+    	    <li>
+    	    Na albumach:
+    	   <ul class="list">
+    	     <?php foreach ($this->song->featured->items as $key => $album): ?>
+    	       <li><?php echo $this->partial('album/_link.phtml', array('album' => $album)) ?></li>
+    	     <?php endforeach ?>
+    	   </ul>
+  	   </li>
+    	<?php endif ?>
+	  </ul>
+	</div>
+  <div id="lyrics" class="pane">
+    <h2>Wykorzystane sample</h2>
+    <?php if (!empty($this->song->samples)): ?>
+      sd
+    <?php else: ?>
+      Na razie nie mamy informacji o tym jakie sample zostały wykorzystane w "<?php echo $this->song->title ?>". Sprawdź za kilka dni.
+    <?php endif ?>
+  </div>
+<?php if (!empty($this->song->lyrics)): ?>
+  <div id="lyrics" class="pane">
+    <h2>Tekst utworu</h2>
+    <p><?php echo $this->song->lyrics ?></p>
+  </div>
+<?php endif ?>
+  <div id="description">
+    <h2>Opis</h2>
+    Utwór "<?php echo $this->song->title ?>"
+    <?php if (!empty($this->song->artist->items)): ?>
+    na którym wokalnie udziela się <?php foreach ($this->song->artist->items as $key => $feat): ?>
+        <?php echo $feat->name ?><?php if (sizeof($this->song->artist->items)-1 > $key): ?><?php echo (sizeof($this->song->artist->items)-3 == $key)?', ':' i '; ?> <?php endif ?>
+      <?php endforeach ?>
+    <?php endif ?>
+    został wydany na <?php echo (sizeof($this->song->featured->items)>1)?'albumach':'albumie' ?> <?php foreach ($this->song->featured->items as $key => $feat): ?>
+        "<?php echo $feat->title ?>"<?php if (sizeof($this->song->featured->items)-1 > $key): ?><?php echo (sizeof($this->song->featured->items)-3 == $key)?', ':' i '; ?><?php endif ?><?php endforeach ?>.
+      <?php if (!empty($this->song->music->items)): ?>
+    	  Muzykę do tego numeru zrobił <?php foreach ($this->song->music->items as $key => $feat): ?>
+          <?php echo $feat->name ?><?php if (sizeof($this->song->music->items)-1 > $key): ?>, <?php endif ?><?php endforeach ?>.
+  	  <?php endif ?>
+      <?php if (!empty($this->song->scratch->items)): ?>
+      Skreczowaniem i cutami zajął się <?php foreach ($this->song->scratch->items as $key => $feat): ?>
+          <?php echo $feat->name ?><?php if (sizeof($this->song->scratch->items)-1 > $key): ?><?php echo (sizeof($this->song->scratch->items)-3 == $key)?', ':' i '; ?> <?php endif ?><?php endforeach ?>.
+      <?php endif ?>
+      <?php if (!empty($this->song->duration)): ?>
+        "<?php echo $this->song->title ?>" trwa <?php echo $this->song->duration ?>.
+  	  <?php endif ?>
+  	  <?php if (!empty($this->song->featuring->items)): ?>
+    	  Gościnne na albumie udziela się <?php foreach ($this->song->featuring->items as $key => $feat): ?>
+          <?php echo $feat->name ?> (<?php echo $feat->featType ?>)<?php if (sizeof($this->song->featuring->items)-1 > $key): ?><?php echo (sizeof($this->song->featuring->items)-3 == $key)?', ':' i '; ?> <?php endif ?><?php endforeach ?>.
+  	  <?php endif ?>
+  	  <?php if (empty($this->song->lyrics)): ?>
+        Na razie nie posiadamy tekstu tego utworu.
+  	  <?php endif ?>
+  </div>
+</div>
+<div id="additional">
+  <?php echo $this->render('song/_additional.phtml') ?>
+</div>
