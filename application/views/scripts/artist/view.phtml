@@ -90,7 +90,7 @@
   	  <?php if (!empty($this->artist->profile)): ?>
   	    <?php echo $this->artist->profile ?>
   	  <?php else: ?>
-  	    <?php echo $this->partial('artist/_description.phtml') ?>
+  	    <?php echo $this->render('artist/_description.phtml') ?>
 	    <?php endif ?>
   	</p>
   </div>

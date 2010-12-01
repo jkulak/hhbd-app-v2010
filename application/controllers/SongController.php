@@ -32,8 +32,10 @@ class SongController extends Zend_Controller_Action
       $names[] = $value->name;
     }
 
-    $this->view->headTitle()->set(implode($names, ', ') . ' - ' . $this->view->song->title . ' tekst piosenki.');
-        $this->view->headMeta()->setName('keywords', implode($names, ', ') . ', ' . $this->view->song->title . ', teksty piosenek, słowa, teksty, piosenki, teledyski, video');
-    $this->view->headMeta()->setName('description', implode($names, ', ') . ' - ' . $this->view->song->title . ', tekst piosenki i inne ciekawe informacje na największej polskiej stronieo hip-hopie.');
+
+    // dodac
+    $this->view->headTitle()->set(((!empty($names))?implode($names, ', ') . ' - ':'') . $this->view->song->title . ' tekst piosenki w www.hhbd.pl');
+        $this->view->headMeta()->setName('keywords', implode($names, ',') . ',' . $this->view->song->title . ',tekst,teksty piosenek,słowa,teledyski,video');
+    $this->view->headMeta()->setName('description', implode($names, ', ') . ' - ' . $this->view->song->title . ', tekst piosenki i inne ciekawe informacje na największej polskiej stronie o hip-hopie.');
   }
 }

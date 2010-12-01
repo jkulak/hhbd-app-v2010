@@ -6,7 +6,7 @@ class ArtistController extends Zend_Controller_Action
   public function init()
   {
     $this->view->headMeta()->setName('keywords', 'hhbd.pl, polski hip-hop, albumy');
-    $this->view->headTitle()->headTitle('Album');
+    // $this->view->headTitle()->headTitle('Wykonawca');
     $this->view->headMeta()->setName('description', 'Albumy w hhbd.pl');
     
     $this->params = $this->getRequest()->getParams();
@@ -40,5 +40,27 @@ class ArtistController extends Zend_Controller_Action
     $artist->addPopularSongs(Model_Song_Api::getInstance()->getMostPopularByArtist($artist->id, 10));
       
     $this->view->artist = $artist;
+    
+    // seo
+    $albumListTmp = array();
+    foreach ($artist->albums->items as $key => $value) {
+      $albumListTmp[] = $value->title;
+    }
+    if (!empty($artist->projectAlbums)) {
+      foreach ($artist->projectAlbums->items as $key => $value) {
+        $albumListTmp[] = $value->title;
+      }
+    }
+    
+    $albumList = array();
+    for ($i=0; $i < 3; $i++) { 
+      if (isset($albumListTmp[$i])) {
+        $albumList[] = $albumListTmp[$i];
+      }
+    }
+    
+    $this->view->headTitle()->headTitle($artist->name . ' - biografia, dyskografia, albumy, teksty', 'PREPEND');
+    $this->view->headMeta()->setName('description', $artist->name . ' - teksty, dyskografia, albumy '. implode($albumList, ', '));
+    $this->view->headMeta()->setName('keywords', $artist->name . ',' . implode(',', $albumListTmp) . ',teksty,dyskografia,albumy' );
   }
 }

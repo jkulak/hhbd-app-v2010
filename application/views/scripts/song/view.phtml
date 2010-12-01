@@ -31,7 +31,8 @@
   	  
   	  <?php if (!empty($this->song->featuring->items)): ?>
     	  <li>Gościnne: <?php foreach ($this->song->featuring->items as $key => $feat): ?>
-          <?php echo $this->partial('artist/_link.phtml', array('artist' => $feat)) ?> (<?php echo $feat->featType ?>)<?php if (sizeof($this->song->featuring->items)-1 > $key): ?>, <?php endif ?>        
+          <?php echo $this->partial('artist/_link.phtml', array('artist' => $feat)) ?><?php if (!empty($feat->featType)): ?>
+            (<?php echo $feat->featType ?>)<?php endif ?><?php if (sizeof($this->song->featuring->items)-1 > $key): ?>, <?php endif ?>        
         <?php endforeach ?></li>
   	  <?php endif ?>
   	  
@@ -54,13 +55,11 @@
   	    <?php if (!empty($this->song->featured->items)): ?>
     	    <li>
     	    Na albumach:
-    	   <ol class="covers">
+    	   <ul class="list">
     	     <?php foreach ($this->song->featured->items as $key => $album): ?>
-    	       <li><a href="<?php echo $this->url(array('id' => $album->id, 'seo' => ($album->artist->url . ' - ' . $album->url)), 'album') ?>">
-             	  <img src="<?php echo $album->thumbnail ?>" alt="Okładka albumu <?php echo $album->title ?>" title="<?php echo $album->title . ' - ' . $album->artist->name ?>" class="thumb" />
-             	  </a></li>
+    	       <li><?php echo $this->partial('album/_link.phtml', array('album' => $album)) ?></li>
     	     <?php endforeach ?>
-    	   </ol>
+    	   </ul>
   	   </li>
     	<?php endif ?>
 	  </ul>
@@ -70,7 +69,7 @@
     <?php if (!empty($this->song->samples)): ?>
       sd
     <?php else: ?>
-      Brak informacji. Jeżeli znasz, to _dodaj_.
+      Na razie nie mamy informacji o tym jakie sample zostały wykorzystane w "<?php echo $this->song->title ?>". Sprawdź za kilka dni.
     <?php endif ?>
   </div>
 <?php if (!empty($this->song->lyrics)): ?>
@@ -106,9 +105,6 @@
   	  <?php endif ?>
   	  <?php if (empty($this->song->lyrics)): ?>
         Na razie nie posiadamy tekstu tego utworu.
-  	  <?php endif ?>
-  	  <?php if (empty($this->song->samples)): ?>
-        Nie mamy jeszcze informacji o tym jakie sample zostały wykorzystane w tym utworze.
   	  <?php endif ?>
   </div>
 </div>

@@ -19,7 +19,7 @@ class Model_Song_Container
     
     // print_r($params);
     
-    $this->id = $params['id'];
+    $this->id = $params['song_id'];
     $this->title = $params['title'];
     
     $this->track = (!empty($params['track'])?$params['track']:null);
