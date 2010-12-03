@@ -2,8 +2,8 @@
   <h1><?php echo $this->title ?></h1>
   <?php echo $this->paginator; ?>
   
-  <div class="albumlist">
-    <?php echo $this->partial('album/_table.phtml', array('albums' => $this->albums)) ?>
+  <div class="list">
+    <?php echo $this->partial('album/_list.phtml', array('albums' => $this->albums)) ?>
   </div>
   <?php echo $this->paginator; ?>
 </div>

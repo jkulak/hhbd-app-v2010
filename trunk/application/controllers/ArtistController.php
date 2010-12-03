@@ -2,27 +2,40 @@
 
 class ArtistController extends Zend_Controller_Action
 {
-  
+
   public function init()
   {
     $this->view->headMeta()->setName('keywords', 'hhbd.pl, polski hip-hop, albumy');
     // $this->view->headTitle()->headTitle('Wykonawca');
     $this->view->headMeta()->setName('description', 'Albumy w hhbd.pl');
-    
+
     $this->params = $this->getRequest()->getParams();
   }
 
   public function indexAction()
   {
-    $this->view->artists = Model_Artist_Api::getInstance()->getNewest();
+    $this->view->firstLetters = Model_Artist_Api::getInstance()->getFirstLetters();
+
+    $page = (!empty($this->params['letter']))?$this->params['letter']:'mostPopular';
+
+    if ($page == 'mostPopular') {
+      //$this->view->artists = Model_Artist_Api::getInstance()->getMostPopular();
+    }
+    else {
+      $this->view->artists = Model_Artist_Api::getInstance()->getLike($page . '%');
+    }
+
+    $this->view->headTitle()->headTitle('Lista polskich wykonawców hip-hop', 'PREPEND');
+    $this->view->headMeta()->setName('description', 'Lista polskich wykonawców hip-hop');
+    $this->view->headMeta()->setName('keywords', 'polski hip-hop,wykonawcy');    
   }
-  
+
   public function viewAction()
   {
     $artist = Model_Artist_Api::getInstance()->find($this->params['id'], true);
 
     $artist->addAlbums(Model_Album_Api::getInstance()->getArtistsAlbums($artist->id, array(), false, 'year'));
-    
+
     if (!empty($artist->projects->items)) {
       $projectAlbums = new Jkl_List('Projects list');
       $temp = new Jkl_List('Temp');
@@ -32,7 +45,7 @@ class ArtistController extends Zend_Controller_Action
       }
       $artist->addProjectAlbums($projectAlbums);
     }
-    
+
     $artist->addFeaturing(Model_Album_Api::getInstance()->getFeaturingByArtist($artist->id, null));
     $artist->addMusic(Model_Album_Api::getInstance()->getMusicByArtist($artist->id, null));
     $artist->addScratch(Model_Album_Api::getInstance()->getScratchByArtist($artist->id, null));

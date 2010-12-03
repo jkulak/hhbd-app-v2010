@@ -10,6 +10,7 @@
 <?php echo $this->headLink(); ?>
 <?php if (isset($this->headIncludes['jquery'])) $this->headScript()->appendFile($this->baseUrl() . $this->headIncludes['jquery']['path']); ?>
 <?php echo $this->headScript(); ?>
+<script src="/js/s.js" type="text/javascript" charset="utf-8"></script>
 
 <!-- <meta property="og:title" content="title" />
 <meta property="og:description" content="description" />
@@ -73,7 +74,6 @@
     </div>
   </div>
 </div>
-<?php echo $this->partial('common/_js.phtml'); ?>
 <?php echo $this->partial('common/_googleAnalytics.phtml'); ?>
 </body>
 </html>

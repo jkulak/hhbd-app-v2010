@@ -57,7 +57,7 @@
     	    Na albumach:
     	   <ul class="list">
     	     <?php foreach ($this->song->featured->items as $key => $album): ?>
-    	       <li><?php echo $this->partial('album/_link.phtml', array('album' => $album)) ?></li>
+    	       <li><?php echo $this->partial('album/_link.phtml', array('album' => $album, 'showArtist' => true)) ?></li>
     	     <?php endforeach ?>
     	   </ul>
   	   </li>

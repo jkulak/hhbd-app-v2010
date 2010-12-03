@@ -1,4 +1,4 @@
-<table>
+<table class="albums">
   <caption class="hidden">Lista wydawnictw hip-hopowych wydanych w Polsce</caption>
   <thead>
     <tr class="hidden"><th>Okładka</th><th>Album (wykonawca - tytuł)</th><th>Wytwórnia</th><th>Data wydania</th></tr>
@@ -12,6 +12,6 @@
       <?php endif ?></td>
       <td><?php echo $this->partial('label/_link.phtml', array('label' => $album->label)) ?></td>
       <td><?php echo $album->releaseDateNormalized ?></td></tr>
-  <?php endforeach ?>    
+  <?php endforeach ?>
   </tbody>
 </table>
