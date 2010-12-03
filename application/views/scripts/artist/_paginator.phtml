@@ -1,0 +1,11 @@
+<div class="pagination">
+  <span class="pages">
+  <?php foreach ($this->firstLetters as $letter): ?> 
+    <?php if ($letter != $this->current): ?>
+    <a href="<?= $this->restUrl(array('letter' => $letter['name'])); ?>"><?= $letter['name']; ?></a>
+    <?php else: ?>
+    <?= $letter['name']; ?>
+    <?php endif; ?>
+<?php endforeach; ?>
+  </span>
+</div>

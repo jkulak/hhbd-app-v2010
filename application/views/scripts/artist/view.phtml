@@ -69,7 +69,9 @@
         albumów
       <?php endif ?></h2> <span class="toggle hidden"><a href="?hideDetailes=1">Pokaż szczegóły</a></span>
     </div>
-    <?php echo $this->partial('album/_table.phtml', array('albums' => $this->artist->albums)) ?>
+    <div class="list">
+      <?php echo $this->partial('album/_list.phtml', array('albums' => $this->artist->albums)) ?>
+    </div>
   </div>
   <?php endif ?>
   
@@ -78,7 +80,9 @@
     <div class="header">
       <h2>Lista wydanych albumów w projektach</h2> <span class="toggle hidden"><a href="?hideDetailes=1">Pokaż szczegóły</a></span>
     </div>
-    <?php echo $this->partial('album/_table.phtml', array('albums' => $this->artist->projectAlbums)); ?>
+    <div class="list">
+      <?php echo $this->partial('album/_list.phtml', array('albums' => $this->artist->projectAlbums)); ?>
+    </div>
   </div>
   <?php endif ?>
 

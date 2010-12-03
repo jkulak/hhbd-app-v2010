@@ -37,6 +37,16 @@ class Model_Artist_Container
       $this->ended = ($params['till']!='0000-00-00')?$params['till']:null;
     }
     
+    if (!empty($params['albumCount'])) {
+      $this->albumCount = $params['albumCount'];
+    }
+    
+    // also known as
+    if (!empty($params['aka'])) {
+      $this->alsoKnownAs = $params['aka'];
+    }
+
+    
     if ($full) {
       $this->realName = $params['realname'];
       $this->profile = $params['profile'];
@@ -68,9 +78,7 @@ class Model_Artist_Container
       
       // list of photos
       $this->photos = $params['photos'];
-      
-      // also known as
-      $this->alsoKnownAs = $params['aka'];
+
       
       // band members
       if (!empty($params['members'])) {
@@ -92,6 +100,7 @@ class Model_Artist_Container
       if (!empty($params['projectalbums'])) {
         $this->projectAlbums = $params['projectalbums'];
       }
+      
     }
   }
   

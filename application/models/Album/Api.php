@@ -43,6 +43,7 @@ class Model_Album_Api extends Jkl_Model_Api
   
   public function find($id, $full = false)
   {
+    $id = (int)$id;
     $query = "SELECT *, t1.id as alb_id, t1.labelid AS lab_id, t1.epfor as epforid, t1.added as alb_added, t1.addedby as alb_addedby, t1.viewed as alb_viewed, t3.id as art_id " . 
     "FROM albums t1, album_artist_lookup t2, artists t3 " . 
     "WHERE (t3.id=t2.artistid AND t2.albumid=t1.id AND t1.id='" . $id . "')";
@@ -106,10 +107,13 @@ class Model_Album_Api extends Jkl_Model_Api
       'LIMIT ' . $count;
     return $this->getList($query);
   }
-  
+
   public function getNewest($count = 20, $page = 1)
   {
     $page = (int)$page - 1;
+    if ($page<1) {
+      $page = 0;
+    }
     $query = 'SELECT *, t3.id as alb_id, t1.id as art_id, t4.id as lab_id, t3.added as alb_added, t3.addedby as alb_addedby, t3.viewed as alb_viewed ' .
       'FROM artists AS t1, album_artist_lookup AS t2, albums AS t3, labels AS t4 ' .
       'WHERE (t1.id=t2.artistid AND t2.albumid=t3.id AND t4.id=t3.labelid AND t3.year' . '<="' . date('Y-m-d') . '") ' . 
@@ -118,10 +122,13 @@ class Model_Album_Api extends Jkl_Model_Api
       'OFFSET ' . ($page*$count);
     return $this->getList($query);
   }
-  
+
   public function getAnnounced($count = 20, $page = 1)
   {
     $page = (int)$page - 1;
+    if ($page<1) {
+      $page = 0;
+    }
     $query = 'SELECT *, t3.id as alb_id, t1.id as art_id, t4.id as lab_id, t3.added as alb_added, t3.addedby as alb_addedby, t3.viewed as alb_viewed ' .
       'FROM artists AS t1, album_artist_lookup AS t2, albums AS t3, labels AS t4 ' .
       'WHERE (t1.id=t2.artistid AND t2.albumid=t3.id AND t4.id=t3.labelid AND t3.year' . '>"' . date('Y-m-d') . '") ' . 

@@ -1,0 +1,15 @@
+<table>
+  <caption class="hidden">Lista polskich wykonawców hip-hopowych</caption>
+  <thead>
+    <tr><th>Wykonawca</th><th>Wydanych albumów</th><th>Znany także jako</th></tr>
+  </thead>
+  <tbody>
+  <?php foreach ($this->artists as $artist): ?>
+    <tr>
+      <td><?php echo $this->partial('artist/_link.phtml', array('artist' => $artist)) ?></td>
+      <td><?php echo $artist->albumCount ?></td>
+      <td><?php echo implode($artist->alsoKnownAs->items, ', ') ?></td>
+    </tr>
+  <?php endforeach ?>
+  </tbody>
+</table>

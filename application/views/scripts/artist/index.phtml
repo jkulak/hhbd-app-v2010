@@ -1,10 +1,19 @@
-<h1><?php echo $this->subTitle ?></h1>
+<div id="main">
+  <h1><?php echo $this->subTitle ?></h1>
+  <h1><?php echo $this->title ?></h1>
+  <?php echo $this->render('artist/_paginator.phtml') ?>
+  <div class="list">
+    <?php echo $this->partial('artist/_list.phtml', array('artists' => $this->artists->items)) ?>
+  </div>
+  <?php echo $this->render('artist/_paginator.phtml') ?>
+</div>
 
-<div id="brief">
-  <ul>
-    
-<?php foreach ($this->artists->items as $artist): ?>
-  <li><?php echo $this->partial('artist/_link.phtml', array('artist' => $artist)) ?></li>
-<?php endforeach ?>
-</ul>
+<div id="additional">
+  <div class="box googleads">
+    <h3 class="hidden">Google Ads</h3>
+    <?php echo $this->partial('common/googleAds/_rectangle.phtml'); ?>
+  </div>
+  <?php // echo $this->render('artist/box/_bestRated.phtml') ?>
+
+  <?php // echo $this->partial('artist/box/_list.phtml', array('boxId' => 'artistsalbums', 'boxHeader' => 'Najpopularniejsze albumy', 'albums' => $this->popularAlbums)) ?>
 </div>

@@ -40,6 +40,12 @@ table {
   border-collapse : collapse;
 }
 
+table th {
+  text-align: left;
+  background: #EEE4BE;
+  padding: 8px;
+}
+
 /* common classes */
 .hidden {
   display: none;
@@ -313,29 +319,30 @@ ul ul.list {
   height: 67px;
 }
 
-.albumlist table {
+.list table {
   clear: both;
   width: 100%;
   cell-spacing: 0px;
   margin-bottom: 16px; 
 }
 
-.albumlist table td {
+.list table td {
   vertical-align: middle;
   border-bottom: 1px solid #BFAD5E;
   padding: 6px 0 2px 10px;
   margin: 0;
 }
 
-.albumlist table td:first-child {
+.list table.albums td:first-child {
   width: 60px;
 }
-.albumlist table img {
+
+.list table img {
   width: 40px;
   height: 40px;
 }
 
-.albumlist table td:last-child {
+.list table.album td:last-child {
   text-align: right;
   width: 170px;
 }
@@ -343,32 +350,30 @@ ul ul.list {
 .pagination {
   clear: both;
   margin-bottom: 16px;
+  background: #EEE4BE;
 }
 
 .pagination table {
   width: 100%;
 }
 
-.pagination table td {
-  background: #EEE4BE;
+.pagination {
   padding: 8px;
 }
-
-
 
 .pagination table td.align {
   text-align: right;
 }
 
-.pagination table td.pages {
+.pagination .pages {
   text-align: center;
 }
 
-.pagination table td.pages a {
+.pagination .pages a {
   margin: 0 2px;
 }
 
-.pagination table td span.active {
+.pagination .active {
   margin: 4px;
   padding: 2px 7px 0 6px;
   background: #f3edd5;
