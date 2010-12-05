@@ -1,11 +1,16 @@
 <div id="main">
   <h1><?php echo $this->title ?></h1>
-  <?php echo $this->paginator; ?>
+  <?php if ($this->paginator): ?>
+    <?php echo $this->paginator; ?>
+  <?php endif ?>
   
   <div class="list">
     <?php echo $this->partial('album/_list.phtml', array('albums' => $this->albums)) ?>
   </div>
-  <?php echo $this->paginator; ?>
+  <?php if ($this->paginator): ?>
+    <?php echo $this->paginator; ?>
+  <?php endif ?>
+
 </div>
 
 <div id="additional">

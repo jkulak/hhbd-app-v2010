@@ -6,7 +6,6 @@ class ArtistController extends Zend_Controller_Action
   public function init()
   {
     $this->view->headMeta()->setName('keywords', 'hhbd.pl, polski hip-hop, albumy');
-    // $this->view->headTitle()->headTitle('Wykonawca');
     $this->view->headMeta()->setName('description', 'Albumy w hhbd.pl');
 
     $this->params = $this->getRequest()->getParams();
@@ -19,12 +18,18 @@ class ArtistController extends Zend_Controller_Action
     $page = (!empty($this->params['letter']))?$this->params['letter']:'mostPopular';
 
     if ($page == 'mostPopular') {
-      //$this->view->artists = Model_Artist_Api::getInstance()->getMostPopular();
+      $this->view->artists = Model_Artist_Api::getInstance()->getMostPopular();
     }
     else {
       $this->view->artists = Model_Artist_Api::getInstance()->getLike($page . '%');
     }
+    
+    $this->view->mostProjectAlbums = Model_Artist_Api::getInstance()->getWithMostProjectAlbums();
+    $this->view->mostSoloAlbums = Model_Artist_Api::getInstance()->getWithMostSoloAlbums();
+    
+    
 
+    $this->view->title = 'Lista wykonawców';
     $this->view->headTitle()->headTitle('Lista polskich wykonawców hip-hop', 'PREPEND');
     $this->view->headMeta()->setName('description', 'Lista polskich wykonawców hip-hop');
     $this->view->headMeta()->setName('keywords', 'polski hip-hop,wykonawcy');    
