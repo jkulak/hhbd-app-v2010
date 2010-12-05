@@ -1,11 +1,15 @@
 <div class="pagination">
   <span class="pages">
-    <a href="<?php echo $this->url(array(), 'artists'); ?>">Najpopularniejsi</a>
-  <?php foreach ($this->firstLetters as $letter): ?> 
-    <?php if ($letter != $this->current): ?>
-    <a href="<?= $this->restUrl(array('letter' => $letter['name'])); ?>"><?= $letter['name']; ?></a>
+    <?php if ($this->current == 'mostPopular'): ?>
+      <span class="active">Najpopularniejsi</span>
     <?php else: ?>
-    <?= $letter['name']; ?>
+      <a href="<?php echo $this->url(array(), 'artists'); ?>">Najpopularniejsi</a>
+    <?php endif ?>
+  <?php foreach ($this->firstLetters as $letter): ?> 
+    <?php if ($letter['name'] != $this->current): ?>
+      <a href="<?php echo $this->restUrl(array('letter' => $letter['name'])); ?>"><?php echo $letter['name']; ?></a>
+    <?php else: ?>
+      <span class="active"><?php echo $letter['name']; ?></span>
     <?php endif; ?>
 <?php endforeach; ?>
   </span>

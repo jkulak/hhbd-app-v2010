@@ -10,8 +10,12 @@
     <div id="fblike" class="social">
       <iframe src="http://www.facebook.com/plugins/like.php?href=<?php echo urlencode($this->currentUrl) ?>&amp;layout=button_count&amp;show_faces=false&amp;width=75&amp;action=like&amp;font=trebuchet+ms&amp;colorscheme=light&amp;height=20" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:75px; height:20px;" allowTransparency="true"></iframe>
     </div> -->
-    
-    
-<?php echo $this->render('common/_addThis.phtml') ?>    
 
+<?php
+  $config = Zend_Registry::get('Config_App');
+  $showShareIt = $config['showShareIt'];
+?>
+<?php if ($showShareIt == 1): ?>
+  <?php echo $this->render('common/_addThis.phtml') ?>    
+<?php endif ?>
 </div>

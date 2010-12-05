@@ -59,7 +59,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     
     $configApp = Zend_Registry::get('Config_App');
     $view->headIncludes = $configApp['includes'];
-    
+
     // Navigation, not used
     // $navigation = new Zend_Config_Xml(APPLICATION_PATH . '/configs/navigation.xml', 'nav');
     // $container = new Zend_Navigation($navigation);

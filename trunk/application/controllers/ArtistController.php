@@ -26,7 +26,9 @@ class ArtistController extends Zend_Controller_Action
     
     $this->view->mostProjectAlbums = Model_Artist_Api::getInstance()->getWithMostProjectAlbums();
     $this->view->mostSoloAlbums = Model_Artist_Api::getInstance()->getWithMostSoloAlbums();
+    $this->view->recentlyAdded = Model_Artist_Api::getInstance()->getRecentlyAdded();
     
+    $this->view->current = $page;
     
 
     $this->view->title = 'Lista wykonawców';
