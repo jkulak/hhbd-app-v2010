@@ -14,11 +14,13 @@ class Model_Artist_Container
   const TYPE_ARTIST = "Wykonawca";
   const TYPE_PROJECT = "Projekt";
   const TYPE_MALE = "Raper";
+  const TYPE_FEMALE = "Raperka";
   
   private $_artistTypes = array(
     'x' => Model_Artist_Container::TYPE_ARTIST,
     'b' => Model_Artist_Container::TYPE_PROJECT,
-    'm' => Model_Artist_Container::TYPE_MALE);
+    'm' => Model_Artist_Container::TYPE_MALE,
+    'f' => Model_Artist_Container::TYPE_FEMALE);
   
   public $id;
   public $name;  
@@ -27,7 +29,7 @@ class Model_Artist_Container
   {
     // print_r($params);
     
-    $this->id = $params['id'];
+    $this->id = $params['art_id'];
     $this->name = $params['name'];
     $this->url = Jkl_Tools_Url::createUrl($this->name);
     if (!empty($params['since'])) {

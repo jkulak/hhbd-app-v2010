@@ -57,7 +57,26 @@ class Model_Artist_Api extends Jkl_Model_Api
 
     foreach ($result as $params) {
       $params['aka'] = $this->_getAka($params['art_id']);
-      $params['albumCount'] = 6;
+      $params['albumCount'] = Model_Album_Api::getInstance()->getArtistsAlbumsCount($params['art_id']);
+      $artists->add(new Model_Artist_Container($params));
+    }
+
+    return $artists;
+  }
+
+  public function getMostPopular($count = 40)
+  {
+    $query = 'SELECT *, t1.id as art_id ' .
+      'FROM artists AS t1 ' .
+      'ORDER BY t1.viewed DESC ' . 
+      (($count)?'LIMIT ' . $count:'');
+      
+    $result = $this->_db->fetchAll($query);
+    $artists = new Jkl_List();
+
+    foreach ($result as $params) {
+      $params['aka'] = $this->_getAka($params['art_id']);
+      $params['albumCount'] = Model_Album_Api::getInstance()->getArtistsAlbumsCount($params['art_id']);
       $artists->add(new Model_Artist_Container($params));
     }
 
@@ -76,7 +95,7 @@ class Model_Artist_Api extends Jkl_Model_Api
 
   public function find($id, $full = false)
   {
-    $query = 'select * from artists where id=' . $id;
+    $query = 'select *, id as art_id from artists where id=' . $id;
     $result = $this->_db->fetchAll($query);
     $params = $result[0];
     
@@ -103,14 +122,14 @@ class Model_Artist_Api extends Jkl_Model_Api
 
   private function _getMembers($id)
   {
-    $query = 'SELECT t1.name, t1.id, t2.insince, t2.awaysince FROM artists AS t1, band_lookup AS t2 ' .
+    $query = 'SELECT t1.name, t1.id as art_id, t2.insince, t2.awaysince FROM artists AS t1, band_lookup AS t2 ' .
               'WHERE (t1.id=t2.artistid AND t2.bandid=' . $id . ') ORDER BY t1.name';
     return $this->getList($query);
   }
 
   private function _getProjects($id)
   {
-    $query = 'SELECT t1.name, t1.id, t2.insince AS since, t2.awaysince AS till FROM artists AS t1, band_lookup AS t2 ' .
+    $query = 'SELECT t1.name, t1.id as art_id, t2.insince AS since, t2.awaysince AS till FROM artists AS t1, band_lookup AS t2 ' .
               'WHERE (t1.id=t2.bandid AND t2.artistid=' . $id . ') ORDER BY t1.name';
     return $this->getList($query);
   }
@@ -129,14 +148,14 @@ class Model_Artist_Api extends Jkl_Model_Api
 
   public function getSongFeaturing($id)
   {
-    $query = 'SELECT t1.id, t3.feattype ' . 
+    $query = 'SELECT t1.id as art_id, t3.feattype ' . 
       'FROM artists t1, feature_lookup t2, feattypes t3 ' . 
       'WHERE (t2.artistid=t1.id AND t3.id=t2.feattype AND t2.songid="' . $id . '") ' . 
       'ORDER BY t1.name';
     $result = $this->_db->fetchAll($query);
     $featuring = new Jkl_List();
     foreach ($result as $params) {
-      $artist = $this->find($params['id']);
+      $artist = $this->find($params['art_id']);
       $artist->featType = $params['feattype'];
       $featuring->add($artist);
       }
@@ -146,7 +165,7 @@ class Model_Artist_Api extends Jkl_Model_Api
 
   public function getSongMusic($id)
   {
-    $query = 'SELECT * ' .
+    $query = 'SELECT *, t1.id as art_id ' .
       'FROM artists AS t1, music_lookup AS t2 ' .
       'WHERE (t1.id=t2.artistid AND t2.songid=' . $id . ') ' .
       'ORDER BY t1.name';
@@ -156,7 +175,7 @@ class Model_Artist_Api extends Jkl_Model_Api
   
   public function getSongScratch($id)
   {
-    $query = 'SELECT * ' .
+    $query = 'SELECT *, t1.id as art_id ' .
       'FROM artists AS t1, scratch_lookup AS t2 ' .
       'WHERE (t1.id=t2.artistid AND t2.songid=' . $id . ') ' .
       'ORDER BY t1.name';
@@ -166,11 +185,39 @@ class Model_Artist_Api extends Jkl_Model_Api
 
   public function getSongArtist($id)
   {
-    $query = 'SELECT * ' .
+    $query = 'SELECT *, t1.id as art_id ' .
       'FROM artists AS t1, artist_lookup AS t2 ' .
       'WHERE (t1.id=t2.artistid AND t2.songid=' . $id . ') ' .
       'ORDER BY t1.name';
 
    return $this->getList($query);
   }
+  
+  public function getWithMostProjectAlbums()
+  {
+     $query = 'SELECT t4.`id` AS art_id, t4.`name`, count(*) AS albumCount
+     FROM albums t1, album_artist_lookup t2, band_lookup t3, artists t4
+     WHERE (t3.`bandid`=t2.`artistid` AND t3.`artistid`=t4.`id` AND t1.`id`=t2.`albumid`)
+     GROUP BY t4.id
+     ORDER BY albumCount DESC
+     LIMIT 25
+     ;';
+
+    return $this->getList($query);
+  }
+  
+  public function getWithMostSoloAlbums()
+  {
+     $query = 'SELECT t3.`id` AS art_id, t3.`name`, count(*) AS albumCount
+     FROM albums t1, album_artist_lookup t2, artists t3
+     WHERE (t3.`id`=t2.`artistid` AND t1.`id`=t2.`albumid` AND t3.`id`<>190)
+     GROUP BY t3.id
+     ORDER BY albumCount DESC
+     LIMIT 25
+     ;';
+
+    return $this->getList($query);
+  }
+  
+  
 }

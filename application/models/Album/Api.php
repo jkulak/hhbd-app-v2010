@@ -161,6 +161,22 @@ class Model_Album_Api extends Jkl_Model_Api
     return self::getList($query);
   }
   
+  public function getArtistsAlbumsCount($id) {
+    $query = "SELECT count(*) as count
+              FROM albums t1, album_artist_lookup t2, band_lookup t3
+              WHERE (t3.`bandid`=t2.`artistid` AND t3.`artistid`=$id AND t1.`id`=t2.`albumid`)";
+    $result = $this->_db->fetchAll($query);
+    $projectAlbums = $result[0]['count'];
+    
+    $query = "SELECT count(*) as count
+              FROM albums t1, album_artist_lookup t2
+              WHERE (t1.id=t2.albumid AND t2.artistid=$id);";
+    $result = $this->_db->fetchAll($query);
+    $albumCount = $result[0]['count'];
+    
+    return $albumCount + $projectAlbums;
+  }
+  
   public function getLabelsAlbums($id, $exclude = array(), $count = 10) {
     $excludeCondition = '';
     if (!empty($exclude)) {

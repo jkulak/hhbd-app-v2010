@@ -21,12 +21,14 @@ class AlbumController extends Zend_Controller_Action
     $albumCount =  Model_Album_Api::getInstance()->getAlbumCount();
 
     // pagination
-    $paginator = Zend_Paginator::factory($albumCount);
-    $paginator->setCurrentPageNumber($page);
-    $paginator->setItemCountPerPage(12);
-    $paginator->setPageRange(15);
-    Zend_View_Helper_PaginationControl::setDefaultViewPartial('common/_paginatorTable.phtml');
-    $this->view->paginator = $paginator;
+    if ($albumCount > 12) {
+      $paginator = Zend_Paginator::factory($albumCount);
+      $paginator->setCurrentPageNumber($page);
+      $paginator->setItemCountPerPage(12);
+      $paginator->setPageRange(15);
+      Zend_View_Helper_PaginationControl::setDefaultViewPartial('common/_paginatorTable.phtml');
+      $this->view->paginator = $paginator;
+    }
 
     // seo
     $this->view->title = 'Lista polskich albumów hip-hopowych';
@@ -56,12 +58,14 @@ class AlbumController extends Zend_Controller_Action
     $albumCount =  Model_Album_Api::getInstance()->getAnnouncedCount();
     $this->view->albums = Model_Album_Api::getInstance()->getAnnounced(12, $page);
     
-    $paginator = Zend_Paginator::factory($albumCount);
-    $paginator->setCurrentPageNumber($page);
-    $paginator->setItemCountPerPage(12);
-    $paginator->setPageRange(15);
-    Zend_View_Helper_PaginationControl::setDefaultViewPartial('common/_paginatorTable.phtml');
-    $this->view->paginator = $paginator;
+    if ($albumCount > 12) {
+      $paginator = Zend_Paginator::factory($albumCount);
+      $paginator->setCurrentPageNumber($page);
+      $paginator->setItemCountPerPage(12);
+      $paginator->setPageRange(15);
+      Zend_View_Helper_PaginationControl::setDefaultViewPartial('common/_paginatorTable.phtml');
+      $this->view->paginator = $paginator;
+    }
     
     $keywords = array();
     $description = array();
