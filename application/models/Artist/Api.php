@@ -64,12 +64,12 @@ class Model_Artist_Api extends Jkl_Model_Api
     return $artists;
   }
 
-  public function getMostPopular($count = 40)
+  public function getMostPopular($limit = 40)
   {
     $query = 'SELECT *, t1.id as art_id ' .
       'FROM artists AS t1 ' .
       'ORDER BY t1.viewed DESC ' . 
-      (($count)?'LIMIT ' . $count:'');
+      (($limit)?'LIMIT ' . $limit:'');
       
     $result = $this->_db->fetchAll($query);
     $artists = new Jkl_List();
@@ -193,31 +193,37 @@ class Model_Artist_Api extends Jkl_Model_Api
    return $this->getList($query);
   }
   
-  public function getWithMostProjectAlbums()
+  public function getWithMostProjectAlbums($limit = 10)
   {
-     $query = 'SELECT t4.`id` AS art_id, t4.`name`, count(*) AS albumCount
+     $query = "SELECT t4.`id` AS art_id, t4.`name`, count(*) AS albumCount
      FROM albums t1, album_artist_lookup t2, band_lookup t3, artists t4
      WHERE (t3.`bandid`=t2.`artistid` AND t3.`artistid`=t4.`id` AND t1.`id`=t2.`albumid`)
      GROUP BY t4.id
-     ORDER BY albumCount DESC
-     LIMIT 25
-     ;';
+     ORDER BY albumCount DESC" .
+     (($limit != null)?' LIMIT ' . $limit:'');
 
     return $this->getList($query);
   }
   
-  public function getWithMostSoloAlbums()
+  public function getWithMostSoloAlbums($limit = 10)
   {
-     $query = 'SELECT t3.`id` AS art_id, t3.`name`, count(*) AS albumCount
+     $query = "SELECT t3.`id` AS art_id, t3.`name`, count(*) AS albumCount
      FROM albums t1, album_artist_lookup t2, artists t3
      WHERE (t3.`id`=t2.`artistid` AND t1.`id`=t2.`albumid` AND t3.`id`<>190)
      GROUP BY t3.id
-     ORDER BY albumCount DESC
-     LIMIT 25
-     ;';
+     ORDER BY albumCount DESC" .
+     (($limit != null)?' LIMIT ' . $limit:'');
 
     return $this->getList($query);
   }
   
-  
+  public function getRecentlyAdded($limit = 10)
+  {
+    $query = "SELECT t1.id AS art_id, t1.`name`
+    FROM artists t1
+    ORDER BY t1.`added` DESC" . 
+    (($limit != null)?' LIMIT ' . $limit:'');
+
+    return $this->getList($query);
+  }
 }

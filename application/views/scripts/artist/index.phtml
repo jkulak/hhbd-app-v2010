@@ -12,17 +12,6 @@
     <h3 class="hidden">Google Ads</h3>
     <?php echo $this->partial('common/googleAds/_rectangle.phtml'); ?>
   </div>
-  <?php // echo $this->render('artist/box/_bestRated.phtml') ?>
-
-  <?php // echo $this->partial('artist/box/_list.phtml', array('boxId' => 'artistsalbums', 'boxHeader' => 'Najpopularniejsze albumy', 'albums' => $this->popularAlbums)) ?>
-</div>
-
-
-<div id="additional">
-  <div class="box googleads">
-    <h3 class="hidden">Google Ads</h3>
-    <?php echo $this->partial('common/googleAds/_rectangle.phtml'); ?>
-  </div>
   
   <div class="box">
     <h3>Najwięcej albumów w projektach</h3>
@@ -32,5 +21,10 @@
   <div class="box">
     <h3>Najwięcej albumów solo</h3>
     <?php echo $this->partial('artist/box/_list.phtml', array('artists' => $this->mostSoloAlbums)) ?>
+  </div>
+  
+  <div class="box">
+    <h3>Ostatnio dodanie</h3>
+    <?php echo $this->partial('artist/box/_list.phtml', array('artists' => $this->recentlyAdded)) ?>
   </div>
 </div>
