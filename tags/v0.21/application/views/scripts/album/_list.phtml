@@ -1,0 +1,17 @@
+<table class="albums">
+  <caption class="hidden">Lista wydawnictw hip-hopowych wydanych w Polsce</caption>
+  <thead>
+    <tr class="hidden"><th>Okładka</th><th>Album (wykonawca - tytuł)</th><th>Wytwórnia</th><th>Data wydania</th></tr>
+  </thead>
+  <tbody>
+  <?php foreach ($this->albums->items as $album): ?>
+    <tr>
+      <td><a href="<?php echo $this->url(array('id' => $album->id, 'seo' => ($album->artist->url . ' - ' . $album->url)), 'album'); ?>"><img  src="<?php echo $album->thumbnail ?>" alt="<?php echo $album->artist->name . ' - ' . $album->title ?>" /></a></td>
+      <td class="albumtitle"><?php echo $this->partial('album/_link.phtml', array('album' => $album, 'showArtist' => true)) ?><?php if (!empty($album->epFor)): ?>
+        <span>[EP]</span>
+      <?php endif ?></td>
+      <td><?php echo $this->partial('label/_link.phtml', array('label' => $album->label)) ?></td>
+      <td><?php echo $album->releaseDateNormalized ?></td></tr>
+  <?php endforeach ?>
+  </tbody>
+</table>
