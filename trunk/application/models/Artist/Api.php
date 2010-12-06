@@ -226,4 +226,11 @@ class Model_Artist_Api extends Jkl_Model_Api
 
     return $this->getList($query);
   }
+  
+  // This needs to be moved to separate counting system, not to kill datbase
+  public function increaseViewed($id)
+  {
+    $query = 'UPDATE artists SET viewed=viewed+1 WHERE id=' . $id;
+    $this->_db->query($query);
+  }
 }

@@ -129,12 +129,12 @@ class Model_Album_Api extends Jkl_Model_Api
     if ($page<1) {
       $page = 0;
     }
-    $query = 'SELECT *, t3.id as alb_id, t1.id as art_id, t4.id as lab_id, t3.added as alb_added, t3.addedby as alb_addedby, t3.viewed as alb_viewed ' .
+    $query = 'SELECT *, t3.id as alb_id, t1.id as art_id, t4.id AS lab_id, t3.added as alb_added, t3.addedby as alb_addedby, t3.viewed as alb_viewed ' .
       'FROM artists AS t1, album_artist_lookup AS t2, albums AS t3, labels AS t4 ' .
       'WHERE (t1.id=t2.artistid AND t2.albumid=t3.id AND t4.id=t3.labelid AND t3.year' . '>"' . date('Y-m-d') . '") ' . 
       'ORDER BY t3.year ASC ' . 
       'LIMIT ' . $count . ' ' . 
-      'OFFSET ' . ($page*$count);
+      'OFFSET ' . ($page * $count);
     return $this->getList($query);
   }
   
@@ -301,6 +301,18 @@ class Model_Album_Api extends Jkl_Model_Api
               WHERE (t1.id=t2.albumid AND t2.songid='$id' AND t4.albumid=t1.id AND t4.artistid=t3.id)
               " .
               (($limit != null)?' LIMIT ' . $limit:'');
+    return $this->getList($query);
+  }
+  
+  public function getLabelReleases($id, $limit = 10)
+  {
+    $id = intval($id);
+    
+    $query = "SELECT *, t1.id AS alb_id, t3.id AS art_id
+    FROM albums t1, `album_artist_lookup` t2, `artists` t3
+    WHERE (t3.`id`=t2.`artistid` AND t1.`id`=t2.`albumid` AND t1.`labelid`=$id)
+    ORDER BY t1.`year` DESC" .
+    (($limit != null)?' LIMIT ' . $limit:'');
     return $this->getList($query);
   }
 }

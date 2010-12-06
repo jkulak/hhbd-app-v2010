@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Label
+ * Label container
  *
  * @author Kuba
  * @version $Id$
- * @copyright __MyCompanyName__, 11 October, 2010
+ * @copyright __MyCompanyName__, 5 December, 2010
  * @package default
  **/
 
@@ -17,13 +17,33 @@ class Model_Label_Container
     
   function __construct($params, $full = false)
   {
-    $this->id = $params['id'];
+    
+    $configApp = Zend_Registry::get('Config_App');
+    
+    $this->id = $params['lab_id'];
     $this->name = $params['name'];
-  }
-  
-  public function url($canonical = false)
-  {
-    return Jkl_Tools_Url::createUrl($this->name);
-    // return $this->title;
+    $this->url = Jkl_Tools_Url::createUrl($this->name);
+    
+    $this->albumCount = isset($params['album_count']) ? intval($params['album_count']) : 0;
+    $this->website = isset($params['website']) ? strval($params['website']) : null;
+    $this->email = isset($params['email']) ? strval($params['email']) : null;
+    $this->addres = isset($params['addres']) ? strval($params['addres']) : null;
+    $this->profile = isset($params['profile']) ? strval($params['profile']) : null;
+    $this->logo = $configApp['paths']['labelLogoPath'] . (!empty($params['logo']) ? strval($params['logo']) : 'nologo.gif');
+    
+    //user api
+    //$this->addedBy = isset($params['addedBy']) ? intval($params['addedBy']) : null;
+    //user api
+    //$this->updatedBy = isset($params['updatedBy']) ? intval($params['updatedBy']) : null;
+    
+    $this->added = isset($params['added']) ? $params['added'] : null;
+    $this->updated = isset($params['updated']) ? $params['updated'] : null;
+    
   }
 }
+
+/*
+[viewed] => 6365
+[status] => 0
+[hits] => 1545
+*/

@@ -16,4 +16,14 @@ $(function(){
     if($(this).text() == "Szukaj...") $(this).text("")
   });
   $("#q").focus();
+
+  $('table tr').hover(
+     function() {
+      $(this).toggleClass('zebra');
+     }
+  );
+
+
+
+
 });

@@ -40,7 +40,6 @@ class ArtistController extends Zend_Controller_Action
   public function viewAction()
   {
     $artist = Model_Artist_Api::getInstance()->find($this->params['id'], true);
-
     $artist->addAlbums(Model_Album_Api::getInstance()->getArtistsAlbums($artist->id, array(), false, 'year'));
 
     if (!empty($artist->projects->items)) {
