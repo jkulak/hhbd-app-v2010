@@ -20,6 +20,8 @@ class Model_Album_Container
   
   function __construct($params, $full = false)
   {
+    // print_r($params); die();
+    
     $configApp = Zend_Registry::get('Config_App');
 
     $this->id = $params['alb_id'];
@@ -31,11 +33,10 @@ class Model_Album_Container
     }    
     
     if (!empty($params['lab_id'])) {
-      $labelApi = new Model_Label_Api();
-      $this->label = $labelApi->find($params['lab_id']);
-      if ($this->label->name == 'BRAK') $this->label->name = '--';
+      $this->label = Model_Label_Api::getInstance()->find($params['lab_id']);
+      if ($this->label->name == 'BRAK') $this->label->name = null;
     } else {
-      $this->label->name = '--';
+      $this->label = null;
     }
     
     if (!empty($params['legal'])) {

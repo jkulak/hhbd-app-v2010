@@ -10,7 +10,11 @@
       <td class="albumtitle"><?php echo $this->partial('album/_link.phtml', array('album' => $album, 'showArtist' => true)) ?><?php if (!empty($album->epFor)): ?>
         <span>[EP]</span>
       <?php endif ?></td>
-      <td><?php echo $this->partial('label/_link.phtml', array('label' => $album->label)) ?></td>
+      <td>
+        <?php if (!empty($album->label)): ?>
+          <?php echo $this->partial('label/_link.phtml', array('label' => $album->label)) ?>
+        <?php endif ?>
+      </td>
       <td><?php echo $album->releaseDateNormalized ?></td></tr>
   <?php endforeach ?>
   </tbody>

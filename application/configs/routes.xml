@@ -109,7 +109,7 @@
       </labels>
 
         <label type="Zend_Controller_Router_Route_Regex">
-          <route>wytwornia/(.+)-(\d+).html</route>
+          <route>(.+)-l(\d+).html</route>
           <defaults>
             <controller>label</controller>
             <action>view</action>
@@ -118,7 +118,7 @@
             <seo>1</seo>
             <id>2</id>
           </map>
-          <reverse>wytwornia/%s-%d.html</reverse>
+          <reverse>%s-l%d.html</reverse>
         </label>
 
         <song type="Zend_Controller_Router_Route_Regex">

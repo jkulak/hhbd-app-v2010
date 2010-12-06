@@ -85,8 +85,6 @@ class AlbumController extends Zend_Controller_Action
     $params = $this->getRequest()->getParams();
     $album = Model_Album_Api::getInstance()->find($params['id'], true);
     $this->view->album = $album;
-    Model_Album_Api::getInstance()->increaseViewed($album->id);
-
     $this->view->artistsAlbums = Model_Album_Api::getInstance()->getArtistsAlbums($album->artist->id, array($album->id), 10);
     $this->view->popularAlbums = Model_Album_Api::getInstance()->getPopular(10);
     $this->view->bestAlbums = Model_Album_Api::getInstance()->getBest(10);

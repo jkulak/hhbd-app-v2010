@@ -117,4 +117,11 @@ class Model_Song_Api extends Jkl_Model_Api
               ' . (($limit)?'LIMIT ' . $limit:'');
     return $this->_getList($query);    
   }
+  
+  // This needs to be moved to separate counting system, not to kill datbase
+  public function increaseViewed($id)
+  {
+    $query = 'UPDATE songs SET viewed=viewed+1 WHERE id=' . $id;
+    $this->_db->query($query);
+  }
 }
