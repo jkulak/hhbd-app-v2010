@@ -1,0 +1,6 @@
+<div class="box googleads">
+  <h3 class="hidden">Google Ads</h3>
+  <?php echo $this->partial('common/googleAds/_rectangle.phtml'); ?>
+</div>
+
+<?php echo $this->partial('song/box/_list.phtml', array('boxId' => 'songs', 'boxHeader' => 'Najpopularniejsze utwory na www.hhbd.pl', 'songs' => $this->popularSongs)) ?>
