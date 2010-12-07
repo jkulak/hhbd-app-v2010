@@ -46,6 +46,10 @@ table th {
   padding: 8px;
 }
 
+section {
+  clear: both;
+}
+
 /* common classes */
 .hidden {
   display: none;
@@ -209,11 +213,11 @@ table th {
 #picture, #logo {
   float: left;
   clear: both;
+  margin-right: 8px;
 }
 
 #brief {
   float: left;
-  margin-left: 8px;
   
   /*TODO, this shouldnt be set, layout should be floating, this is problem with Also Known As - line get to long,
   and #brief goes under the photo*/

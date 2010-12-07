@@ -55,4 +55,16 @@ class Model_Label_Api extends Jkl_Model_Api
               ORDER BY t1.`name`";
     return $this->getList($query);
   }
+  
+  public function getWithMostAlbums($limit = 10)
+  {
+    $query = "SELECT count(t2.id) AS album_count, t1.`id` AS lab_id, t1.`name`
+              FROM labels t1, albums t2
+              WHERE (t2.`labelid`=t1.`id` AND t1.`id`<>27)
+              GROUP BY t1.`id`
+              ORDER BY album_count DESC" . 
+              (isset($limit)?" LIMIT $limit":'');
+              
+    return $this->getList($query);
+  }
 }
