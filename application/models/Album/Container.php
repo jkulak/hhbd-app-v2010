@@ -45,10 +45,9 @@ class Model_Album_Container
     
     $this->releaseDate = $params['year'];
     $this->releaseDateNormalized = Jkl_Tools_Date::getNormalDate($this->releaseDate);
+
+    $this->catalogNumber = (!empty($params['catalog_cd'])?$params['catalog_cd']:null);
     
-    if (!empty($params['catalog_cd'])) {
-      $this->catalogNumber = $params['catalog_cd'];
-    }
     
     if (!empty($params['epfor'])) {
       $this->epFor = $params['epfor'];

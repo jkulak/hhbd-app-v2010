@@ -18,7 +18,7 @@
 
 <?php echo $this->partial('album/box/_list.phtml', array('boxId' => 'artistsalbums', 'boxHeader' => 'Inne albumy ' . $this->album->artist->name, 'albums' => $this->artistsAlbums, 'showCovers' => true)) ?>
 
-<?php if (!empty($this->album->label) AND ($this->album->label->name != '--')): ?>
+<?php if (!empty($this->album->label) AND (!empty($this->album->label->name))): ?>
   <?php echo $this->partial('album/box/_list.phtml', array('boxId' => 'labelsalbums', 'boxHeader' => 'Inne albumy wydane przez ' . $this->album->label->name, 'albums' => $this->labelsAlbums, 'showCovers' => false)) ?>
 <?php endif ?>
 

@@ -1,28 +1,29 @@
 <div id="main">
     <h1><?php echo $this->label->name ?></h1>
   <?php echo $this->partial('common/_share.phtml', array('currentUrl' => $this->currentUrl, 'title' => $this->title)) ?>
-	  <?php if (isset($this->label->logo)): ?>
-	    <div id="logo">
-    	  <img src="<?php echo $this->label->logo ?>" alt="Logo <?php echo $this->label->name ?>" title="<?php echo $this->label->name ?>" class="image" />
-    	</div>
-	  <?php endif ?>
-	  
-  
-	<div id="brief">
-  	<h2 class="hidden">Informacje podstawowe</h2>
-  	<ul id="essential">
-      <?php if (!empty($this->label->website)): ?>
-        <li>Oficjalna strona: <?php echo $this->label->website ?></li>
+	  <section>
+      <?php if (isset($this->label->logo)): ?>
+        <div id="logo">
+      	  <img src="<?php echo $this->label->logo ?>" alt="Logo <?php echo $this->label->name ?>" title="<?php echo $this->label->name ?>" class="image" />
+      	</div>
       <?php endif ?>
-        <li>Wydanych albumów: <?php echo $this->label->albumCount ?></li>
-      <?php if (!empty($this->label->email)): ?>
-        <li>Adres e-mail: <?php echo $this->label->email ?></li>
-      <?php endif ?>
-      <?php if (!empty($this->label->addres)): ?>
-        <li>Adres pocztowy: <?php echo $this->label->addres ?></li>
-      <?php endif ?>
-    </ul>
-  </div> <!-- brief -->
+
+    <div id="brief">
+    	<h2 class="hidden">Informacje podstawowe</h2>
+    	<ul id="essential">
+        <?php if (!empty($this->label->website)): ?>
+          <li>Oficjalna strona: <?php echo $this->label->website ?></li>
+        <?php endif ?>
+          <li>Wydanych albumów: <?php echo sizeof($this->label->releases->items) ?></li>
+        <?php if (!empty($this->label->email)): ?>
+          <li>Adres e-mail: <?php echo $this->label->email ?></li>
+        <?php endif ?>
+        <?php if (!empty($this->label->addres)): ?>
+          <li>Adres pocztowy: <?php echo $this->label->addres ?></li>
+        <?php endif ?>
+      </ul>
+    </div> <!-- brief -->
+    </section>
   
   <?php if (!empty($this->label->releases->items)): ?>
   <div class="albumlist pane">
@@ -30,7 +31,7 @@
       <h2>Lista wydawnictw <?php echo $this->label->name ?></h2> <span class="toggle hidden"><a href="?hideDetailes=1">Pokaż szczegóły</a></span>
     </div>
     <div class="list">
-      <?php echo $this->partial('album/_list.phtml', array('albums' => $this->label->releases)) ?>
+      <?php echo $this->partial('album/_list.phtml', array('albums' => $this->label->releases, 'showCatalogNumber' => true)) ?>
     </div>
   </div>
   <?php endif ?>
@@ -43,7 +44,7 @@
   	  <?php if (!empty($this->label->profile)): ?>
   	    <?php echo $this->label->profile ?>
   	  <?php else: ?>
-  	    <?php echo $this->render('label/_description.phtml') ?>
+  	    <?php echo $this->render('label/view/_description.phtml') ?>
 	    <?php endif ?>
   	</p>
   </div>
@@ -55,4 +56,9 @@
     <h3 class="hidden">Google Ads</h3>
     <?php echo $this->partial('common/googleAds/_rectangle.phtml'); ?>
   </div>
+  
+  <?php if (isset($this->withMostAlbums->items)): ?>
+    <?php echo $this->partial('label/box/_withMostAlbums.phtml', array('withMostAlbums' => $this->withMostAlbums)) ?>
+  <?php endif ?>
+  
 </div>

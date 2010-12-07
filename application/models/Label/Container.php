@@ -29,7 +29,13 @@ class Model_Label_Container
     $this->email = isset($params['email']) ? strval($params['email']) : null;
     $this->addres = isset($params['addres']) ? strval($params['addres']) : null;
     $this->profile = isset($params['profile']) ? strval($params['profile']) : null;
-    $this->logo = $configApp['paths']['labelLogoPath'] . (!empty($params['logo']) ? strval($params['logo']) : 'nologo.gif');
+    if (!empty($params['logo'])) {
+       $this->logo = $configApp['paths']['labelLogoPath'] . strval($params['logo']);
+    }
+    else
+    {
+      $this->logo = null;
+    }
     
     //user api
     //$this->addedBy = isset($params['addedBy']) ? intval($params['addedBy']) : null;
