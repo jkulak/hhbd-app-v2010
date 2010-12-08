@@ -22,7 +22,14 @@ $(function(){
       $(this).toggleClass('zebra');
      }
   );
+  
+  $('#rateUp').click(function() {
+    $('#upCount').text(parseInt($('#upCount').text())+1);
+  });
 
+  $('#rateDown').click(function() {
+    $('#downCount').text(parseInt($('#downCount').text())+1);
+  });
 
 
 
