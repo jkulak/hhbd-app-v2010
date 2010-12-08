@@ -36,6 +36,10 @@ h1 {
   margin-bottom: 12px;
 }
 
+h2 {
+  margin-bottom: 8px;
+}
+
 table {
   border-collapse : collapse;
 }

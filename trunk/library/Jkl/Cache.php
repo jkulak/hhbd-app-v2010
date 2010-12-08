@@ -5,11 +5,25 @@
 */
 class Jkl_Cache
 {
-  protected $_cache;
+  public $_cache;
+  static private $_instance;
   
   function __construct()
   {
      $this->_cache = $this->_initMemcached();
+  }
+  
+  /**
+   * Singleton instance
+   *
+   * @return Jkl_Db
+   */
+  public static function getInstance()
+  {
+      if (null === self::$_instance) {
+          self::$_instance = new self();
+      }
+      return self::$_instance;
   }
   
   private function _initMemcached()
@@ -47,7 +61,7 @@ class Jkl_Cache
    {
      $memCacheTest = new Memcache();
      if (!($memCacheTest->connect($host, $port))) {
-       throw new Jkl_Exception('Brak połączenia z Memcached (' . $host . ':' . $port . ')');
+       throw new Jkl_Exception('Test connection to Memcached failed (' . $host . ':' . $port . ') probably Memcached is not running.');
      }
      else {
        $memCacheTest->close();

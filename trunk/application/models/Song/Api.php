@@ -50,6 +50,12 @@ class Model_Song_Api extends Jkl_Model_Api
     $params['music'] = Model_Artist_Api::getInstance()->getSongMusic($id);
     $params['scratch'] = Model_Artist_Api::getInstance()->getSongScratch($id);
     $params['artist'] = Model_Artist_Api::getInstance()->getSongArtist($id);
+    
+    $searchTerms = (isset($params['artist']->items[0])?$params['artist']->items[0]->name . ' ':'') . $params['title'];
+    
+    $params['youTubeUrl'] = $this->_getYouTubeUrl($searchTerms);
+//    print_r($params['artist']);
+    //die($params['artist']->items[0]->name . ' ' . $params['title']);
     $item = new Model_Song_Container($params, $full);
     return $item;
   }
@@ -123,5 +129,39 @@ class Model_Song_Api extends Jkl_Model_Api
   {
     $query = 'UPDATE songs SET viewed=viewed+1 WHERE id=' . $id;
     $this->_db->query($query);
+  }
+
+  private function _getYouTubeUrl($searchTerms = 'polski hip-hop')
+  {
+    $mc = Zend_Registry::get('Memcached');
+    $url = $mc->_cache->load(md5('clip' . $searchTerms));
+    
+    if (empty($url)) {
+      $videoFeed = array();
+      $yt = new Zend_Gdata_YouTube();
+      $yt->setMajorProtocolVersion(2);
+      $query = $yt->newVideoQuery();
+      $query->setSafeSearch('none');
+      $query->setVideoQuery($searchTerms);
+      $query->setMaxResults(1);
+      $videoFeed = $yt->getVideoFeed($query->getQueryUrl(2));
+    
+      if (sizeof($videoFeed) < 1) {
+        $words = explode(' ', $searchTerms);
+        $retry = '';
+        $max = sizeof($words) - 1;
+        for ($i=0; $i < $max; $i++) { 
+          $retry .= $words[$i] . ' ';
+        }
+        $query->setVideoQuery($retry);
+        $videoFeed = $yt->getVideoFeed($query->getQueryUrl(2));
+      }
+      $result = $videoFeed[0]->getFlashPlayerUrl();
+      $mc->_cache->save(serialize($result), md5('clip' . $searchTerms));    
+    } else {
+      $result = unserialize($url);
+    }
+    
+    return $result;
   }
 }

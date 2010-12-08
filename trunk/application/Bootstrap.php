@@ -27,6 +27,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     // Read Resources section and put it in registry
     $resourcesConfig = $this->getOption('resources');
     Zend_Registry::set('Config_Resources', $resourcesConfig);
+    
+    // Read Resources section and put it in registry
+    $resourcesConfig = $this->getOption('resources');
+    Zend_Registry::set('Memcached', Jkl_Cache::getInstance());
 
     // Start routing
     $frontController = Zend_Controller_Front::getInstance();
