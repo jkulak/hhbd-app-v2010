@@ -43,6 +43,6 @@ class LabelController extends Zend_Controller_Action
     
     $this->view->headTitle()->set($label->name . ' - Hhbd.pl');
     $this->view->headMeta()->setName('keywords', $label->name . ',' . implode(',', $artists) . ',wytwórnia,polski hip-hop');
-    $this->view->headMeta()->setName('description', $label->name . ' to wytwórnia wydająca polski hip-hop, w jej szeregach są tacy artyści jak: ' . implode(', ', $artists));    
+    $this->view->headMeta()->setName('description', $label->name . ' to wytwórnia wydająca polski hip-hop, w jej szeregach są tacy artyści jak: ' . implode(', ', $artists));
   }
 }

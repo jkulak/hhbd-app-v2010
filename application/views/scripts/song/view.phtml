@@ -64,7 +64,38 @@
     	<?php endif ?>
 	  </ul>
 	</div>
-  <div id="lyrics" class="pane">
+	<?php if (isset($this->song->youTubeUrl)): ?>
+
+	<div id="clip" class="pane">
+	  <h2>Teledysk 
+	    <?php if (!empty($this->song->artist->items)): ?>
+    	  <?php foreach ($this->song->artist->items as $key => $feat): ?>
+          <?php echo $feat->name ?><?php if (sizeof($this->song->artist->items)-1 > $key): ?>, <?php endif ?>        
+        <?php endforeach ?> - 
+        <?php elseif (!empty($this->song->featuring->items)): ?>
+   	    <?php foreach ($this->song->featuring->items as $key => $feat): ?>
+            <?php echo $feat->name ?><?php if (sizeof($this->song->featuring->items)-1 > $key): ?>, <?php endif ?>        
+          <?php endforeach ?> - 
+       <?php endif ?>
+       <?php echo $this->song->title ?>
+	  </h2>
+    <object width="480" height="390">
+      <param name="movie" value="<?php echo $this->song->youTubeUrl ?>"></param>
+      <param name="allowFullScreen" value="false"></param>
+      <param name="allowscriptaccess" value="always"></param>
+      <embed src="<?php echo $this->song->youTubeUrl ?>" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="390">
+      </embed>
+    </object>
+    <div id="rateClip">
+      <p><a href="#">+ dobry teledysk</a> (51)</p>
+      <p><a href="#">- To nie ten teledysk</a> (11)</p>
+    </div>
+    
+    <!-- <iframe title="YouTube video player" class="youtube-player" type="text/html" width="480" height="390" src="<?php echo $this->song->youTubeUrl ?>?rel=0" frameborder="0"></iframe> -->
+    
+   	<?php endif ?>
+	</div>
+  <div id="samples" class="pane">
     <h2>Wykorzystane sample</h2>
     <?php if (!empty($this->song->samples)): ?>
       sd
@@ -74,7 +105,16 @@
   </div>
 <?php if (!empty($this->song->lyrics)): ?>
   <div id="lyrics" class="pane">
-    <h2>Tekst utworu</h2>
+    <h2><?php if (!empty($this->song->artist->items)): ?>
+  	  <?php foreach ($this->song->artist->items as $key => $feat): ?>
+        <?php echo $feat->name ?><?php if (sizeof($this->song->artist->items)-1 > $key): ?>, <?php endif ?>        
+      <?php endforeach ?> - 
+      <?php elseif (!empty($this->song->featuring->items)): ?>
+ 	    <?php foreach ($this->song->featuring->items as $key => $feat): ?>
+          <?php echo $feat->name ?><?php if (sizeof($this->song->featuring->items)-1 > $key): ?>, <?php endif ?>        
+        <?php endforeach ?> - 
+     <?php endif ?>
+     <?php echo $this->song->title ?> tekst</h2>
     <p><?php echo $this->song->lyrics ?></p>
   </div>
 <?php endif ?>

@@ -51,5 +51,9 @@ class Model_Song_Container
     if (!empty($params['lyrics'])) {
       $this->lyrics = $params['lyrics'];
     }
+    
+    if (!empty($params['youTubeUrl'])) {
+      $this->youTubeUrl = $params['youTubeUrl'];
+    }
   }
 }
