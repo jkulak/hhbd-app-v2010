@@ -1,0 +1,21 @@
+  <div id="share">
+    <!-- <div id="tweet" class="social">
+      <a href="http://twitter.com/share" class="twitter-share-button" data-count="none" data-via="hhbdpl">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+    </div>
+
+    <div id="fbshare" class="social">
+      <a name="fb_share" type="icon" target="_blank" href="http://www.facebook.com/sharer.php?u=<?php echo $this->currentUrl ?>&t=<?php echo $this->title ?>&src=sp"></a>
+    </div>
+
+    <div id="fblike" class="social">
+      <iframe src="http://www.facebook.com/plugins/like.php?href=<?php echo urlencode($this->currentUrl) ?>&amp;layout=button_count&amp;show_faces=false&amp;width=75&amp;action=like&amp;font=trebuchet+ms&amp;colorscheme=light&amp;height=20" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:75px; height:20px;" allowTransparency="true"></iframe>
+    </div> -->
+
+<?php
+  $config = Zend_Registry::get('Config_App');
+  $showShareIt = $config['showShareIt'];
+?>
+<?php if ($showShareIt == 1): ?>
+  <?php echo $this->render('common/_addThis.phtml') ?>    
+<?php endif ?>
+</div>
