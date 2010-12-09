@@ -33,4 +33,8 @@ $(function(){
   
   // unhide javascript functionality
   $('.jsHidden').show();
+  
+  $('.play').hover(function() {
+    $(this).toggleClass('playM');
+  });
 });
