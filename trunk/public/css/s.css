@@ -395,3 +395,18 @@ ul ul.list {
 .zebra {
   background: #EEE4BE;
 }
+
+.play {
+  display: block;
+  float: right;
+  background: transparent url(/s/sprite.png) -282px -122px no-repeat;
+  text-indent: -9999px;
+  width: 18px;
+  height: 15px;
+/*  float: right;*/
+}
+
+/*this is lame class, it should be changed using jQuery css only*/
+.playM {
+  background-position: -282px -106px;
+}

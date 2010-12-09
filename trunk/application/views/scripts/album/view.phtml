@@ -69,7 +69,7 @@
   <?php if (!empty($this->album->tracklist->items)): ?>
   <div id="tracklist" class="pane">
     <div class="header">
-      <h2>Lista utworów</h2> <span class="toggle"><a href="?hideDetailes=1">Ukryj szczegóły</a></span>
+      <h2>Lista utworów</h2> <span class="toggle jsHidden"><a href="?hideDetailes=1">Ukryj szczegóły</a></span>
     </div>
     <table>
       <caption class="hidden">
@@ -96,6 +96,7 @@
           </td>
           <td>
             <?php echo $this->partial('song/_link.phtml', array('song' => $song)) ?>
+            <a href="<?php echo $this->url(array('id' => $song->id, 'seo' => ($song->url())), 'song'); ?>?autoplay=1#clip" class="play"></a>
             <ul class="feat">
             <?php if (!empty($song->featuring->items)): ?>
               <li>gościnnie: 
