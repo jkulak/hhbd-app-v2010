@@ -182,7 +182,7 @@ class Model_Song_Api extends Jkl_Model_Api
         $videoFeed = $yt->getVideoFeed($query->getQueryUrl(2));
       }
       
-      if (sizeof($videoFeed) > 0) {
+      if (isset($videoFeed[0])) {
         $result = $videoFeed[0]->getFlashPlayerUrl();
         $mc->_cache->save(serialize($result), md5('clip' . $searchTerms));
       }
