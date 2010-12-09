@@ -1,11 +1,9 @@
 <!doctype html> 
 <html lang="pl">
 <head>
-  <meta name="google-site-verification" content="HsOI_FHfSVoTani2UHBr9Jh7G8sXNYfXTUCyg5VDYLY" />
-  <?php echo $this->headTitle(); ?>
-
-  <?php echo $this->headMeta(); ?>
-
+<?php echo $this->headMeta(); ?>
+<meta name="google-site-verification" content="HsOI_FHfSVoTani2UHBr9Jh7G8sXNYfXTUCyg5VDYLY" />
+<?php echo $this->headTitle(); ?>
 <?php $this->headLink()->prependStylesheet($this->baseUrl() . '/css/s.css'); ?>
 <?php echo $this->headLink(); ?>
 <?php if (isset($this->headIncludes['jquery'])) $this->headScript()->appendFile($this->baseUrl() . $this->headIncludes['jquery']['path']); ?>
@@ -22,16 +20,16 @@
   <div id="page">
     <div id="header">
       <div id="logo">
-        <?php if ($this->url() != $this->baseUrl() . '/' ): ?>
-          <a href="<?php echo $this->baseUrl(); ?>">
-        <?php endif ?>
-        <div>hhbd.pl</div>
-        <?php if ($this->url() != $this->baseUrl() . '/' ): ?>
-          </a>
-        <?php endif ?>
+<?php if ($this->url() != $this->baseUrl() . '/' ): ?>
+        <a href="<?php echo $this->baseUrl(); ?>">
+<?php endif ?>
+          <div>hhbd.pl</div>
+<?php if ($this->url() != $this->baseUrl() . '/' ): ?>
+        </a>
+<?php endif ?>
       </div>
-      <?php echo $this->partial('_nav.phtml') ?>
-    </div> <!-- header -->
+<?php echo $this->partial('_nav.phtml') ?>
+  </div> <!-- header -->
 
     <!-- message box -->
     <?php if (isset($this->messageType)) { ?>

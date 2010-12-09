@@ -147,7 +147,6 @@ class Model_Album_Container
         $this->artist->name . ' to prawdziwy polski hip-hop. ' . 
         'Aby zobaczyć teksty piosenek, należy kliknąć w tytuły na liście powyżej. ';
     }
-    
   }
   
   /**

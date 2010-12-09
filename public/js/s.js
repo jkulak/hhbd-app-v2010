@@ -30,7 +30,7 @@ $(function(){
   $('#rateDown').click(function() {
     $('#downCount').text(parseInt($('#downCount').text())+1);
   });
-
-
-
+  
+  // unhide javascript functionality
+  $('.jsHidden').show();
 });

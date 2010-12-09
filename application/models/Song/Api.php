@@ -51,12 +51,38 @@ class Model_Song_Api extends Jkl_Model_Api
     $params['scratch'] = Model_Artist_Api::getInstance()->getSongScratch($id);
     $params['artist'] = Model_Artist_Api::getInstance()->getSongArtist($id);
     
-    $searchTerms = (isset($params['artist']->items[0])?$params['artist']->items[0]->name . ' ':'') . $params['title'];
+    $params['featured'] = Model_Album_Api::getInstance()->getSongAlbums($id, null);
+
+    $max = sizeof($params['featured']);
+    if ($max > 0) {
+      for ($i=0; $i < $max; $i++) { 
+        if ($params['featured']->items[$i]->artist != 'V/A') {
+          $albumArtist = $params['featured']->items[$i]->artist;
+          // we set artists for this song, so we can exit
+          break(0);
+        }
+      }
+    } else {
+      // song is not featured on any album for some reason? send notification email
+    }
     
-    $params['youTubeUrl'] = $this->_getYouTubeUrl($searchTerms);
-//    print_r($params['artist']);
-    //die($params['artist']->items[0]->name . ' ' . $params['title']);
-    $item = new Model_Song_Container($params, $full);
+    $params['albumArtist'] = $albumArtist;
+
+    // assign album artist to a song, if it doesnt have artist assigned
+    if (sizeof($params['artist']->items) < 1) {
+      $params['artist']->add($albumArtist);
+    }
+
+    if ($full) {
+      $searchTerms = (isset($albumArtist->items[0])?$albumArtist->items[0]->name . ' ':'') . $params['title'];
+
+      $rep = array('/', '&', '?', '-');
+      $searchTerms = str_replace($rep, ' ', $searchTerms);
+
+      $params['youTubeUrl'] = $this->_getYouTubeUrl($searchTerms);
+    }
+
+    $item = new Model_Song_Container($params);
     return $item;
   }
   
@@ -69,15 +95,13 @@ class Model_Song_Api extends Jkl_Model_Api
     $result = $this->_db->fetchAll($query);
     $tracklist = new Jkl_List();
     foreach ($result as $params) {  
-      $song = $this->find($params['song_id']);
+      $song = $this->find($params['song_id'], false);
       if (strlen($params['track']) > 2) {
         $song->track = substr($params['track'], 0, 1) . '-' . substr($params['track'], 1, 2);
-
       }
       else {
         $song->track = $params['track'];
       }
-      
       $tracklist->add($song);
     }
     return $tracklist;
@@ -144,6 +168,7 @@ class Model_Song_Api extends Jkl_Model_Api
       $query->setSafeSearch('none');
       $query->setVideoQuery($searchTerms);
       $query->setMaxResults(1);
+      // print_r($query); die();
       $videoFeed = $yt->getVideoFeed($query->getQueryUrl(2));
     
       if (sizeof($videoFeed) < 1) {
@@ -156,12 +181,18 @@ class Model_Song_Api extends Jkl_Model_Api
         $query->setVideoQuery($retry);
         $videoFeed = $yt->getVideoFeed($query->getQueryUrl(2));
       }
-      $result = $videoFeed[0]->getFlashPlayerUrl();
-      $mc->_cache->save(serialize($result), md5('clip' . $searchTerms));    
+      
+      if (sizeof($videoFeed) > 0) {
+        $result = $videoFeed[0]->getFlashPlayerUrl();
+        $mc->_cache->save(serialize($result), md5('clip' . $searchTerms));
+      }
+      else {
+        // after two attempts nothig was found
+        $result = false;
+      }
     } else {
       $result = unserialize($url);
     }
-    
     return $result;
   }
 }

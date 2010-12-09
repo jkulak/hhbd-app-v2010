@@ -55,7 +55,7 @@ section {
 }
 
 /* common classes */
-.hidden {
+.hidden, .jsHidden {
   display: none;
 }
 
