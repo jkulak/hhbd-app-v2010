@@ -17,25 +17,21 @@ class SongController extends Zend_Controller_Action
   
   public function viewAction()
   {
+    // content
     $params = $this->getRequest()->getParams();
     $this->view->song = Model_Song_Api::getInstance()->find($params['id'], true);
-    $this->view->song->featured = Model_Album_Api::getInstance()->getSongAlbums($params['id'], null);
-
-    $this->view->popularSongs = Model_Song_Api::getInstance()->getMostPopular(25);
-
-    $names = array();
-    foreach ($this->view->song->artist->items as $key => $value) {
-      $names[] = $value->name;
+    
+    // sidenotes
+    $albumSongs = array();
+    foreach ($this->view->song->featured->items as $key => $value) {
+      $albumSongs[] = Model_Song_Api::getInstance()->getTracklist($value->id, null);
     }
+    $this->view->albumSongs = $albumSongs;
+    $this->view->popularSongs = Model_Song_Api::getInstance()->getMostPopular(15);
 
-    foreach ($this->view->song->featuring->items as $key => $value) {
-      $names[] = $value->name;
-    }
-
-
-    // dodac
-    $this->view->headTitle()->set(((!empty($names))?implode($names, ', ') . ' - ':'') . $this->view->song->title . ' tekst piosenki w www.hhbd.pl');
-        $this->view->headMeta()->setName('keywords', implode($names, ',') . ',' . $this->view->song->title . ',tekst,teksty piosenek,słowa,teledyski,video');
-    $this->view->headMeta()->setName('description', implode($names, ', ') . ' - ' . $this->view->song->title . ', tekst piosenki i inne ciekawe informacje na największej polskiej stronie o hip-hopie.');
+    // seo meta
+    $this->view->headTitle()->set($this->view->song->albumArtist->name . ' - ' . $this->view->song->title . ' tekst, teledysk piosenki w www.hhbd.pl');
+        $this->view->headMeta()->setName('keywords', $this->view->song->albumArtist->name . ' - ' . $this->view->song->title . ',tekst,teledysk,teksty piosenek,słowa,teledyski,video');
+    $this->view->headMeta()->setName('description', $this->view->song->albumArtist->name . ' - ' . $this->view->song->title . ', tekst piosenki, teledysk i inne ciekawe informacje na największej polskiej stronie o hip-hopie.');
   }
 }

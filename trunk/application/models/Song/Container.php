@@ -16,9 +16,6 @@ class Model_Song_Container
   
   function __construct($params, $full = false)
   {
-    
-    // print_r($params);
-    
     $this->id = $params['song_id'];
     $this->title = $params['title'];
     
@@ -48,12 +45,25 @@ class Model_Song_Container
       $this->artist = $params['artist'];
     }
     
+    if (!empty($params['youTubeUrl'])) {
+      $this->youTubeUrl = $params['youTubeUrl'];
+    }
+
+    if (!empty($params['featured'])) {
+      $this->featured = $params['featured'];
+    }
+    
     if (!empty($params['lyrics'])) {
       $this->lyrics = $params['lyrics'];
     }
     
-    if (!empty($params['youTubeUrl'])) {
-      $this->youTubeUrl = $params['youTubeUrl'];
+    if (!empty($params['albumArtist'])) {
+      $this->albumArtist = $params['albumArtist'];
     }
+  }
+  
+  public function url()
+  {
+    return Jkl_Tools_Url::createUrl($this->title);
   }
 }
