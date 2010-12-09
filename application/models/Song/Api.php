@@ -74,7 +74,7 @@ class Model_Song_Api extends Jkl_Model_Api
     }
 
     if ($full) {
-      $searchTerms = (isset($albumArtist->items[0])?$albumArtist->items[0]->name . ' ':'') . $params['title'];
+      $searchTerms = (isset($albumArtist)?$albumArtist->name . ' ':'') . $params['title'];
 
       $rep = array('/', '&', '?', '-');
       $searchTerms = str_replace($rep, ' ', $searchTerms);
