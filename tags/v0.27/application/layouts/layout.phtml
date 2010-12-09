@@ -1,0 +1,77 @@
+<!doctype html> 
+<html lang="pl">
+<head>
+<?php echo $this->headMeta(); ?>
+<meta name="google-site-verification" content="HsOI_FHfSVoTani2UHBr9Jh7G8sXNYfXTUCyg5VDYLY" />
+<?php echo $this->headTitle(); ?>
+<?php $this->headLink()->prependStylesheet($this->baseUrl() . '/css/s.css'); ?>
+<?php echo $this->headLink(); ?>
+<?php if (isset($this->headIncludes['jquery'])) $this->headScript()->appendFile($this->baseUrl() . $this->headIncludes['jquery']['path']); ?>
+<?php echo $this->headScript(); ?>
+<script src="/js/s.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- <meta property="og:title" content="title" />
+<meta property="og:description" content="description" />
+<meta property="og:image" content="thumbnail_image" /> -->
+</head>
+<body>
+<div id="body">
+  <p class="hidden"><a href="#content" title="Pomija nawigację i nagłówek strony">Przejdź do głównej treści strony</a></p>
+  <div id="page">
+    <div id="header">
+      <div id="logo">
+<?php if ($this->url() != $this->baseUrl() . '/' ): ?>
+        <a href="<?php echo $this->baseUrl(); ?>">
+<?php endif ?>
+          <div>hhbd.pl</div>
+<?php if ($this->url() != $this->baseUrl() . '/' ): ?>
+        </a>
+<?php endif ?>
+      </div>
+<?php echo $this->partial('_nav.phtml') ?>
+  </div> <!-- header -->
+
+    <!-- message box -->
+    <?php if (isset($this->messageType)) { ?>
+    <div id="message" class="<?php echo $this->messageType; ?>">
+      <?php echo $this->message; ?>
+    </div>
+    <?php } ?>
+
+    <!-- <h3><?php echo $this->translate('Main menu') ?></h3> -->
+
+    <?php
+      // $partial = array('common/nav.phtml', 'default');
+      // $this->navigation()->menu()->setPartial($partial);
+      // echo $this->navigation()->menu()->setOnlyActiveBranch(true);
+  
+      //echo $this->navigation()->menu()->render();
+    ?>
+    <!-- <h3><?php echo $this->translate('Breadcrumb') ?></h3> -->
+
+    <!-- <div id="breadcrumbs">
+      <?php echo $this->navigation()->breadcrumbs()->render(); ?>
+    </div> -->
+
+    <div id="content">
+    	<?php echo $this->layout()->content; ?>
+    </div>
+
+    <div id="footer">
+      <ul>
+        <li>&copy; 2004-<?php echo date('Y'); ?> HHBD.PL</li>
+        <li><a href="/o-nas">O nas</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/kontakt">Kontakt</a></li>
+        <li><a href="/zasady">Zasady użytkowania</a></li>
+        <li><a href="/mapa-strony">Mapa strony</a></li>
+        <li>realizacja: <a href="http://www.webascrazy.net" target="_blank">www.webascrazy.net</a></li>
+      </ul>
+      <br />
+      <div id="disclaimer">hhbd.pl jest największa encyklopedią polskiego hip-hopu. U nas znajdziesz wszystkie interesujące Cię informacje dotyczące polskiego hip-hopu. Listę wydanych albumów, biografie i dyskografie raperów i składów. Oprócz tego teksty piosenek, informacje o występach gościnnych, autorach muzyki i inne.</div>
+    </div>
+  </div>
+</div>
+<?php echo $this->partial('common/_googleAnalytics.phtml'); ?>
+</body>
+</html>
