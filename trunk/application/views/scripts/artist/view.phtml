@@ -63,10 +63,10 @@
   <?php if (!empty($this->artist->albums->items)): ?>
   <div class="albumlist pane">
     <div class="header">
-      <h2>Lista wydanych <?php if ($this->artist->name == 'V/A'): ?>
-        składanek
+      <h2><?php if ($this->artist->name == 'V/A'): ?>
+        Lista wydanych składanek
       <?php else: ?>
-        albumów
+        Dyskografia
       <?php endif ?></h2> <span class="toggle hidden"><a href="?hideDetailes=1">Pokaż szczegóły</a></span>
     </div>
     <div class="list">
@@ -88,7 +88,7 @@
 
   <div id="description" class="pane">
     <div class="header">
-      <h2>Profil wykonawcy</h2>
+      <h2>Biografia</h2>
     </div>
   	<p>
   	  <?php if (!empty($this->artist->profile)): ?>

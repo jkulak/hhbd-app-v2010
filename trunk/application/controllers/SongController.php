@@ -31,8 +31,8 @@ class SongController extends Zend_Controller_Action
     $this->view->autoPlay = isset($this->params['autoplay']);
 
     // seo meta
-    $this->view->headTitle()->set($this->view->song->albumArtist->name . ' - ' . $this->view->song->title . ' tekst, teledysk piosenki w www.hhbd.pl');
-        $this->view->headMeta()->setName('keywords', $this->view->song->albumArtist->name . ',' . $this->view->song->title . ',tekst,teledysk,teksty piosenek');
-    $this->view->headMeta()->setName('description', $this->view->song->albumArtist->name . ' - ' . $this->view->song->title . ', tekst, teledysk, premiera i inne ciekawe informacje o piosence na największej polskiej stronie o hip-hopie.');
+    $this->view->headTitle()->set($this->view->song->albumArtist->name . ' - ' . $this->view->song->title . ' tekst, teledysk, sample');
+        $this->view->headMeta()->setName('keywords', $this->view->song->albumArtist->name . ',' . $this->view->song->title . ',tekst,teledysk,sample');
+    $this->view->headMeta()->setName('description', $this->view->song->albumArtist->name . ' - ' . $this->view->song->title . ', tekst, teledysk, premiera, informacje o samplach i inne ciekawe informacje o piosence na największej polskiej stronie o hip-hopie.');
   }
 }
