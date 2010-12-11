@@ -78,8 +78,8 @@ class ArtistController extends Zend_Controller_Action
       }
     }
     
-    $this->view->headTitle()->headTitle($artist->name . ' - biografia, dyskografia, albumy, teksty', 'PREPEND');
-    $this->view->headMeta()->setName('description', $artist->name . ' - teksty, dyskografia, albumy '. implode($albumList, ', '));
-    $this->view->headMeta()->setName('keywords', $artist->name . ',' . implode(',', $albumListTmp) . ',teksty,dyskografia,albumy' );
+    $this->view->headTitle()->headTitle($artist->name . ' - teksty, dyskografia, biografia', 'PREPEND');
+    $this->view->headMeta()->setName('description', $artist->name . ' - teksty, dyskografia, biografia '. implode($albumList, ', '));
+    $this->view->headMeta()->setName('keywords', $artist->name . ',' . implode(',', $albumListTmp) . ',teksty,dyskografia,biografia' );
   }
 }
