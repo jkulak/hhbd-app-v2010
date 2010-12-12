@@ -8,10 +8,10 @@
           <!-- <li><a href="<?php echo $this->baseUrl(); ?>/teksty.html">Teksty</a></li>  -->
         </ul>
         <div id="search">
-          <form action="/q">
+          <form action="<?php echo $this->url(array(), 'search') ?>">
             <label for="q" class="hidden">Szukaj:&nbsp;</label>
-            <input name="q" value="" placeholder="Przeszukuj polski hip-hop..." autocomplete="off" id="q" title="Szukaj" tabindex="1" />
-            <input type="submit" value="Szukaj &rarr;" class="button" />
+            <input type="text" name="q" value="" placeholder="Przeszukuj polski hip-hop..." autocomplete="off" id="q" title="Szukaj" tabindex="1" />
+            <input type="submit" value="Szukaj &rarr;" />
           </form>
         </div>
       </div>

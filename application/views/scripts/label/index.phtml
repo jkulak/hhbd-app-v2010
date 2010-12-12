@@ -9,7 +9,7 @@
       <tbody>
         <?php foreach ($this->labels->items as $key => $value): ?>
           <tr>
-            <td><?php echo $this->partial('label/_link.phtml', array('label' =>$value)) ?></td>
+            <td><?php echo $this->partial('label/_link.phtml', array('item' =>$value)) ?></td>
             <td><?php echo $value->albumCount ?></td>
             <td><?php if (isset($value->website)): ?><?php echo $value->website ?><?php endif ?></td>
           </tr>

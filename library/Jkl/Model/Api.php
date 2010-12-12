@@ -26,9 +26,8 @@ abstract class Jkl_Model_Api
     }
     catch( Zend_Db_Adapter_Exception $e )
     {
+      // i tak tutaj nie dochodzi bo wylapuje blad wczesniej zdaje sie
       throw new Jkl_Model_Exception('oh no!', Jkl_Model_Exception::EXCEPTION_DB_CONNECTION_FAILED);
     }
-    catch( Zend_Exception $e )
-    {}
   }
 }

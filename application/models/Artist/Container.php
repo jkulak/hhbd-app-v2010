@@ -139,4 +139,10 @@ class Model_Artist_Container
   public function isBand() {
     return !empty($this->members->items);
   }
+  
+  // this is for array_unique(), so artists can be compared
+  public function __toString()
+  {
+    return $this->name;
+  }
 }

@@ -1,7 +1,7 @@
-<?php if ($this->label->name=='--'): ?>
-  <?php echo $this->label->name ?>
+<?php if ($this->item->name=='--'): ?>
+  <?php echo $this->item->name ?>
 <?php else: ?>
-<a href="<?php echo $this->url(array('id' => $this->label->id, 'seo' => ($this->label->name)), 'label'); ?>">
-  <?php echo $this->label->name ?>
+<a href="<?php echo $this->url(array('id' => $this->item->id, 'seo' => ($this->item->name)), 'label'); ?>">
+  <?php echo $this->item->name ?>
 </a>
 <?php endif ?>

@@ -40,11 +40,11 @@ class Jkl_Db extends Jkl_Cache
     if (empty($cache)) {
       $result = $this->_db->fetchAll($query);
       
-      $test = $this->_cache->save(serialize($result), md5($query));    
+      $test = $this->_cache->save($result, md5($query));    
       Zend_Registry::get('Logger')->info(md5($query) . ' - db: ' . $this->_queryCount . '. - ' . $query);
     }
     else {
-      $result = unserialize($cache);
+      $result = $cache;
     }
     return $result;
   }
@@ -58,6 +58,13 @@ class Jkl_Db extends Jkl_Cache
   public function getQueryCount()
   {
     return $this->_queryCount;
+  }
+  
+  static public function escape($value)
+  {
+    $search = array("\\", "\0", "\n", "\r", "\x1a", "'", '"', '%');
+    $replace = array("\\\\", "\\0", "\\n", "\\r", "\Z", "\'", '\"', '\%');
+    return str_replace($search, $replace, $value);
   }
   
 }

@@ -1,16 +1,13 @@
 /* reset */
-* {
-  border: 0;
-  margin: 0;
-  padding: 0;
-  font-weight: inherit;
-  font-style: inherit;
-  font-family: inherit;
-  vertical-align: baseline;
-}
+html,body,div,p,script,noscript,table,tr,th,td,caption,label,form,ul,ol,li,hr,br,
+footer,section,nav,article,h1,h2,h3,h4,input[type="text"],img
+{border: 0; margin: 0; padding: 0; font-weight: inherit; font-style: inherit; font-family: inherit; vertical-align: baseline;}
 
 a {
   text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
 }
 
 div {
@@ -59,6 +56,15 @@ section {
   display: none;
 }
 
+/* debug */
+.dbg {
+  background: lime;
+}
+
+.dbgl {
+  background: yellow;
+}
+
 /* layout */
 #body {
   padding: 0 10px;
@@ -69,6 +75,12 @@ section {
   min-width: 960px;
   margin: 0 auto;
   overflow: hidden;
+  
+  box-shadow: 8px 8px 8px #000;
+  -moz-box-shadow: 8px 8px 8px #000;
+  -webkit-box-shadow: 8px 8px 8px #000;
+  -o-box-shadow: 8px 8px 8px #000;
+  margin-bottom: 8px;
 }
 
 #header {
@@ -195,13 +207,14 @@ section {
   font-size: 16px;
 }
 
-#search form .button {
+#search input[type="submit"] {
   background: url('../s/sprite.png') 0 -233px no-repeat;
   height: 30px;
   width: 28px;
   float: right;
   text-indent: -9999px;
   cursor: pointer;
+  border: 0;
 }
 
 #footer ul li {
@@ -406,7 +419,17 @@ ul ul.list {
 /*  float: right;*/
 }
 
-/*this is lame class, it should be changed using jQuery css only*/
-.playM {
+.play:hover {
   background-position: -282px -106px;
 }
+
+/********************************************************************************************/
+/* search                                                                                   */
+/********************************************************************************************/
+#detail-search {width: 400px; margin: 0 auto;}
+#detail-search input {font-size: 100%;}
+#detail-search input[type="text"] {width: 310px; border: 1px solid #BFAD5E; padding: 2px;}
+#detail-search input[type="submit"] {cursor: pointer;}
+#detail-search ul {margin: 4px 0 0 18px; font-size: 85%;}
+#detail-search ul li {float: left; margin-right: 16px;}
+

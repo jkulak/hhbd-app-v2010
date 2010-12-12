@@ -12,7 +12,7 @@
       <?php endif ?></td>
       <td>
         <?php if (!empty($album->label)): ?>
-          <?php echo $this->partial('label/_link.phtml', array('label' => $album->label)) ?>
+          <?php echo $this->partial('label/_link.phtml', array('item' => $album->label)) ?>
         <?php endif ?>
         <?php if ($this->showCatalogNumber): ?>
           <?php echo $album->catalogNumber ?>          
