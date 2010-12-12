@@ -31,7 +31,8 @@ class Jkl_Cache
      $config = Zend_Registry::get('Config_App');
 
      // test if we have connection to memCached, should be turned off after some time
-     $this->_testCacheEngine($config['cache']['backend']['host'], $config['cache']['backend']['port']);
+
+      // $this->_testCacheEngine($config['cache']['backend']['host'], $config['cache']['backend']['port']);
 
      $oBackend = new Zend_Cache_Backend_Memcached(array(
            'servers' =>array(
@@ -45,13 +46,13 @@ class Jkl_Cache
 
      $oFrontend = new Zend_Cache_Core(
          array(
-             'caching' => true,
+             'caching' => $config['cache']['front']['caching'],
              'cache_id_prefix' => 'hhbdpl',
              'logging' => false,
              'write_control' => true,
-             'automatic_serialization' => true,
+             'automatic_serialization' => $config['cache']['front']['automatic_serialization'],
              'ignore_user_abort' => true,
-             'lifetime' => 3600
+             'lifetime' => $config['cache']['front']['lifetime']
          ) );
 
      return Zend_Cache::factory($oFrontend, $oBackend);
@@ -61,11 +62,12 @@ class Jkl_Cache
    {
      $memCacheTest = new Memcache();
      if (!($memCacheTest->connect($host, $port))) {
-       throw new Jkl_Exception('Test connection to Memcached failed (' . $host . ':' . $port . ') probably Memcached is not running.');
+       throw new Jkl_Cache_Exception('Test connection to Memcached failed (' . $host . ':' . $port . ') probably Memcached is not running.', Jkl_Cache_Exception::EXCEPTION_MEMCACHED_CONNECTION_FAILED);
      }
      else {
        $memCacheTest->close();
        unset($memCacheTest);
      }
+
    }
 }

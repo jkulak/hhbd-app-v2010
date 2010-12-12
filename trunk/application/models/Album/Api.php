@@ -43,7 +43,7 @@ class Model_Album_Api extends Jkl_Model_Api
   
   public function find($id, $full = false)
   {
-    $id = (int)$id;
+    $id = intval($id);
     $query = "SELECT *, t1.id as alb_id, t1.labelid AS lab_id, t1.epfor as epforid, t1.added as alb_added, t1.addedby as alb_addedby, t1.viewed as alb_viewed, t3.id as art_id " . 
     "FROM albums t1, album_artist_lookup t2, artists t3 " . 
     "WHERE (t3.id=t2.artistid AND t2.albumid=t1.id AND t1.id='" . $id . "')";
@@ -63,11 +63,13 @@ class Model_Album_Api extends Jkl_Model_Api
 
   private function getEpFor($id)
   {
+    $id = intval($id);
     return Model_Album_Api::getInstance()->find($id);
   }
   
   private function getEps($id)
   {
+    $id = intval($id);
     $query = 'SELECT id FROM albums WHERE epfor=' . $id . ' ORDER BY year DESC';
     $result = $this->_db->fetchAll($query);
     $eps = new Jkl_List();
@@ -79,17 +81,34 @@ class Model_Album_Api extends Jkl_Model_Api
     return $eps;
   }
 
-  public function getLike($like = '')
+  public function getLike($like = '', $limit = 20, $page = 1)
   {
+    $like = Jkl_Db::escape($like);
+    $limit = intval($limit);
+    $page = intval($page - 1);
+    $page = ($page<1)?0:$page;
     $query = 'SELECT *, t3.id as alb_id, t1.id as art_id, t4.id as lab_id, t3.added as alb_added, t3.addedby as alb_addedby, t3.viewed as alb_viewed ' .
       'FROM artists AS t1, album_artist_lookup AS t2, albums AS t3, labels AS t4 ' .
-      'WHERE (t3.title LIKE "' . $like . '" AND t1.id=t2.artistid AND t2.albumid=t3.id AND t4.id=t3.labelid AND t3.year' . '<="' . date('Y-m-d') . '") ' . 
-      'ORDER BY t3.year DESC';
+      'WHERE (t3.title LIKE "%' . $like . '%" AND t1.id=t2.artistid AND t2.albumid=t3.id AND t4.id=t3.labelid) ' . 
+      'ORDER BY t3.viewed DESC' . 
+      (($limit != null)?' LIMIT ' . $limit:'') . 
+      ' OFFSET ' . ($page*$limit);
     return $this->getList($query);
+  }
+  
+  public function getLikeCount($like = '')
+  {
+    $like = Jkl_Db::escape($like);
+    $query = "SELECT count(*) as count
+              FROM albums AS t1
+              WHERE t1.title LIKE '%$like%'"; 
+    $result = $this->_db->fetchAll($query);
+    return intval($result[0]['count']);
   }
   
   public function getPopular($count = 20)
   {
+    $count = intval($count);
     $query = 'SELECT *, t3.id as alb_id, t1.id as art_id, t4.id as lab_id, t3.added as alb_added, t3.addedby as alb_addedby, t3.viewed as alb_viewed ' .
       'FROM artists AS t1, album_artist_lookup AS t2, albums AS t3, labels AS t4 ' .
       'WHERE (t1.id=t2.artistid AND t2.albumid=t3.id AND t4.id=t3.labelid AND t3.year' . '<="' . date('Y-m-d') . '") ' . 
@@ -100,6 +119,7 @@ class Model_Album_Api extends Jkl_Model_Api
   
   public function getBest($count = 10)
   {
+    $count = intval($count);
     $query = 'SELECT *, t1.id AS alb_id, t2.rating AS rating, t1.title, t3.artistid AS art_id ' . 
       'FROM albums t1, ratings_avg t2, album_artist_lookup t3 ' . 
       ' WHERE (t1.id=t2.albumid AND t3.albumid=t1.id) ' . 
@@ -110,10 +130,8 @@ class Model_Album_Api extends Jkl_Model_Api
 
   public function getNewest($count = 20, $page = 1)
   {
-    $page = (int)$page - 1;
-    if ($page<1) {
-      $page = 0;
-    }
+    $page = intval($page - 1);
+    $page = ($page<1)?0:$page;
     $query = 'SELECT *, t3.id as alb_id, t1.id as art_id, t4.id as lab_id, t3.added as alb_added, t3.addedby as alb_addedby, t3.viewed as alb_viewed ' .
       'FROM artists AS t1, album_artist_lookup AS t2, albums AS t3, labels AS t4 ' .
       'WHERE (t1.id=t2.artistid AND t2.albumid=t3.id AND t4.id=t3.labelid AND t3.year' . '<="' . date('Y-m-d') . '") ' . 
@@ -125,10 +143,8 @@ class Model_Album_Api extends Jkl_Model_Api
 
   public function getAnnounced($count = 20, $page = 1)
   {
-    $page = (int)$page - 1;
-    if ($page<1) {
-      $page = 0;
-    }
+    $page = intval($page - 1);
+    $page = ($page<1)?0:$page;
     $query = 'SELECT *, t3.id as alb_id, t1.id as art_id, t4.id AS lab_id, t3.added as alb_added, t3.addedby as alb_addedby, t3.viewed as alb_viewed ' .
       'FROM artists AS t1, album_artist_lookup AS t2, albums AS t3, labels AS t4 ' .
       'WHERE (t1.id=t2.artistid AND t2.albumid=t3.id AND t4.id=t3.labelid AND t3.year' . '>"' . date('Y-m-d') . '") ' . 
@@ -145,10 +161,14 @@ class Model_Album_Api extends Jkl_Model_Api
   }
   
   public function getArtistsAlbums($id, $exclude = array(), $count = 10, $order = 'viewed') {
+    $id = intval($id);
+    $count = intval($count);
+    // $order in array
+    
     $excludeCondition = '';
     if (!empty($exclude)) {
       foreach ($exclude as $key => $value) {
-        $excludeCondition .= ' AND t3.id<>' . $value . ' ';
+        $excludeCondition .= ' AND t3.id<>' . intval($value) . ' ';
       }
     }    
     $query = 'SELECT *, t3.id as alb_id, t1.id as art_id, t4.id as lab_id, t3.added as alb_added, t3.addedby as alb_addedby, t3.viewed as alb_viewed ' .
@@ -162,6 +182,7 @@ class Model_Album_Api extends Jkl_Model_Api
   }
   
   public function getArtistsAlbumsCount($id) {
+    $id = intval($id);
     $query = "SELECT count(*) as count
               FROM albums t1, album_artist_lookup t2, band_lookup t3
               WHERE (t3.`bandid`=t2.`artistid` AND t3.`artistid`=$id AND t1.`id`=t2.`albumid`)";
@@ -178,10 +199,12 @@ class Model_Album_Api extends Jkl_Model_Api
   }
   
   public function getLabelsAlbums($id, $exclude = array(), $count = 10) {
+    $id = intval($id);
+    $count = intval($count);
     $excludeCondition = '';
     if (!empty($exclude)) {
       foreach ($exclude as $key => $value) {
-        $excludeCondition .= ' AND t3.id<>' . $value . ' ';
+        $excludeCondition .= ' AND t3.id<>' . intval($value) . ' ';
       }
     }
     $query = 'SELECT *, t3.id as alb_id, t1.id as art_id, t4.id as lab_id, t3.added as alb_added, t3.addedby as alb_addedby, t3.viewed as alb_viewed ' .
@@ -197,6 +220,7 @@ class Model_Album_Api extends Jkl_Model_Api
   // This needs to be moved to separate counting system, not to kill datbase
   public function increaseViewed($id)
   {
+    $id = intval($id);
     $query = 'UPDATE albums SET viewed=viewed+1 WHERE id=' . $id;
     $this->_db->query($query);
   }
@@ -217,6 +241,8 @@ class Model_Album_Api extends Jkl_Model_Api
   
   public function getFeaturingByArtist($id, $limit = 10)
   {
+    $id = intval($id);
+    $limit = intval($limit);
     $query = 'SELECT DISTINCT(a1.id) as alb_id
               FROM albums a1, songs a2, feature_lookup a3, album_lookup a4
               WHERE (a3.artistid=' . $id . ' AND a3.songid=a2.id AND a2.id=a4.songid AND a1.id=a4.albumid)';
@@ -243,6 +269,8 @@ class Model_Album_Api extends Jkl_Model_Api
   
   public function getMusicByArtist($id, $limit = 10)
   {
+    $id = intval($id);
+    $limit = intval($limit);
     $query = 'SELECT DISTINCT(a1.id) as alb_id
               FROM albums a1, songs a2, music_lookup a3, album_lookup a4
               WHERE (a3.artistid=' . $id . ' AND a3.songid=a2.id AND a2.id=a4.songid AND a1.id=a4.albumid)';
@@ -269,6 +297,8 @@ class Model_Album_Api extends Jkl_Model_Api
   
   public function getScratchByArtist($id, $limit = 10)
   {
+    $id = intval($id);
+    $limit = intval($limit);
     $query = 'SELECT DISTINCT(a1.id) as alb_id
               FROM albums a1, songs a2, scratch_lookup a3, album_lookup a4
               WHERE (a3.artistid=' . $id . ' AND a3.songid=a2.id AND a2.id=a4.songid AND a1.id=a4.albumid)';
@@ -296,6 +326,8 @@ class Model_Album_Api extends Jkl_Model_Api
   // List of albums that feature a song with given ID
   public function getSongAlbums($id, $limit)
   {
+    $id = intval($id);
+    $limit = intval($limit);
     $query = "SELECT *, t1.id as alb_id, t3.id as art_id  
               FROM albums t1, album_lookup t2, artists t3, album_artist_lookup t4 
               WHERE (t1.id=t2.albumid AND t2.songid='$id' AND t4.albumid=t1.id AND t4.artistid=t3.id)

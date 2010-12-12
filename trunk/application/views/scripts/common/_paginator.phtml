@@ -29,8 +29,7 @@ of <?php echo $this->totalItemCount; ?> -->
 <?php foreach ($this->pagesInRange as $page): ?>
   <?php if ($page != $this->current): ?>
     <a href="<?php echo $this->restUrl(array('page' => $page)); ?>">
-        <?php echo $page; ?>
-    </a> |
+        <?php echo $page; ?></a> |
   <?php else: ?>
     <?php echo $page; ?> |
   <?php endif; ?>

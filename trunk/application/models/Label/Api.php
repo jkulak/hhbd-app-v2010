@@ -40,6 +40,7 @@ class Model_Label_Api extends Jkl_Model_Api
   
   public function find($id, $full = false)
   {
+    $id = intval($id);
     $query = 'select *, id AS lab_id from labels where id=' . $id;
     $result = $this->_db->fetchAll($query);
     $item = new Model_Label_Container($result[0], $full);
@@ -58,6 +59,7 @@ class Model_Label_Api extends Jkl_Model_Api
   
   public function getWithMostAlbums($limit = 10)
   {
+    $limit = intval($limit);
     $query = "SELECT count(t2.id) AS album_count, t1.`id` AS lab_id, t1.`name`
               FROM labels t1, albums t2
               WHERE (t2.`labelid`=t1.`id` AND t1.`id`<>27)
@@ -66,5 +68,33 @@ class Model_Label_Api extends Jkl_Model_Api
               (isset($limit)?" LIMIT $limit":'');
               
     return $this->getList($query);
+  }
+  
+  public function getLike($like, $limit = 10, $page = 1)
+  {
+    $like = Jkl_Db::escape($like);
+    $limit = intval($limit);
+    $page = intval($page - 1);
+    $page = ($page<1)?0:$page;
+    
+    $query = "SELECT count(t2.id) AS album_count, t1.`id` AS lab_id, t1.`name`
+              FROM labels t1, albums t2
+              WHERE (t2.`labelid`=t1.`id` AND t1.`id`<>27 AND t1.`name` LIKE '%$like%')
+              GROUP BY t1.`id`
+              ORDER BY t1.`viewed` DESC" . 
+              (($limit != null)?' LIMIT ' . $limit:'') . 
+              ' OFFSET ' . ($page*$limit);
+              
+    return $this->getList($query);
+  }
+  
+  public function getLikeCount($like = '')
+  {
+    $like = Jkl_Db::escape($like);
+    $query = "SELECT count(*) as count
+              FROM labels AS t1
+              WHERE t1.name LIKE '%$like%'"; 
+    $result = $this->_db->fetchAll($query);
+    return intval($result[0]['count']);
   }
 }

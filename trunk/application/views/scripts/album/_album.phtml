@@ -7,7 +7,7 @@
     <li>
         <?php echo $this->partial('album/_link.phtml', array('album' => $this->album, 'showArtist' => true)); ?>
     </li>
-    <li><?php echo $this->partial()->setObjectKey('label')->partial('label/_link.phtml', $this->album->label); ?>
+    <li><?php echo $this->partial()->setObjectKey('item')->partial('label/_link.phtml', $this->album->label); ?>
       <?php if (!empty($this->album->catalogNumber)): ?>
          | <?php echo $this->album->catalogNumber ?>
       <?php endif ?></li>

@@ -134,6 +134,15 @@
           <reverse>%s-s%d.html</reverse>
         </song>
         
+        <search type="Zend_Controller_Router_Route_Regex">
+          <route>szukaj.html</route>
+          <defaults>
+            <controller>search</controller>
+            <action>index</action>
+          </defaults>
+          <reverse>szukaj.html</reverse>
+        </search>
+        
     </routes>
   </production>
   <development extends="production">

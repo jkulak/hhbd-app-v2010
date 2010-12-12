@@ -42,6 +42,7 @@ class Model_Song_Api extends Jkl_Model_Api
   
   public function find($id, $full = false)
   {
+    $id = intval($id);
     $query = 'select *, id as song_id from songs where id=' . $id;
     $result = $this->_db->fetchAll($query);
     $params = $result[0];
@@ -56,7 +57,7 @@ class Model_Song_Api extends Jkl_Model_Api
     $max = sizeof($params['featured']);
     if ($max > 0) {
       for ($i=0; $i < $max; $i++) { 
-        if ($params['featured']->items[$i]->artist != 'V/A') {
+        if ($params['featured']->items[$i]->artist->name != 'V/A') {
           $albumArtist = $params['featured']->items[$i]->artist;
           // we set artists for this song, so we can exit
           break(0);
@@ -64,6 +65,12 @@ class Model_Song_Api extends Jkl_Model_Api
       }
     } else {
       // song is not featured on any album for some reason? send notification email
+    }
+    
+    if (!isset($albumArtist)) {
+      if ($max > 0) {
+        $albumArtist = new Model_Artist_Container(array('name' => $params['featured']->items[0]->title, 'art_id' => $params['featured']->items[0]->id));
+      }
     }
     
     $params['albumArtist'] = $albumArtist;
@@ -88,6 +95,7 @@ class Model_Song_Api extends Jkl_Model_Api
   
   public function getTracklist($id)
   {
+    $id = intval($id);
     $query = 'SELECT t1.id as song_id, t2.track ' . 
         'FROM songs AS t1, album_lookup AS t2 ' .
         'WHERE (t1.id=t2.songid AND t2.albumid=' . $id . ') ' . 
@@ -109,6 +117,7 @@ class Model_Song_Api extends Jkl_Model_Api
 
   public function getAlbumDuration($id)
   {
+    $id = intval($id);
     $query = 'SELECT sum(t1.length) as duration ' .
       'FROM songs AS t1, album_lookup AS t2 ' .
       'WHERE (t2.songid=t1.id AND t2.albumid=' . $id . ')';
@@ -131,6 +140,8 @@ class Model_Song_Api extends Jkl_Model_Api
 
   public function getMostPopularByArtist($id, $limit = 10)
   {
+    $id = intval($id);
+    $limit = intval($id);
     $query = 'SELECT *, t1.id as song_id
               FROM songs t1, artist_lookup t2, artists t3
               WHERE (t1.id=t2.songid AND t2.artistid=t3.id AND t3.id=' . $id . ')
@@ -141,6 +152,7 @@ class Model_Song_Api extends Jkl_Model_Api
   
   public function getMostPopular($limit = 10)
   {
+    $limit = intval($limit);
     $query = 'SELECT *, t1.id as song_id
               FROM songs t1
               ORDER BY t1.viewed DESC
@@ -151,6 +163,7 @@ class Model_Song_Api extends Jkl_Model_Api
   // This needs to be moved to separate counting system, not to kill datbase
   public function increaseViewed($id)
   {
+    $id = intval($id);
     $query = 'UPDATE songs SET viewed=viewed+1 WHERE id=' . $id;
     $this->_db->query($query);
   }
@@ -194,5 +207,31 @@ class Model_Song_Api extends Jkl_Model_Api
       $result = unserialize($url);
     }
     return $result;
+  }
+  
+  public function getLike($like, $limit = 25, $page = 1)
+  {
+    $like = Jkl_Db::escape($like);
+    $limit = intval($limit);
+    $page = intval($page - 1);
+    $page = ($page<1)?0:$page;
+    
+    $query = "SELECT *, t1.id as song_id
+              FROM songs t1
+              WHERE t1.title LIKE '%$like%'
+              ORDER BY t1.viewed DESC" .
+              (($limit != null)?' LIMIT ' . $limit:'') . 
+              ' OFFSET ' . ($page*$limit);
+    return $this->_getList($query);    
+  }
+  
+  public function getLikeCount($like = '')
+  {
+    $like = Jkl_Db::escape($like);
+    $query = "SELECT count(*) as count
+              FROM songs AS t1
+              WHERE t1.title LIKE '%$like%'"; 
+    $result = $this->_db->fetchAll($query);
+    return intval($result[0]['count']);
   }
 }

@@ -21,7 +21,7 @@ class ArtistController extends Zend_Controller_Action
       $this->view->artists = Model_Artist_Api::getInstance()->getMostPopular();
     }
     else {
-      $this->view->artists = Model_Artist_Api::getInstance()->getLike($page . '%');
+      $this->view->artists = Model_Artist_Api::getInstance()->getLikeLetter($page, null);
     }
     
     $this->view->mostProjectAlbums = Model_Artist_Api::getInstance()->getWithMostProjectAlbums();
