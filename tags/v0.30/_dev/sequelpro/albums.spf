@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ContentFilters</key>
+	<dict/>
+	<key>auto_connect</key>
+	<true/>
+	<key>data</key>
+	<dict>
+		<key>connection</key>
+		<dict>
+			<key>database</key>
+			<string>hhbdrebuild</string>
+			<key>host</key>
+			<string>localhost</string>
+			<key>kcid</key>
+			<string>-7326870819656324988</string>
+			<key>name</key>
+			<string>localhost</string>
+			<key>type</key>
+			<string>SPSocketConnection</string>
+			<key>user</key>
+			<string>root</string>
+		</dict>
+		<key>session</key>
+		<dict>
+			<key>connectionEncoding</key>
+			<string>latin1</string>
+			<key>contentPageNumber</key>
+			<integer>1</integer>
+			<key>contentSortColIsAsc</key>
+			<true/>
+			<key>contentViewport</key>
+			<string>{{0, 0}, {694, 455}}</string>
+			<key>isToolbarVisible</key>
+			<true/>
+			<key>queries</key>
+			<string>
+SELECT count(*)
+FROM albums t1, album_artist_lookup t2, band_lookup t3
+WHERE (t3.`bandid`=t2.`artistid` AND t3.`artistid`=6 AND t1.`id`=t2.`albumid`)
+;
+
+SELECT count(*) 
+FROM albums t1, album_artist_lookup t2
+WHERE (t1.id=t2.albumid AND t2.artistid=6) 
+;</string>
+			<key>view</key>
+			<string>SP_VIEW_CUSTOMQUERY</string>
+		</dict>
+	</dict>
+	<key>encrypted</key>
+	<false/>
+	<key>format</key>
+	<string>connection</string>
+	<key>queryFavorites</key>
+	<array/>
+	<key>queryHistory</key>
+	<array>
+		<string>SELECT count(*) 
+FROM albums t1, album_artist_lookup t2
+WHERE (t1.id=t2.albumid AND t2.artistid=6)</string>
+		<string>SELECT count(*)
+FROM albums t1, album_artist_lookup t2, band_lookup t3
+WHERE (t3.`bandid`=t2.`artistid` AND t3.`artistid`=6 AND t1.`id`=t2.`albumid`)</string>
+		<string>SELECT count(*)
+FROM albums t1, album_artist_lookup t2, band_lookup t3
+WHERE (t3.`bandid`=t2.`artistid` AND t3.`artistid`=6 AND t1.`id`=t2.`albumid`) OR (t1.id=t2.albumid AND t2.artistid=6)</string>
+		<string>SELECT count(*)
+FROM albums t1, album_artist_lookup t2, band_lookup t3
+WHERE (t3.`bandid`=t2.`artistid` AND t3.`artistid`=6 AND t1.`id`=t2.`albumid` AND t2.artistid=6)</string>
+		<string>SELECT count(*)
+FROM albums t1, album_artist_lookup t2, band_lookup t3
+WHERE (t3.`bandid`=t2.`artistid` AND t3.`artistid`=6 AND t1.`id`=t2.`albumid`) AND (t1.id=t2.albumid AND t2.artistid=6)</string>
+		<string>SELECT count(*) 
+FROM albums t1, album_artist_lookup t2
+WHERE (t1.id=t2.albumid AND t2.artistid=6) 
+;</string>
+		<string>SELECT count(*) 
+FROM albums t1, album_artist_lookup t2, band_lookup t3
+WHERE (t1.id=t2.albumid AND t2.artistid=6) OR (t3.`bandid`=t2.`artistid` AND t3.`artistid`=6 AND t1.`id`=t2.`albumid`)</string>
+		<string>SELECT count(*) 
+FROM albums t1, album_artist_lookup t2
+WHERE (t1.id=t2.albumid AND t2.artistid=6) OR (t3.`bandid`=t2.`artistid` AND t3.`artistid`=6 AND t1.`id`=t2.`albumid`)</string>
+		<string>SELECT count(*)
+FROM albums t1, album_artist_lookup t2, band_lookup t3
+WHERE (t3.`bandid`=t2.`artistid` AND t3.`artistid`=6)</string>
+		<string>SELECT count(*)
+FROM albums t1, album_artist_lookup t2, band_lookup t3
+WHERE (t3.`bandid`=t2.`artistid`)</string>
+		<string>SELECT count(*)
+FROM albums t1, album_artist_lookup t2, band_lookup t3</string>
+		<string>select count(*) 
+from albums t1, hhbdrebuild.album_artist_lookup t2
+where (t1.id=t2.albumid AND t2.artistid=6)</string>
+	</array>
+	<key>rdbms_type</key>
+	<string>mysql</string>
+	<key>rdbms_version</key>
+	<string>5.5.3-m3</string>
+	<key>version</key>
+	<integer>1</integer>
+</dict>
+</plist>

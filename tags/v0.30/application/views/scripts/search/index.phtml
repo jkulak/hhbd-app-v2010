@@ -1,0 +1,116 @@
+<div id="main">
+  <h1>Szukałeś: <?php echo $this->searchQuery ?></h1>
+  <div class="pane" id="detail-search">
+    <form action="<?php echo $this->url(array(), 'search') ?>">
+      <label for="q" class="hidden">Szukaj:&nbsp;</label>
+      <input id="q" name="q" type="text" value="<?php echo $this->searchQuery ?>" />
+      <input type="hidden" name="tp" value="<?php echo $this->type ?>" id="tp" />
+      <input type="submit" value="szukaj" />
+    </form>
+      <ul>
+        <li><?php if (isset($this->type)): ?>
+          <a href="<?php echo $this->url(array(), 'search') ?>?q=<?php echo $this->searchQuery ?>">Wszystko</a>
+          <?php else: ?>
+            Wszystko
+          <?php endif ?>
+        </li>
+        <li>
+          <?php if ($this->type!='wykonawca'): ?>
+            <a href="<?php echo $this->url(array(), 'search') ?>?q=<?php echo $this->searchQuery ?>&amp;tp=wykonawca">Wykonawcy</a>
+          <?php else: ?>
+              Wykonawcy
+          <?php endif ?>
+        </li>
+        <li>
+          <?php if ($this->type!='album'): ?>
+            <a href="<?php echo $this->url(array(), 'search') ?>?q=<?php echo $this->searchQuery ?>&amp;tp=album">Albumy</a>
+          <?php else: ?>
+              Albumy
+          <?php endif ?>
+        </li>
+        <li>
+          <?php if ($this->type!='utwor'): ?>
+            <a href="<?php echo $this->url(array(), 'search') ?>?q=<?php echo $this->searchQuery ?>&amp;tp=utwor">Utwory</a>
+          <?php else: ?>
+              Utwory
+          <?php endif ?>
+        </li>
+        <li>
+          <?php if ($this->type!='wytwornia'): ?>
+            <a href="<?php echo $this->url(array(), 'search') ?>?q=<?php echo $this->searchQuery ?>&amp;tp=wytwornia">Wytwórnie</a>
+          <?php else: ?>
+              Wytwórnie
+          <?php endif ?>
+        </li>
+      </ul>
+  </div> <!-- detailSearch -->
+  
+<?php if (!empty($this->resultArtists->items)): ?>
+  <div class="pane">
+    <h2>Wykonawcy</h2>
+    <?php echo $this->partial('artist/_list.phtml', array('artists' => $this->resultArtists->items)) ?>
+    <?php if (empty($this->type)): ?>
+      <a href="<?php echo $this->url(array(), 'search') ?>?q=<?php echo $this->searchQuery ?>&amp;tp=wykonawca">Pokaż więcej</a>
+    <?php endif ?>
+  </div>
+<?php elseif($this->type == 'wykonawca'): ?>
+  <?php echo $this->render('search/_noResults.phtml') ?>
+<?php endif ?>
+
+<?php if (!empty($this->resultAlbums->items)): ?>
+  <div class="pane">
+    <h2>Albumy</h2>
+    <?php echo $this->partial('album/_list.phtml', array('albums' => $this->resultAlbums)) ?>
+    <?php if (empty($this->type)): ?>
+      <a href="<?php echo $this->url(array(), 'search') ?>?q=<?php echo $this->searchQuery ?>&amp;tp=album">Pokaż więcej</a>
+    <?php endif ?>
+  </div>
+<?php elseif($this->type == 'album'): ?>
+  <?php echo $this->render('search/_noResults.phtml') ?>
+<?php endif ?>
+
+<?php if (!empty($this->resultSongs->items)): ?>
+  <div class="pane">
+    <h2>Utwory</h2>
+    <?php echo $this->partial('song/_list.phtml', array('songs' => $this->resultSongs)) ?>
+    <?php if (empty($this->type)): ?>
+      <a href="<?php echo $this->url(array(), 'search') ?>?q=<?php echo $this->searchQuery ?>&amp;tp=utwor">Pokaż więcej</a>
+    <?php endif ?>
+  </div>
+<?php elseif($this->type == 'utwor'): ?>
+  <?php echo $this->render('search/_noResults.phtml') ?>
+<?php endif ?>
+
+<?php if (!empty($this->resultLabels->items)): ?>
+  <div class="pane">
+    <h2>Wytwórnie</h2>
+    <?php echo $this->partial('label/_list.phtml', array('list' => $this->resultLabels->items)) ?>
+    <?php if (empty($this->type)): ?>
+      <a href="<?php echo $this->url(array(), 'search') ?>?q=<?php echo $this->searchQuery ?>&amp;tp=wytwornia">Pokaż więcej</a>
+    <?php endif ?>
+  </div>
+<?php elseif($this->type == 'wytwornia'): ?>
+  <?php echo $this->render('search/_noResults.phtml') ?>
+<?php endif ?>
+
+<?php if ($this->totalCount == 0 and !isset($this->type)): ?>
+  <?php echo $this->render('search/_noResults.phtml') ?>
+<?php endif ?>
+
+<?php if (isset($this->paginator) and $this->totalResults>0): ?>
+  <?php echo $this->paginationControl($this->paginator, null, 'search/_paginator.phtml', array('type' => $this->type, 'searchQuery' => $this->searchQuery)); ?>
+<?php endif ?>
+
+</div>
+
+<div id="additional">
+  <div class="box googleads">
+    <h3 class="hidden">Google Ads</h3>
+    <?php echo $this->partial('common/googleAds/_rectangle.phtml'); ?>
+  </div>
+  
+  <?php echo $this->partial('search/box/_list.phtml', array('items' => $this->mostPopularSearches, 'title' => 'Najczęściej wyszukiwane')) ?>
+  
+  <?php echo $this->partial('search/box/_list.phtml', array('items' => $this->recentSearches, 'title' => 'Ostatnio wyszukiwane')) ?>
+  
+</div>
