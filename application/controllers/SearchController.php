@@ -53,26 +53,31 @@ class SearchController extends Zend_Controller_Action
       $this->view->resultLabels = $resultLabels;
     }
     
+    $totalArtistCount = Model_Artist_Api::getInstance()->getLikeCount($searchQuery);
+    $totalAlbumCount = Model_Album_Api::getInstance()->getLikeCount($searchQuery);
+    $totalSongCount = Model_Song_Api::getInstance()->getLikeCount($searchQuery);
+    $totalLabelCount = Model_Label_Api::getInstance()->getLikeCount($searchQuery);
+
     // need to bulid paginator per each type
     if (isset($type)) {
       switch ($type) {
         case 'wykonawca':
-            $totalCount = Model_Artist_Api::getInstance()->getLikeCount($searchQuery);
+            $totalCount = $totalArtistCount;
             $itemsPerPage = 12;
             $totalResults = sizeof($resultArtists->items);
           break;
         case 'album':
-            $totalCount = Model_Album_Api::getInstance()->getLikeCount($searchQuery);
+            $totalCount = $totalAlbumCount;
             $itemsPerPage = 12;
             $totalResults = sizeof($resultAlbums->items);
           break;
         case 'utwor':
-            $totalCount = Model_Song_Api::getInstance()->getLikeCount($searchQuery);
+            $totalCount = $totalSongCount;
             $itemsPerPage = 24;
             $totalResults = sizeof($resultSongs->items);
           break;
         case 'wytwornia':
-            $totalCount = Model_Label_Api::getInstance()->getLikeCount($searchQuery);
+            $totalCount = $totalLabelCount;
             $itemsPerPage = 12;
             $totalResults = sizeof($resultLabels->items);
           break;
@@ -104,12 +109,21 @@ class SearchController extends Zend_Controller_Action
     $this->view->type = $type;
     $this->view->searchQuery = $searchQuery;
     
+    $this->view->totalArtistCount = $totalArtistCount;
+    $this->view->totalAlbumCount = $totalAlbumCount;
+    $this->view->totalSongCount = $totalSongCount;
+    $this->view->totalLabelCount = $totalLabelCount;
+    
     $this->view->recentSearches = Model_Search_Api::getInstance()->getRecent();
     $this->view->mostPopularSearches = Model_Search_Api::getInstance()->getMostPopular();
     
     if ($this->view->totalCount > 0) {
       Model_Search_Api::getInstance()->saveSearch($searchQuery);
     }
+    
+    $this->view->headMeta()->setName('keywords', $searchQuery . ',wyniki,wyszukiwania,polski hip-hop,albumy,wykonawcy,wytwórnie,utwory,teksty,teledyski');
+    $this->view->headTitle()->headTitle('Wyniki wyszukiwania ' .  $searchQuery . ' na największej stronie o polskim hip-hopie!', 'PREPEND');
+    $this->view->headMeta()->setName('description', 'Wyniki wyszukiwania "' .  $searchQuery . '" w www.hhbd.pl');
     
     // $response = $this->getResponse()->setHeader("Cache-Control", "max-age=6000", true);
     // $response->setHeader("Expires", "Thu, 15 Apr 2011 20:00:00 GMT", true);    
