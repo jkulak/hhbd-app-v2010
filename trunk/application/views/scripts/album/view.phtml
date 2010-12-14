@@ -11,13 +11,7 @@
   	
   	<ul id="essential">
       <?php if (!empty($this->album->releaseDate)): ?>
-        <li><span>
-        <?php if ($this->album->isAnnounced()): ?>
-          Planowana data
-        <?php else: ?>
-          Data 
-        <?php endif ?>
-        wydania:</span> <?php echo $this->album->releaseDateNormalized ?>
+        <li><span>Premiera:</span> <?php echo $this->album->releaseDateNormalized ?>
         </li>
       <?php endif ?>
     
@@ -136,14 +130,13 @@
   </div>
   <?php endif ?>
 
-  <?php if (!empty($this->album->description)): ?>
   <div id="description" class="pane">
     <div class="header">
-      <h2>Opis albumu</h2><span class="toggle hidden"><a href="?readFullDescription=1">Czytaj całość</a></span>
+      <h2>Opis albumu</h2><?php if (!empty($this->album->description)): ?><span class="toggle"><a href="?showDefaultDescription=1">Pokaż opis standardowy</a></span><?php endif ?>
     </div>
-  	<p><?php echo $this->album->description ?></p>
+  	 <?php if (!empty($this->album->description)): ?><p><?php echo $this->album->description ?></p><?php endif ?>
+    <p class="<?php if (!empty($this->album->description)): ?>hidden <?php endif ?>auto"><?php echo $this->album->autoDescription ?></p>
   </div>
-  <?php endif ?>
 
 </div> <!-- main -->
 

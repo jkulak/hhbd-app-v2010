@@ -1,7 +1,8 @@
 // on load create a script to load a final script here
 
 $(function(){
-  $("span.toggle > a").toggle(
+  // toggle tracklist additional information
+  $("#tracklist span.toggle > a").toggle(
     function () {
       $(this).text("Pokaż szczegóły");
       $("ul.feat").addClass("hidden");        
@@ -12,10 +13,22 @@ $(function(){
     }
   );
   
+  // toggle view/hide autoDescription
+  $("#description span.toggle > a").toggle(
+    function () {
+      $(this).text("Ukryj opis standardowy");
+      $("p.auto").removeClass("hidden");
+    },
+    function () {
+      $(this).text("Pokaż opis standardowy");
+      $("p.auto").addClass("hidden");        
+    }
+  );
+  
   $("#q").focus(function(){
     if($(this).text() == "Szukaj...") $(this).text("")
   });
-  $("#q").focus();
+  // $("#q").focus();
 
   $('table tr').hover(
      function() {
