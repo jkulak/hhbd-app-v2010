@@ -84,6 +84,7 @@ class AlbumController extends Zend_Controller_Action
   {
     $params = $this->getRequest()->getParams();
     $album = Model_Album_Api::getInstance()->find($params['id'], true);
+    $album->autoDescription = $this->_generateDescription($album);
     $this->view->album = $album;
     $this->view->artistsAlbums = Model_Album_Api::getInstance()->getArtistsAlbums($album->artist->id, array($album->id), 10);
     $this->view->popularAlbums = Model_Album_Api::getInstance()->getPopular(10);
@@ -96,7 +97,62 @@ class AlbumController extends Zend_Controller_Action
 
     $this->view->title = $album->artist->name . ' - ' . $album->title;
     $this->view->headTitle()->set($this->view->title, 'PREPEND');
-    $this->view->headMeta()->setName('keywords', $album->artist->name . ',' . $album->title . ',teksty,download,teksty,premiera,hip-hop,polski hip hop');
+    $this->view->headMeta()->setName('keywords', $album->artist->name . ',' . $album->title . ',teksty,premiera,download,hip-hop,polski,hip hop');
     $this->view->headMeta()->setName('description', $album->artist->name . ' "' . $album->title . '" lista utworów, okładka, teksty, słowa piosenek, premiera, oraz inne szczegółowe informacje o albumie na największej polskiej stronie o polskim hip-hopie.');
+  }
+  
+  // description autogeneration, displayedfor SEO purposes
+  private function _generateDescription($album)
+  {
+    $description = null;
+    $music = array();
+    $scratch = array();
+    $feat = array();
+    $rap = array();
+
+    foreach ($album->tracklist->items as $key => $value) {
+      foreach ($value->featuring->items as $data) {
+        $feat[] = $data->name;
+      }
+      foreach ($value->music->items as $data) {
+        $music[] = $data->name;
+      }
+      foreach ($value->scratch->items as $data) {
+        $scratch[] = $data->name;
+      }
+      foreach ($value->artist->items as $data) {
+        $rap[] = $data->name;
+      } 
+    }
+
+    $eps = array();
+    foreach ($album->eps->items as $key => $value) {
+      $eps[] = $value->title;
+    }
+
+    if ($album->isAnnounced()) {
+      $description = 'Długo oczekiwany album ' . $album->title . ', został zapowiedziany przez wytwórnię ' . $album->label->name .
+      '. Premiera planowana jest na ' . $album->releaseDateNormalized . ', czyli już niedługo! ' .
+      (!empty($album->tracklist->items)?'Album ma zawierać ' . sizeof($album->tracklist->items) . ' utworów. ' .
+      'Płyta będzie otwarta utworem ' . $album->tracklist->items[0]->title . ', a zamknięta utworem ' . $album->tracklist->items[sizeof($album->tracklist->items)-1]->title . '. ':'') .
+      'Czekamy z niecierpliwością. ' .
+      '';
+    } else {
+      $description = 'Album "' . $album->title . '", został wydany przez wytwórnię ' . $album->label->name .
+      ', premiera odbyła się ' . $album->releaseDateNormalized . '. ' .
+      (!empty($album->tracklist->items)?'Album zawiera ' . sizeof($album->tracklist->items) . ' utworów' . (($album->duration!="--")?' i trwa ' . $album->duration:''). '. ' .
+      'Płyta rozpoczyna się utworem "' . $album->tracklist->items[0]->title . '", a kończy utworem "' . $album->tracklist->items[sizeof($album->tracklist->items)-1]->title . '". ':'');
+    }
+    $description .= 
+      ((!empty($eps))?'Album "' . $album->title . '" jest poprzedzony singlami: "' . implode(array_unique($eps), '", "') . '". ':'') .
+      ((!empty($album->epFor))?'Album "' . $album->title . '" jest singlem do albumu "' . $album->epFor->title . '". ':'') .
+      ((!empty($rap))?'Za rymy i rap na płycie, odpowiedzialni są: ' . implode(array_unique($rap), ', ') . '. ':'') . 
+      ((!empty($music))?'Warstwę muzyczną zapewnili: ' . implode(array_unique($music), ', ') . '. ':'') . 
+      ((!empty($scratch))?'Scratch i cuty na płycie to zasługa: ' . implode(array_unique($scratch), ', ') . '. ':'') . 
+      ((!empty($feat))?'Gościnnie na albumie udzielają się: ' . implode(array_unique($feat), ', ') . '. ':'') . 
+      '' . 
+      $album->artist->name . ' to prawdziwy polski hip-hop. ' . 
+      'Aby zobaczyć teksty piosenek, należy kliknąć w tytuły na liście powyżej. Do każdej piosenki dołączony jest teledysk. Jeżeli teledyski nieodpowiadają tytułowi, możesz to zgłosić.';
+    return $description;
   }
 }

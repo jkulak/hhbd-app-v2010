@@ -17,6 +17,7 @@ class Model_Album_Container
   public $artist;
   public $releaseDate;
   public $cover;
+  public $autoDescription = null;
   
   function __construct($params, $full = false)
   {
@@ -95,58 +96,6 @@ class Model_Album_Container
     }
     
     $this->url = Jkl_Tools_Url::createUrl($this->title);
-    
-    // description autogeneration, if description is not set, seo purposes
-    if (empty($this->description) AND $full) {
-      $music = array();
-      $scratch = array();
-      $feat = array();
-      $rap = array();
-      
-      foreach ($this->tracklist->items as $key => $value) {
-        foreach ($value->featuring->items as $data) {
-          $feat[] = $data->name;
-        }
-        foreach ($value->music->items as $data) {
-          $music[] = $data->name;
-        }
-        foreach ($value->scratch->items as $data) {
-          $scratch[] = $data->name;
-        }
-        foreach ($value->artist->items as $data) {
-          $rap[] = $data->name;
-        } 
-      }
-      
-      $eps = array();
-      foreach ($this->eps->items as $key => $value) {
-        $eps[] = $value->title;
-      }
-      
-      if ($this->isAnnounced()) {
-        $this->description = 'Długo oczekiwany album ' . $this->title . ', został zapowiedziany przez wytwórnię ' . $this->label->name .
-        '. Premiera planowana jest na ' . $this->releaseDateNormalized . ', czyli już niedługo! ' .
-        (!empty($this->tracklist->items)?'Album ma zawierać ' . sizeof($this->tracklist->items) . ' utworów. ' .
-        'Płyta będzie otwarta utworem ' . $this->tracklist->items[0]->title . ', a zamknięta utworem ' . $this->tracklist->items[sizeof($this->tracklist->items)-1]->title . '. ':'') .
-        'Czekamy z niecierpliwością. ' .
-        '';
-      } else {
-        $this->description = 'Album "' . $this->title . '", został wydany przez wytwórnię ' . $this->label->name . ', ' .
-        $this->releaseDateNormalized . '. ' .
-        (!empty($this->tracklist->items)?'Album zawiera ' . sizeof($this->tracklist->items) . ' utworów' . (($this->duration!="--")?' i trwa ' . $this->duration:''). '. ' .
-        'Płyta rozpoczyna się utworem "' . $this->tracklist->items[0]->title . '", a kończy utworem "' . $this->tracklist->items[sizeof($this->tracklist->items)-1]->title . '". ':'');
-      }
-      $this->description .= 
-        ((!empty($eps))?'Album "' . $this->title . '" jest poprzedzony singlami: "' . implode(array_unique($eps), '", "') . '". ':'') .
-        ((!empty($this->epFor))?'Album "' . $this->title . '" jest singlem do albumu "' . $this->epFor->title . '". ':'') .
-        ((!empty($rap))?'Za rymy i rap na płycie, odpowiedzialni są: ' . implode(array_unique($rap), ', ') . '. ':'') . 
-        ((!empty($music))?'Warstwę muzyczną zapewnili: ' . implode(array_unique($music), ', ') . '. ':'') . 
-        ((!empty($scratch))?'Scratch i cuty na płycie to zasługa: ' . implode(array_unique($scratch), ', ') . '. ':'') . 
-        ((!empty($feat))?'Gościnnie na albumie udzielają się: ' . implode(array_unique($feat), ', ') . '. ':'') . 
-        '' . 
-        $this->artist->name . ' to prawdziwy polski hip-hop. ' . 
-        'Aby zobaczyć teksty piosenek, należy kliknąć w tytuły na liście powyżej. ';
-    }
   }
   
   /**
