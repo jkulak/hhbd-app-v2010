@@ -56,6 +56,10 @@ section {
   display: none;
 }
 
+.right {
+  float: right;
+}
+
 /* debug */
 .dbg {
   background: lime;
@@ -432,4 +436,7 @@ ul ul.list {
 #detail-search input[type="submit"] {cursor: pointer;}
 #detail-search ul {margin: 4px 0 0 18px; font-size: 85%;}
 #detail-search ul li {float: left; margin-right: 16px;}
+#no-results {margin: auto; width: 600px; margin-top: 50px; text-align: center;}
+#no-results p {margin-bottom: 8px;}
+#no-results p span {padding: 2px; background: #D5C179;}
 
