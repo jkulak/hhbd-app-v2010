@@ -347,4 +347,21 @@ class Model_Album_Api extends Jkl_Model_Api
     (($limit != null)?' LIMIT ' . $limit:'');
     return $this->getList($query);
   }
+  
+  public function redirectFromOld($urlName)
+  {
+    $urlName = strtolower(strval($urlName));
+    if (empty($urlName)) {
+      return false;
+      // throw exception
+    }
+    $query = "SELECT t1.id AS alb_id, t1.title AS alb_title, t3.name AS art_name
+              FROM albums t1, album_artist_lookup t2, artists t3
+              WHERE (t1.id=t2.albumid AND t3.id=t2.`artistid` AND t1.`urlname` = '" . $urlName . "');";
+    $result = $this->_db->fetchAll($query);
+    if (!empty($result[0])) {
+      return $result[0];
+    }
+    return false;
+  }
 }
