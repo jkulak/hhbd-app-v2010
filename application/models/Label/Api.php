@@ -97,4 +97,22 @@ class Model_Label_Api extends Jkl_Model_Api
     $result = $this->_db->fetchAll($query);
     return intval($result[0]['count']);
   }
+  
+  public function redirectFromOld($urlName)
+  {
+    $urlName = strtolower(strval($urlName));
+    if (empty($urlName)) {
+      return false;
+      // throw exception
+    }
+    $query = "SELECT t1.id AS lab_id, t1.name AS lab_name
+              FROM labels t1
+              WHERE (t1.`urlname` = '" . $urlName . "');";
+    $result = $this->_db->fetchAll($query);
+    if (!empty($result[0])) {
+      return $result[0];
+    }
+    return false;
+  }
+    
 }
