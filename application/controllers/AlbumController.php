@@ -95,7 +95,7 @@ class AlbumController extends Zend_Controller_Action
 
     $this->view->currentUrl = $this->getRequest()->getBaseUrl() . $this->getRequest()->getRequestUri();
 
-    $this->view->title = $album->artist->name . ' - ' . $album->title;
+    $this->view->title = $album->artist->name . ' - ' . $album->title . ' (' . $album->year . ')';
     $this->view->headTitle()->set($this->view->title, 'PREPEND');
     $this->view->headMeta()->setName('keywords', $album->artist->name . ',' . $album->title . ',teksty,premiera,download,hip-hop,polski,hip hop');
     $this->view->headMeta()->setName('description', $album->artist->name . ' "' . $album->title . '" lista utworów, okładka, teksty, słowa piosenek, premiera, oraz inne szczegółowe informacje o albumie na największej polskiej stronie o polskim hip-hopie.');

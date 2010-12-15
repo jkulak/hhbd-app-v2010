@@ -45,6 +45,7 @@ class Model_Album_Container
     }
     
     $this->releaseDate = $params['year'];
+    $this->year = substr($params['year'], 0, 4);
     $this->releaseDateNormalized = Jkl_Tools_Date::getNormalDate($this->releaseDate);
 
     $this->catalogNumber = (!empty($params['catalog_cd'])?$params['catalog_cd']:null);

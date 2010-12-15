@@ -7,7 +7,7 @@ a {
   text-decoration: none;
 }
 a:hover {
-  text-decoration: underline;
+/*  text-decoration: underline;*/
 }
 
 div {
@@ -314,7 +314,7 @@ ul ul.list {
   background: #EAE3CD;
   border-bottom: 1px solid #C3BDAB;
   margin-bottom: 8px;
-  padding: 4px 0 4px 4px;
+  padding: 4px 0 0 4px;
 }
 
 .header h2 {
