@@ -46,4 +46,7 @@ $(function(){
   
   // unhide javascript functionality
   $('.jsHidden').show();
+  
+  $('*').text($(this).html());
+  
 });
