@@ -4,7 +4,9 @@ class IndexController extends Zend_Controller_Action
 {
     public function init()
     {
-        /* Initialize action controller here */
+      $this->view->headMeta()->setName('keywords', 'polski hip-hop, albumy');
+      $this->view->headTitle()->headTitle('Hhbd.pl - Hip-hopowa baza danaych', 'SET');
+      $this->view->headMeta()->setName('description', 'Albumy w hhbd.pl');
     }
 
     public function indexAction()

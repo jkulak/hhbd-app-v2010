@@ -57,7 +57,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     $view = $layout->getView();
 
     $view->doctype('HTML5');
-    $view->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
+    // $view->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
     $view->headMeta()->setCharset('utf-8');    
     $view->headMeta()->setName('robots', 'index,follow');
     $view->headMeta()->setName('author', 'Jakub Kułak, www.webascrazy.net');

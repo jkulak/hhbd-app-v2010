@@ -42,7 +42,8 @@ class RedirectController extends Zend_Controller_Action
       exit;
     }
     else {
-      header("Location: /404.html", true);
+      header("Location: /404.html", true, 404);
+      exit();
     }
 
   }
