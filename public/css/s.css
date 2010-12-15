@@ -29,7 +29,7 @@ div {
 }
 
 h1 {
-  line-height: 24px;
+  line-height: 32px;
   margin-bottom: 12px;
 }
 
@@ -83,11 +83,11 @@ section {
   min-width: 960px;
   margin: 0 auto;
   overflow: hidden;
-  
-  box-shadow: 8px 8px 8px #000;
-  -moz-box-shadow: 8px 8px 8px #000;
-  -webkit-box-shadow: 8px 8px 8px #000;
-  -o-box-shadow: 8px 8px 8px #000;
+  box-shadow: 4px 4px 4px #000;
+  -moz-box-shadow: 4px 4px 4px #000;
+  -webkit-box-shadow: 4px 4px 4px #000;
+  -o-box-shadow: 4px 4px 4px #000;
+
   margin-bottom: 8px;
 }
 
@@ -104,7 +104,7 @@ section {
   overflow: hidden;
 }
 
-#main {
+#main, .main {
   float: left;
   width: 66%;
   padding-right: 8px;
@@ -112,11 +112,11 @@ section {
   border-right: 1px dotted #938548;
 }
 
-#main h1 {
+#main h1, .main h1 {
   float: left;
 }
 
-#main #share {
+#share {
   float: right;
   
 }
@@ -148,11 +148,35 @@ section {
   font-size: 85%;
 }
 
+/* footer */
 #footer {
   border-top: 1px solid #938548;
-  background: #d0c17e;
+  background: #d0c17e url(/s/sprite.png) 0 0 repeat-x;
+  padding-top: 10px;
+  height: 90px;
+  position: relative;
   clear: both;
   overflow: hidden;
+}
+
+#disclaimer {
+  text-align: center;
+  font-size: 12px;
+  float: left;
+  padding: 0 12px;
+  color: #373121;
+  text-shadow: 0 0 24px #fff, 0 0 4px #6E6440;
+  line-height: 16px;
+}
+
+#footer ul {
+  margin-left: 30px;
+}
+
+#footer ul li {
+  float: left;
+  padding: 0 12px;
+  margin-bottom: 8px;
 }
 
 /* design */
@@ -225,10 +249,6 @@ section {
   border: 0;
 }
 
-#footer ul li {
-  float: left;
-  padding: 0 12px 0 12px;
-}
 
 #picture img {
   width: 300px;
@@ -443,4 +463,6 @@ ul ul.list {
 #no-results {margin: auto; width: 600px; margin-top: 50px; text-align: center;}
 #no-results p {margin-bottom: 8px;}
 #no-results p span {padding: 2px; background: #D5C179;}
+.searches ul {list-style-type: square; margin-left: 20px;}
+#site-search ol {list-style-type: disc; margin-left: 32px;}
 
