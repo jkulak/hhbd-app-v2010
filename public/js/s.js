@@ -32,12 +32,12 @@ $(function(){
   $("#tracklist span.toggle > a").toggle(
     function () {
       $(this).text("Pokaż szczegóły");
-      $("ul.feat").addClass("hidden");
+      $("ul.feat").hide();
       setCookie('albumShowDetails', 0, exp);   
     },
     function () {
       $(this).text("Ukryj szczegóły");
-      $("ul.feat").removeClass("hidden");
+      $("ul.feat").show();
       setCookie('albumShowDetails', 1, exp);
     }
   );
@@ -46,12 +46,12 @@ $(function(){
   $("#description span.toggle > a").toggle(
     function () {
       $(this).text("Ukryj opis standardowy");
-      $("p.auto").removeClass("hidden");
+      $("p.auto").show();
       setCookie('albumShowAuto', 1, exp);
     },
     function () {
       $(this).text("Pokaż opis standardowy");
-      $("p.auto").addClass("hidden");
+      $("p.auto").hide();
       setCookie('albumShowAuto', 0, exp);
     }
   );
@@ -75,8 +75,9 @@ $(function(){
     $('#downCount').text(parseInt($('#downCount').text())+1);
   });
   
-  // unhide javascript functionality
-  $('.jsHidden').show();
+  // unhide javascript functionality, and hide what can be revelaed using js
+  $('.js-visible').show();
+  $('.js-hidden').hide();
   
 
   if (getCookie('albumShowDetails') == 0) { $("#tracklist span.toggle > a").click(); };

@@ -12,13 +12,21 @@
         <reverse/>
       </homeSite>
       
+      <aboutUs>
+        <route>o-nas.html</route>
+        <defaults>
+          <controller>index</controller>
+          <action>aboutUs</action>
+        </defaults>
+      </aboutUs>
+      
       <top10>
         <route>top10.html</route>
         <defaults>
           <controller>top</controller>
           <action>index</action>
         </defaults>
-        <reverse>/op10.html</reverse>
+        <reverse>/top10.html</reverse>
       </top10>
       
 <!-- Albumy Wykonawcy Wytwórnie "O nas" Blog Kontakt "Zasady użytkowania" "Mapa strony" -->
@@ -144,7 +152,7 @@
         </search>
 
         <redirectPrevUrl type="Zend_Controller_Router_Route_Regex">
-          <route>([anls]{1}|news)/(.+)</route>
+          <route>([anls]{1}|news|album)/(.+)</route>
           <defaults>
             <controller>redirect</controller>
             <action>index</action>

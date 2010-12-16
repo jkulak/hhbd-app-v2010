@@ -41,7 +41,7 @@ class ArtistController extends Zend_Controller_Action
   {
     $artist = Model_Artist_Api::getInstance()->find($this->params['id'], true);
     $artist->addAlbums(Model_Album_Api::getInstance()->getArtistsAlbums($artist->id, array(), false, 'year'));
-
+    
     if (!empty($artist->projects->items)) {
       $projectAlbums = new Jkl_List('Projects list');
       $temp = new Jkl_List('Temp');
@@ -55,9 +55,10 @@ class ArtistController extends Zend_Controller_Action
     $artist->addFeaturing(Model_Album_Api::getInstance()->getFeaturingByArtist($artist->id, null));
     $artist->addMusic(Model_Album_Api::getInstance()->getMusicByArtist($artist->id, null));
     $artist->addScratch(Model_Album_Api::getInstance()->getScratchByArtist($artist->id, null));
-    
     $artist->addPopularSongs(Model_Song_Api::getInstance()->getMostPopularByArtist($artist->id, 10));
-      
+
+    $artist->autoDescription = $this->_generateDescription($artist);
+    
     $this->view->artist = $artist;
     
     // seo
@@ -81,5 +82,164 @@ class ArtistController extends Zend_Controller_Action
     $this->view->headTitle()->headTitle($artist->name . ' - teksty, dyskografia, biografia', 'PREPEND');
     $this->view->headMeta()->setName('description', $artist->name . ' - teksty, dyskografia, biografia '. implode($albumList, ', '));
     $this->view->headMeta()->setName('keywords', $artist->name . ',' . implode(',', $albumListTmp) . ',teksty,dyskografia,biografia' );
+  }
+  
+  // description autogeneration, displayed for SEO purposes
+  private function _generateDescription($artist)
+  {
+    $description = '';
+    
+    if ((!empty($artist->alsoKnownAs->items)) OR (!empty($artist->realName))) {
+      if ($artist->isBand()) {
+          $description .= "Projekt ";
+        }
+        else {
+          $description .= "Wykonawca ";
+        }
+    
+      $description .= $artist->name;
+    
+      if (!empty($artist->alsoKnownAs->items)) {
+        $description .= " znany jest także jako " . implode($artist->alsoKnownAs->items, ', ') . '. ';
+      }
+    
+      if (!empty($artist->realName)) {
+        $description .= "Naprawdę nazywa się " . $artist->realName . '. ';
+      }
+    }
+    
+    if (!empty($artist->since)) {
+      if ($artist->isBand()) {
+          $description .= "Skład został założony w ";
+        }
+        else {
+          $description .= "Urodził się w ";
+        }
+        $description .= $artist->since . '. ';
+      }
+    
+    if ($artist->cities->items) {
+      if ($artist->isBand()) {
+          $description .= "Miasto założenia ";
+        }
+        else {
+          $description .= "Urodził się w ";
+        }
+        $artist->cities->items[0]['city'] . '. ';
+    }
+    
+    if (!empty($artist->members->items)) {
+      $description .= "W skład projektu wchodzą: ";
+      foreach ($artist->members->items as $key => $value) {
+        $description .= $value->name;
+        if (sizeof($artist->members->items) - 1 > $key) {
+          $description .= ', ';
+        }
+      }
+      $description .= '. ';
+    }
+
+    if (!empty($artist->projects->items)) {
+      $description .= $artist->name . " współtworzy następujące projekty ";
+      foreach ($artist->projects->items as $key => $value) {
+        $description .= $value->name;
+        if (sizeof($artist->projects->items) - 1 > $key) {
+          $description .= ', ';
+        }
+      }
+      $description .= '. ';
+    }
+    
+    if (!empty($artist->albums->items)) {
+      $description .= $artist->name . " wydał " . sizeof($artist->albums->items) . ' ';
+      $description .= (sizeof($artist->albums->items)==1)?'album':((sizeof($artist->albums->items)>4)?'albumów':'albumy');
+      $description .= " w tym, między innymi ";
+      foreach ($artist->albums->items as $key => $value) {
+         $description .= '"' . $value->title . '"';
+          if (sizeof($artist->albums->items) - 1 > $key) {
+            $description .= ', ';
+          }
+      }
+      $description .= '. Data wydania pierwszego albumu, to ';
+      $description .= $artist->albums->items[sizeof($artist->albums->items)-1]->releaseDateNormalized . '. ';
+      if (sizeof($artist->albums->items)>1) {
+        $description .= "Natomiast ostatni ukazał się " . $artist->albums->items[0]->releaseDateNormalized . '. ';
+      }
+    }
+    
+    if (!empty($artist->projectAlbums->items)) {
+      $description .= $artist->name . ' w projektach wydał ' . sizeof($artist->projectAlbums->items) . ' ';
+      $description .= (sizeof($artist->projectAlbums->items)==1)?'album':((sizeof($artist->projectAlbums->items)>4)?'albumów, w tym między innymi':'albumy, w tym między innymi');
+      $description .= ' ';
+      foreach ($artist->projectAlbums->items as $key => $value) {
+        $description .= '"' . $value->title . '"';
+        if (sizeof($artist->projectAlbums->items) - 1 > $key) {
+          $description .= ', ';
+        }
+      }
+      $description .= '. ';
+    }
+    
+    if ($artist->concertInfo) {
+      $description .= 'Jeżeli chcesz zabukować występ ' . $artist->name . ' skorzystaj z danych kontaktowych na górze strony, obok zdjęcia wykonawcy. ';
+    }
+    
+    if (!empty($artist->featuring->items)) {
+      $description .= $artist->name . ' wystąpił gościnnie na ' . ((sizeof($artist->featuring->items)>1)?'albumach':'albumie');
+      $description .= ' ';
+      foreach ($artist->featuring->items as $key => $value) {
+        $description .= '"' . $value->title . '"';
+        if (sizeof($artist->featuring->items) - 1 > $key) {
+          $description .= ', ';
+        }
+      }
+      $description .= '. ';
+    }
+    
+    if (!empty($artist->music->items)) {
+      $description .= $artist->name . ' odpowiada za muzykę na ' . ((sizeof($artist->music->items)>1)?'albumach':'albumie');
+      $description .= ' ';
+      foreach ($artist->music->items as $key => $value) {
+        $description .= '"' . $value->title . '"';
+        if (sizeof($artist->music->items) - 1 > $key) {
+          $description .= ', ';
+        }
+      }
+      $description .= '. ';
+    }
+
+    if (!empty($artist->scratch->items)) {
+      $description .= $artist->name . ' robił skrecze i cuty na ' . ((sizeof($artist->scratch->items)>1)?'albumach':'albumie');
+      $description .= ' ';
+      foreach ($artist->scratch->items as $key => $value) {
+        $description .= '"' . $value->title . '"';
+        if (sizeof($artist->scratch->items) - 1 > $key) {
+          $description .= ', ';
+        }
+      }
+      $description .= '. ';
+    }
+   
+    if ($artist->trivia) {
+      $description .= 'Jako ciekawostka: ' . $artist->trivia . '. ';
+    }
+    
+    if (!empty($artist->popularSongs->items)) {
+      $description .= 'Najpopularniejsze utwory '. $artist->name . ' to ';
+      foreach ($artist->popularSongs->items as $key => $value) {
+        $description .= '"' . $value->title . '"';
+        if (sizeof($artist->popularSongs->items) - 1 > $key) {
+          $description .= ', ';
+        }
+      }
+      $description .= '. ';
+    }
+
+    if (!empty($artist->website)) {
+      $description .= 'Więcej informacji o ' . $artist->name . ' możesz przeczytać na oficjalnej stronie www, pod adresem: ';
+      $description .= $artist->website . '. ';
+    }
+
+    return $description;
   }
 }
