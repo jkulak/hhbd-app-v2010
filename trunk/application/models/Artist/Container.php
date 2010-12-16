@@ -51,7 +51,7 @@ class Model_Artist_Container
     
     if ($full) {
       $this->realName = $params['realname'];
-      $this->profile = $params['profile'];
+      $this->description = $params['profile'];
       
       //it happens it has only spaces, so it's trimmed
       $this->concertInfo = trim($params['concertinfo']);

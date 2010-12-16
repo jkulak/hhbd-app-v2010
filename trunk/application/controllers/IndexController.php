@@ -14,4 +14,8 @@ class IndexController extends Zend_Controller_Action
       $this->view->newestList = Model_Album_Api::getInstance()->getNewest(3);
       $this->view->announcedList = Model_Album_Api::getInstance()->getAnnounced(3);
     }
+    
+    public function aboutUsAction()
+    {
+    }
 }

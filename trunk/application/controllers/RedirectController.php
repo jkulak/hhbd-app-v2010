@@ -15,8 +15,9 @@ class RedirectController extends Zend_Controller_Action
     
     switch ($type) {
       case 'a':
+      case 'album':
         $data = Model_Album_Api::getInstance()->redirectFromOld($urlName);
-        $redirect = Jkl_Tools_Url::createUrl($data['art_name'] . '-' . $data['alb_title'] . '-a' . $data['alb_id'] . '.html');
+        $redirect = Jkl_Tools_Url::createUrl($data['art_name'] . '+-+' . $data['alb_title'] . '-a' . $data['alb_id'] . '.html');
         break;
         
       case 'n':

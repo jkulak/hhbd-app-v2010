@@ -88,15 +88,10 @@
 
   <div id="description" class="pane">
     <div class="header">
-      <h2>Biografia</h2>
+      <h2>Biografia</h2><?php if (!empty($this->artist->description)): ?><span class="toggle js-visible"><a href="?showDefaultDescription=1">Pokaż opis standardowy</a></span><?php endif ?>
     </div>
-  	<p>
-  	  <?php if (!empty($this->artist->profile)): ?>
-  	    <?php echo $this->artist->profile ?>
-  	  <?php else: ?>
-  	    <?php echo $this->render('artist/_description.phtml') ?>
-	    <?php endif ?>
-  	</p>
+  	 <?php if (!empty($this->artist->description)): ?><p><?php echo $this->artist->description ?></p><?php endif ?>
+    <p class="<?php if (!empty($this->artist->description)): ?>js-hidden <?php endif ?>auto"><?php echo $this->artist->autoDescription ?></p>
   </div>
 
 </div> <!-- main -->
