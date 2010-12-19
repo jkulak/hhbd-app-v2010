@@ -162,7 +162,7 @@
         </search>
 
         <redirectPrevUrl type="Zend_Controller_Router_Route_Regex">
-          <route>([anls]{1}|news|album)/([^/]*).*</route>
+          <route>([anls]{1}|news|album|wytwornia|utwor|wykonawca)/([^/]*).*</route>
           <defaults>
             <controller>redirect</controller>
             <action>index</action>
