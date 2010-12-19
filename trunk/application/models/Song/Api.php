@@ -121,9 +121,6 @@ class Model_Song_Api extends Jkl_Model_Api
     $query = 'SELECT sum(t1.length) as duration ' .
       'FROM songs AS t1, album_lookup AS t2 ' .
       'WHERE (t2.songid=t1.id AND t2.albumid=' . $id . ')';
-    
-//    $duration = Zend_Registry::get('Memcached')->load(md5($query));
-    
     if (empty($duration)) {
       $result = $this->_db->fetchAll($query);
       if ($result[0]['duration'] > 0) {
@@ -133,7 +130,6 @@ class Model_Song_Api extends Jkl_Model_Api
       {
         $duration = 0;
       }
-//      Zend_Registry::get('Memcached')->save($duration, md5($query));
     }
     return $duration;
   }
@@ -141,7 +137,7 @@ class Model_Song_Api extends Jkl_Model_Api
   public function getMostPopularByArtist($id, $limit = 10)
   {
     $id = intval($id);
-    $limit = intval($id);
+    $limit = intval($limit);
     $query = 'SELECT *, t1.id as song_id
               FROM songs t1, artist_lookup t2, artists t3
               WHERE (t1.id=t2.songid AND t2.artistid=t3.id AND t3.id=' . $id . ')

@@ -73,6 +73,11 @@ section {
   background: yellow;
 }
 
+ul.list {
+  margin-left: 30px;
+  list-style-type: square;
+}
+
 /* layout */
 #body {
   padding: 0 10px;
@@ -267,11 +272,6 @@ section {
   max-width: 313px;
 }
 
-ul ul.list {
-  margin-left: 30px;
-  list-style-type: square;
-}
-
 #booking {
   margin-left: 10px;
 }
@@ -451,6 +451,11 @@ ul ul.list {
 }
 
 /********************************************************************************************/
+/* Homesite                                                                                 */
+/********************************************************************************************/
+
+
+/********************************************************************************************/
 /* search                                                                                   */
 /********************************************************************************************/
 #detail-search {width: 400px; margin: 0 auto;}
@@ -464,4 +469,17 @@ ul ul.list {
 #no-results p span {padding: 2px; background: #D5C179;}
 .searches ul {list-style-type: square; margin-left: 20px;}
 #site-search ol {list-style-type: disc; margin-left: 32px;}
+
+
+/********************************************************************************************/
+/* Tipsy                                                                                    */
+/********************************************************************************************/
+.tipsy { padding: 5px; font-size: 11px; opacity: 0.8; filter: alpha(opacity=80); background-repeat: no-repeat;  background-image: url(/s/tipsy.gif); }
+.tipsy-inner { padding: 4px 7px 5px 7px; background-color: black; color: white; max-width: 400px;}
+.tipsy-inner { -moz-border-radius:3px; -webkit-border-radius:3px; }
+.tipsy-north { background-position: top center; }
+.tipsy-south { background-position: bottom center; }
+.tipsy-east { background-position: right center; }
+.tipsy-west { background-position: left center; }
+
 

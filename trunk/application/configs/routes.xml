@@ -12,13 +12,23 @@
         <reverse/>
       </homeSite>
       
-      <aboutUs>
+      <about>
         <route>o-nas.html</route>
         <defaults>
           <controller>index</controller>
-          <action>aboutUs</action>
+          <action>about</action>
         </defaults>
-      </aboutUs>
+        <reverse>o-nas.html</reverse>
+      </about>
+      
+      <contact>
+        <route>kontakt.html</route>
+        <defaults>
+          <controller>index</controller>
+          <action>contact</action>
+        </defaults>
+        <reverse>kontakt.html</reverse>
+      </contact>
       
       <top10>
         <route>top10.html</route>
@@ -152,7 +162,7 @@
         </search>
 
         <redirectPrevUrl type="Zend_Controller_Router_Route_Regex">
-          <route>([anls]{1}|news|album)/(.+)</route>
+          <route>([anls]{1}|news|album)/([^/]*).*</route>
           <defaults>
             <controller>redirect</controller>
             <action>index</action>
@@ -160,6 +170,7 @@
           <map>
             <type>1</type>
             <urlName>2</urlName>
+            <subUrl>2</subUrl>
           </map>
           <reverse>www.hhbd.pl</reverse>
         </redirectPrevUrl>

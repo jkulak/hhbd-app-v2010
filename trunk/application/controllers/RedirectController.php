@@ -39,7 +39,7 @@ class RedirectController extends Zend_Controller_Action
         break;
     }
     if ($data) {
-      header("Location: /" . $redirect, true, 301);
+      header("Location: /" . str_replace(' ', '+', $redirect), true, 301);
       exit;
     }
     else {

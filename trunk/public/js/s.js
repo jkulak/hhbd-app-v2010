@@ -1,7 +1,5 @@
 // on load create a script to load a final script here
 
-
-
 function getCookie (name) {
     var dc = document.cookie;
     var cname = name + "=";
@@ -21,8 +19,6 @@ function getCookie (name) {
 function setCookie(name, value, expires) {
   document.cookie = name + "=" + escape(value) + "; path=/" + ((expires == null) ? "" : "; expires=" + expires.toGMTString());
 }
-
-
 
 var exp = new Date();
 exp.setTime(exp.getTime() + (1000 * 60 * 60 * 24 * 350));
@@ -79,9 +75,10 @@ $(function(){
   $('.js-visible').show();
   $('.js-hidden').hide();
   
-
+  // read cookies and show/hide auto description
   if (getCookie('albumShowDetails') == 0) { $("#tracklist span.toggle > a").click(); };
   if (getCookie('albumShowAuto') == 1) { $("#description span.toggle > a").click(); };
-
   
+  $('.covers img').tipsy({'html':'true','gravity':'n','delayOut':3000,'delayIn':3000,title: function() { return this.getAttribute('original-title'); }});
+
 });

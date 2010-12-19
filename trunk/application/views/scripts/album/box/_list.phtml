@@ -6,7 +6,9 @@
       <li>
       <?php if ($this->showCovers): ?>
         <a href="<?php echo $this->url(array('id' => $album->id, 'seo' => ($album->artist->url . ' - ' . $album->url)), 'album') ?>">
-        	  <img src="<?php echo $album->thumbnail ?>" alt="Okładka albumu <?php echo $album->title ?>" title="<?php echo $album->title . ' - ' . $album->artist->name ?>" class="thumb" />
+        	  <img src="<?php echo $album->thumbnail ?>" alt="Okładka albumu <?php echo $album->title ?>"
+        	  title="<?php echo  $album->artist->name . '<br />' . $album->title . ' (' . $album->year . ')' ?>" 
+        	  class="thumb" />
         	  </a>
       <?php else: ?>
         <?php echo $this->partial('album/_link.phtml', array('album' => $album, 'showArtist' => true)) ?></li>
