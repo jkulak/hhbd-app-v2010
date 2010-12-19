@@ -1,0 +1,10 @@
+Wytwórnia <?php echo $this->label->name ?> wydała do tej pory <?php echo count($this->label->releases->items) ?> <?php echo ((count($this->label->releases->items)>4)?'albumów':((count($this->label->releases->items)>1)?'albumy':'album')) ?>. Wytwórnia wydaje takich wykonawców jak <?php echo $this->label->artists ?>. Najnowsze wydawnictwo wytwórni to "<?php echo $this->label->releases->items[0]->title ?>", za które odpowiedzialny jest <?php echo $this->label->releases->items[0]->artist->name ?>. Ostatni album <?php echo $this->label->name ?> wydało <?php echo $this->label->releases->items[0]->releaseDateNormalized ?>. 
+<?php if (!empty($this->label->website)): ?>
+  Oficjalna strona wytwórni, to: <?php echo $this->label->website ?> - sprawdzajcie!
+<?php endif ?>
+<?php if (!empty($this->label->email)): ?>
+Jeżeli chcecie się skontaktować bezpośrednio z wytwórnią, to piszcie na adres: <?php echo $this->label->email ?>.
+<?php endif ?>
+<?php if (!empty($this->label->addres)): ?>
+Pocztowy adres <?php echo $this->label->name ?>, to: <?php echo $this->label->addres ?> - możecie słać demówki!
+<?php endif ?>.
