@@ -21,16 +21,19 @@ class RedirectController extends Zend_Controller_Action
         break;
         
       case 'n':
+      case 'wykonawca':
         $data = Model_Artist_Api::getInstance()->redirectFromOld($urlName);
         $redirect = Jkl_Tools_Url::createUrl($data['art_name'] . '-p' . $data['art_id'] . '.html');
         break;
       
       case 'l':
+      case 'wytwornia':
         $data = Model_Label_Api::getInstance()->redirectFromOld($urlName);
         $redirect = Jkl_Tools_Url::createUrl($data['lab_name'] . '-l' . $data['lab_id'] . '.html');
         break;
       
       case 's':
+      case 'utwor':
         $data = Model_Song_Api::getInstance()->redirectFromOld($urlName);
         $redirect = Jkl_Tools_Url::createUrl($data['sng_title'] . '-s' . $data['sng_id'] . '.html');
         break;
