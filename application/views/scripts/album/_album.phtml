@@ -1,6 +1,6 @@
 <li class="elem">
   <a class="cover" href="<?php echo $this->url(array('id' => $this->album->id, 'seo' => $this->album->artist->url . ' - ' . $this->album->url), 'album'); ?>">
-    <img src="<?php echo $this->album->thumbnail; ?>" alt="Okładka <?php echo $this->album->artist->name . ' - ' . $this->album->title; ?>" title="<?php echo $this->album->artist->name . ' - ' . $this->album->title; ?>"/>
+    <img src="<?php echo $this->album->thumbnail; ?>" alt="Okładka <?php echo $this->album->artist->name . ' - ' . $this->album->title; ?>" title="<?php echo $this->album->artist->name . ' - ' . $this->album->title . '(' . $this->year . ')'; ?>"/>
     <span></span>
   </a>
   <ul class="info">

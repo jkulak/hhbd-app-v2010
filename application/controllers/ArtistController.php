@@ -55,7 +55,7 @@ class ArtistController extends Zend_Controller_Action
     $artist->addFeaturing(Model_Album_Api::getInstance()->getFeaturingByArtist($artist->id, null));
     $artist->addMusic(Model_Album_Api::getInstance()->getMusicByArtist($artist->id, null));
     $artist->addScratch(Model_Album_Api::getInstance()->getScratchByArtist($artist->id, null));
-    $artist->addPopularSongs(Model_Song_Api::getInstance()->getMostPopularByArtist($artist->id, 10));
+    $artist->addPopularSongs(Model_Song_Api::getInstance()->getMostPopularByArtist($artist->id, 40));
 
     $artist->autoDescription = $this->_generateDescription($artist);
     
@@ -125,7 +125,7 @@ class ArtistController extends Zend_Controller_Action
         else {
           $description .= "Urodził się w ";
         }
-        $artist->cities->items[0]['city'] . '. ';
+        $description .= $artist->cities->items[0]['city'] . '. ';
     }
     
     if (!empty($artist->members->items)) {
@@ -239,6 +239,8 @@ class ArtistController extends Zend_Controller_Action
       $description .= 'Więcej informacji o ' . $artist->name . ' możesz przeczytać na oficjalnej stronie www, pod adresem: ';
       $description .= $artist->website . '. ';
     }
+    
+    $description .= 'Żeby zobaczyć teskty piosenek, wybierz album, a następnie konkretną piosenkę. ';
 
     return $description;
   }

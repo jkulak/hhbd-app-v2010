@@ -15,7 +15,11 @@ class IndexController extends Zend_Controller_Action
       $this->view->announcedList = Model_Album_Api::getInstance()->getAnnounced(3);
     }
     
-    public function aboutUsAction()
+    public function aboutAction()
+    {
+    }
+    
+    public function contactAction()
     {
     }
 }
