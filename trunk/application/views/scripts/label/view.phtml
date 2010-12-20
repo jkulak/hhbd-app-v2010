@@ -35,18 +35,13 @@
     </div>
   </div>
   <?php endif ?>
-
+  
   <div id="description" class="pane">
     <div class="header">
-      <h2>Profil wytwórni</h2>
+      <h2>Profil wytwórni</h2><?php if (!empty($this->label->description)): ?><span class="toggle js-visible"><a href="?showDefaultDescription=1">Pokaż opis standardowy</a></span><?php endif ?>
     </div>
-  	<p>
-  	  <?php if (!empty($this->label->profile)): ?>
-  	    <?php echo $this->label->profile ?>
-  	  <?php else: ?>
-  	    <?php echo $this->render('label/view/_description.phtml') ?>
-	    <?php endif ?>
-  	</p>
+  	 <?php if (!empty($this->label->description)): ?><p><?php echo $this->label->description ?></p><?php endif ?>
+    <p class="<?php if (!empty($this->label->description)): ?>js-hidden <?php endif ?>auto"><?php echo $this->label->autoDescription ?></p>
   </div>
 
 </div> <!-- main -->
