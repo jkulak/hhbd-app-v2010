@@ -28,7 +28,7 @@ class Model_Label_Container
     $this->website = isset($params['website']) ? strval($params['website']) : null;
     $this->email = isset($params['email']) ? strval($params['email']) : null;
     $this->addres = isset($params['addres']) ? strval($params['addres']) : null;
-    $this->profile = isset($params['profile']) ? strval($params['profile']) : null;
+    $this->description = isset($params['profile']) ? strval($params['profile']) : null;
     if (!empty($params['logo'])) {
        $this->logo = $configApp['paths']['labelLogoPath'] . strval($params['logo']);
     }
