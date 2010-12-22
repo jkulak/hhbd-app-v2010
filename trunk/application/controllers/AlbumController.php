@@ -104,7 +104,7 @@ class AlbumController extends Zend_Controller_Action
     $og = new Jkl_Og();
     $og->setTitle($album->title . ' (' . $album->year . ')');
     $og->setDescription(empty($album->description)?$album->autoDescription:$album->description);
-    $og->setImage($this->getRequest()->getBaseUrl() . $album->cover);
+    $og->setImage($this->getRequest()->getBaseUrl() . $album->thumbnail);
     $this->view->og = $og->echoMeta();
     
   }
