@@ -1,0 +1,29 @@
+<div id="latest">
+  <h1>Ostatnio wydane albumy</h1>
+  <ul class="elemlist">
+  <?php foreach ($this->newestList->items as $album) echo $this->partial('album/_album.phtml', array('album' => $album)); ?>
+  </ul>
+  <a href="<?php echo $this->url(array(), 'albums') ?>">Pokaż wszystkie albumy</a>
+</div>
+
+<?php if (!empty($this->announcedList->items)): ?>
+<div id="latest">
+  <h1>Zapowiedziane premiery</h1>
+  <ul class="elemlist">
+  <?php foreach ($this->announcedList->items as $album) echo $this->partial('album/_album.phtml', array('album' => $album)); ?>
+  </ul>
+  <a href="<?php echo $this->url(array(), 'announced') ?>">Pokaż wszystkie zapowiedzi</a>
+</div>
+<?php endif ?>
+
+<div><h1>Ostatnio dodani wykonawcy</h1>
+Lista
+</div>
+
+<div id="intro">
+<h1>Polski hip-hop w pigułce</h1>
+<p>Witamy na stronie o polskim hip-hopie! Piąty element, wiedza. U nas znajdziesz wszystko czego szukasz o polskim hip-hopie. Recenzje, traklisty albumów, informacje o premierach, profile wykonawców, listy wydanych płyt przez poszczególne wytwórnie, aktualne newsy, teksty piosenek i wiele innych. Zarejestruj się, będziesz miał dostęp do wielu dodatkowych opcji oraz możliwość brania udziału w konkursach!</p>
+<p>Od ponad 6 lat dostarczamy na bieżąco informacje o wydawanych płytach i zapowiedziach, jak tylko oficjalnie lub nieoficjalnie się o nich dowiadujemy. Nasza baza jest największym i najbardziej aktualnym zbiorem daych o polskim hip-hopie!</p>
+<p>Nie jesteśmy portalem społecznościowym, tylko redakotrzy serwisu mogą wprowadzać dane, aby mieć pewność, że publikowane informacje są aktualne i prawdziwe. Naszym głównym celem są aktualne i dostępne dane! Jeżeli chciałbyś z nami współpracowć - napisz! <a href="mailto:kontakt@hhbd.pl">kontakt@hhbd.pl</a></p>
+<p>No i mamy teledyski i teksty do większości utworów, co aktualnie daje około 6500 teledysków!</p>
+</div>
