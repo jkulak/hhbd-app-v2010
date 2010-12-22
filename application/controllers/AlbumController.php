@@ -9,6 +9,9 @@ class AlbumController extends Zend_Controller_Action
     $this->view->headTitle()->headTitle('Albumy', 'PREPEND');
     $this->view->headMeta()->setName('description', 'Albumy w hhbd.pl');
     $this->params = $this->getRequest()->getParams();
+    
+    $this->view->currentUrl = $this->getRequest()->getBaseUrl() . $this->getRequest()->getRequestUri();
+    
   }
 
   public function indexAction()
@@ -93,12 +96,17 @@ class AlbumController extends Zend_Controller_Action
       $this->view->labelsAlbums = Model_Album_Api::getInstance()->getLabelsAlbums($album->label->id, array($album->id), 10);
     }
 
-    $this->view->currentUrl = $this->getRequest()->getBaseUrl() . $this->getRequest()->getRequestUri();
-
     $this->view->title = $album->artist->name . ' - ' . $album->title . ' (' . $album->year . ')';
     $this->view->headTitle()->set($this->view->title, 'PREPEND');
     $this->view->headMeta()->setName('keywords', $album->artist->name . ',' . $album->title . ',teksty,premiera,download,hip-hop,polski,hip hop');
     $this->view->headMeta()->setName('description', $album->artist->name . ' "' . $album->title . '" lista utworów, okładka, teksty, słowa piosenek, premiera, oraz inne szczegółowe informacje o albumie na największej polskiej stronie o polskim hip-hopie.');
+    
+    $og = new Jkl_Og();
+    $og->setTitle($album->title . ' (' . $album->year . ')');
+    $og->setDescription(empty($album->description)?$album->autoDescription:$album->description);
+    $og->setImage($this->getRequest()->getBaseUrl() . $album->cover);
+    $this->view->og = $og->echoMeta();
+    
   }
   
   // description autogeneration, displayedfor SEO purposes
