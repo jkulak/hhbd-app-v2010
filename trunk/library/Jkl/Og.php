@@ -7,10 +7,11 @@ class Jkl_Og
   private $_title;
   private $_description;
   private $_image;
+  private $_siteName;
   
-  function __construct()
+  function __construct($siteName)
   {
-    # code...
+    $this->_siteName = $siteName;
   }
   
   public function setTitle($title)
@@ -32,18 +33,20 @@ class Jkl_Og
   {
     $ogMeta = '';
     if (isset($this->_title)) {
-      $ogMega .= '<meta property="og:title" content="' . $this->_title . '" />';
+      $ogMeta .= '<meta property="og:title" content="' . $this->_title . '" />';
     }
     
     if (isset($this->_description)) {
-      $ogMega .= '<meta property="og:description" content="' . htmlentities($this->_description) . '" />';
+      $ogMeta .= '<meta property="og:description" content="' . htmlentities($this->_description) . '" />';
     }
     
     if (isset($this->_image)) {
-      $ogMega .= '<meta property="og:image" content="' . $this->_image . '" />';
+      $ogMeta .= '<meta property="og:image" content="' . $this->_image . '" />';
     }
     
-    return $ogMega;
+    $ogMeta .= '<meta property="og:site_name" content="' . $this->_siteName . '" />';
+    
+    return $ogMeta;
   }
   
 }
