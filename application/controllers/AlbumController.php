@@ -108,7 +108,7 @@ class AlbumController extends Zend_Controller_Action
     $description = substr($description, 0, strpos($description, ' ', 75) - 1);
     
     $og->setDescription($description . '...');
-    $og->setImage($this->getRequest()->getBaseUrl() . $album->thumbnail);
+    $og->setImage($album->thumbnail);
     $this->view->og = $og->echoMeta();
     
   }
