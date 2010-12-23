@@ -33,18 +33,18 @@ class Jkl_Og
   {
     $ogMeta = '';
     if (isset($this->_title)) {
-      $ogMeta .= '<meta property="og:title" content="' . $this->_title . '" />';
+      $ogMeta .= '<meta property="og:title" content="' . $this->_title . '" />' . "\n";
     }
     
     if (isset($this->_description)) {
-      $ogMeta .= '<meta property="og:description" content="' . htmlentities($this->_description) . '" />';
+      $ogMeta .= '<meta property="og:description" content="' . str_replace('"', '&quot;', $this->_description) . '" />' . "\n";
     }
     
     if (isset($this->_image)) {
-      $ogMeta .= '<meta property="og:image" content="' . $this->_image . '" />';
+      $ogMeta .= '<meta property="og:image" content="' . $this->_image . '" />' . "\n";
     }
     
-    $ogMeta .= '<meta property="og:site_name" content="' . $this->_siteName . '" />';
+    $ogMeta .= '<meta property="og:site_name" content="' . $this->_siteName . '" />' . "\n";
     
     return $ogMeta;
   }
