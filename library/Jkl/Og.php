@@ -37,7 +37,8 @@ class Jkl_Og
     }
     
     if (isset($this->_description)) {
-      $ogMeta .= '<meta property="og:description" content="' . str_replace('"', '&quot;', $this->_description) . '" />' . "\n";
+      $description = substr($this->_description, 0, strpos($this->_description, ' ', 297) - 1) . '...';
+      $ogMeta .= '<meta property="og:description" content="' . str_replace('"', '&quot;', $description) . '" />' . "\n";
     }
     
     if (isset($this->_image)) {
