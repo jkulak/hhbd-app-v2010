@@ -105,7 +105,7 @@ class AlbumController extends Zend_Controller_Action
     $og->setTitle($album->artist->name . ' - ' . $album->title . ' (' . $album->year . ')');
     
     $description = empty($album->description)?$album->autoDescription:$album->description;
-    $description = substr($description, 0, strpos($description, ' ', 200) - 1);
+    $description = substr($description, 0, strpos($description, ' ', 400) - 1);
     
     $og->setDescription($description . '...');
     $og->setImage($album->thumbnail);
