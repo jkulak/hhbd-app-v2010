@@ -33,7 +33,7 @@ class Jkl_Og
   {
     $ogMeta = '';
     if (isset($this->_title)) {
-      $ogMeta .= '<meta property="og:title" content="' . $this->_title . '" />' . "\n";
+      $ogMeta .= '<meta property="og:title" content="' . str_replace('"', '&quot;', $this->_title) . '" />' . "\n";
     }
     
     if (isset($this->_description)) {
