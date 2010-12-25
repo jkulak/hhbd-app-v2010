@@ -328,5 +328,4 @@ class Model_Artist_Api extends Jkl_Model_Api
     }
     return false;
   }
-  
 }

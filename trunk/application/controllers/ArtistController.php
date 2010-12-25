@@ -55,9 +55,9 @@ class ArtistController extends Zend_Controller_Action
     $artist->addFeaturing(Model_Album_Api::getInstance()->getFeaturingByArtist($artist->id, null));
     $artist->addMusic(Model_Album_Api::getInstance()->getMusicByArtist($artist->id, null));
     $artist->addScratch(Model_Album_Api::getInstance()->getScratchByArtist($artist->id, null));
-    $artist->addPopularSongs(Model_Song_Api::getInstance()->getMostPopularByArtist($artist->id, 40));
+    $artist->addPopularSongs(Model_Song_Api::getInstance()->getMostPopularByArtist($artist->id, 30));
 
-    $artist->autoDescription = $this->_generateDescription($artist);
+    $artist->autoDescription = $this->generateDescription($artist);
     
     $this->view->artist = $artist;
     
@@ -85,7 +85,7 @@ class ArtistController extends Zend_Controller_Action
   }
   
   // description autogeneration, displayed for SEO purposes
-  private function _generateDescription($artist)
+  public function generateDescription($artist)
   {
     $description = '';
     

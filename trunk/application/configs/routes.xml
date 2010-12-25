@@ -75,7 +75,7 @@
       </albumsByLetter> -->
 
       <announced>
-        <route>zapowiedziane.html</route>
+        <route>premiery.html</route>
         <defaults>
           <controller>album</controller>
           <action>announced</action>
@@ -151,6 +151,19 @@
           </map>
           <reverse>%s-s%d.html</reverse>
         </song>
+
+        <news type="Zend_Controller_Router_Route_Regex">
+          <route>(.+)-n(\d+).html</route>
+          <defaults>
+            <controller>news</controller>
+            <action>view</action>
+          </defaults>
+          <map>
+            <seo>1</seo>
+            <id>2</id>
+          </map>
+          <reverse>%s-n%d.html</reverse>
+        </news>
         
         <search type="Zend_Controller_Router_Route_Static">
           <route>szukaj.html</route>

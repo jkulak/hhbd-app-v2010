@@ -103,7 +103,6 @@ class AlbumController extends Zend_Controller_Action
     
     $og = new Jkl_Og('Hhbd.pl');
     $og->setTitle($album->artist->name . ' - ' . $album->title . ' (' . $album->year . ')');
-    
     $description = empty($album->description)?$album->autoDescription:$album->description;
     $og->setDescription($description);
     $og->setImage($album->thumbnail);
