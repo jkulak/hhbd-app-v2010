@@ -88,6 +88,29 @@ ul.list {
   color: #766C45;
 }
 
+.albums li img {
+  width: 100px;
+  float: left;
+}
+
+.albums > ul > li{
+  float: left;
+  width: 100%;
+  clear: both;
+  margin-bottom: 8px;
+}
+
+.albums ul ul {  
+  float: left;
+  margin-left: 16px;  
+}
+
+.albums span {
+  display: block;
+  margin-left: 116px;
+}
+
+
 /* layout */
 #body {
   padding: 0 10px;
@@ -161,6 +184,11 @@ ul.list {
   float: left;
   width: 32%;
   font-size: 85%;
+}
+
+#third {
+  float: left;
+  width: 32%;
 }
 
 /* footer */
@@ -476,8 +504,7 @@ ul.list {
   float: right;
   -moz-border-radius: 7px;
   -webkit-border-radius: 7px;
-  margin-left: 300px;
-  max-width: 524px;
+  height: 250px;
 }
 
 #epla {
@@ -507,7 +534,8 @@ ul.list {
 }
 
 .column > div {
-  margin: 0 8px 8px 0;
+  margin: 0 8px 16px 0;
+  clear: both;
 }
 
 .column h2, .box h2 {
