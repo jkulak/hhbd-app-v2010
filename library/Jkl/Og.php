@@ -37,7 +37,7 @@ class Jkl_Og
     }
     
     if (isset($this->_description)) {
-      $description = substr($this->_description, 0, strpos($this->_description, ' ', 297) - 1) . '...';
+      $description = Jkl_Tools_String::trim_str($this->_description, 297);
       $ogMeta .= '<meta property="og:description" content="' . str_replace('"', '&quot;', $description) . '" />' . "\n";
     }
     

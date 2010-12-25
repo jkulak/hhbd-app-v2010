@@ -5,7 +5,7 @@
   <?php endif ?>
   
   <div class="list">
-    <?php echo $this->partial('album/_list.phtml', array('albums' => $this->albums)) ?>
+    <?php echo $this->partial('album/_table.phtml', array('albums' => $this->albums)) ?>
   </div>
   <?php if ($this->paginator): ?>
     <?php echo $this->paginator; ?>

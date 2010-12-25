@@ -364,4 +364,10 @@ class Model_Album_Api extends Jkl_Model_Api
     }
     return false;
   }
+  
+  public function getMain()
+  {
+    //
+  }
+  
 }

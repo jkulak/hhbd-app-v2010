@@ -31,7 +31,7 @@
       <h2>Lista wydawnictw <?php echo $this->label->name ?></h2> <span class="toggle hidden"><a href="?hideDetailes=1">Pokaż szczegóły</a></span>
     </div>
     <div class="list">
-      <?php echo $this->partial('album/_list.phtml', array('albums' => $this->label->releases, 'showCatalogNumber' => true)) ?>
+      <?php echo $this->partial('album/_table.phtml', array('albums' => $this->label->releases, 'showCatalogNumber' => true)) ?>
     </div>
   </div>
   <?php endif ?>

@@ -56,6 +56,10 @@ section {
 }
 
 /* common classes */
+.br {
+  clear: both;
+}
+
 .hidden, .js-visible {
   display: none;
 }
@@ -76,6 +80,12 @@ section {
 ul.list {
   margin-left: 30px;
   list-style-type: square;
+}
+
+/* text classes */
+.secondary {
+  font-size: 85%;
+  color: #766C45;
 }
 
 /* layout */
@@ -453,6 +463,57 @@ ul.list {
 /********************************************************************************************/
 /* Homesite                                                                                 */
 /********************************************************************************************/
+#topstory {
+  border: 1px solid #D5C179;
+ -moz-border-radius: 6px;
+ -webkit-border-radius: 6px;
+ overflow: hidden; 
+ position: relative;
+ margin-bottom: 8px;
+}
+
+#topstory img {
+  float: right;
+  -moz-border-radius: 7px;
+  -webkit-border-radius: 7px;
+  margin-left: 300px;
+  max-width: 524px;
+}
+
+#epla {
+  width: 100%;
+  height: 100%;
+  background: transparent url(/s/aple.png) 0 0 repeat-y;
+  position: absolute;
+  -moz-border-radius: 7px;
+  -webkit-border-radius: 7px;
+  padding: 10px;
+}
+
+#topstory p {
+  width: 50%;
+}
+
+#topstory li a, #songs li a {
+  padding-left: 26px;
+  background-image: url(s/sprite.png);
+  background: transparent url(/s/sprite.png) -282px -121px no-repeat;
+}
+
+.column {
+  float: left;
+  width: 50%;
+/*  font-size: 90%;*/
+}
+
+.column > div {
+  margin: 0 8px 8px 0;
+}
+
+.column h2, .box h2 {
+  border-bottom: 1px dotted #938548;
+  padding-bottom: 4px;
+}
 
 
 /********************************************************************************************/
