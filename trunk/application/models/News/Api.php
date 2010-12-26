@@ -32,7 +32,7 @@ class Model_News_Api extends Jkl_Model_Api
    */
   private function _getList($query)
   {
-    $result = $this->_db->fetchAll($query);;
+    $result = $this->_db->fetchAll($query);
     $list = new Jkl_List(); 
     foreach ($result as $params) {
       $list->add(new Model_News_Container($params));
@@ -52,5 +52,20 @@ class Model_News_Api extends Jkl_Model_Api
               ORDER BY t1.added DESC
               " . (($limit)?'LIMIT ' . $limit:'');
     return $this->_getList($query);
+  }
+  
+  /*
+  * Get list of most recent news
+  */
+  public function find($id)
+  {
+    $id = intval($id);
+    
+    $query = "SELECT t1.id AS nws_id, t1.title AS nws_title, t1.news AS nws_content, t1.graph AS nws_attachment_url,
+              t1.added AS nws_added, t1.addedby AS new_added_by
+              FROM news t1
+              WHERE (t1.id=$id)";
+    $result = $this->_db->fetchAll($query);
+    return new Model_News_Container($result[0]);
   }
 }
