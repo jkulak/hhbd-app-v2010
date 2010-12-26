@@ -37,6 +37,11 @@ class RedirectController extends Zend_Controller_Action
         $data = Model_Song_Api::getInstance()->redirectFromOld($urlName);
         $redirect = Jkl_Tools_Url::createUrl($data['sng_title'] . '-s' . $data['sng_id'] . '.html');
         break;
+        
+      case 'news':
+        $data = Model_News_Api::getInstance()->find($urlName);
+        $redirect = Jkl_Tools_Url::createUrl($data->title . '-n' . $data->id . '.html');
+        break;
       
       default:
         break;
