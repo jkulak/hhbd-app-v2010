@@ -1,0 +1,17 @@
+<div id="main">
+  <h1><?php echo $this->news->title ?></h1>
+  <div class="br secondary"><?php echo $this->news->addedNormalized ?></div>
+  <p class="br"><?php echo $this->news->content ?></p>
+  <p class="secondary">Wkrótce powróci możliwość komentowania artykułów!</p>
+</div>
+
+<div id="aside">
+  <div class="box googleads">
+    <h3 class="hidden">Google Ads</h3>
+    <?php echo $this->partial('common/googleAds/_rectangle.phtml'); ?>
+  </div>
+  <div class="box" id="other-news">
+    <h3>Pozostałe aktualności</h3>
+    <?php echo $this->partial('news/box/_list.phtml', array('items' => $this->recentNews->items)) ?>
+  </div>
+</div>
