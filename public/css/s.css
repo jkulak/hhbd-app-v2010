@@ -107,13 +107,13 @@ ul.list {
 
 .albums span {
   display: block;
-  margin-left: 116px;
+  margin-left: 108px;
 }
 
 
 /* layout */
 #body {
-  padding: 0 10px;
+  padding: 0 8px;
 }
 
 #page {
@@ -180,7 +180,7 @@ ul.list {
 }
 
 
-#additional {
+#additional, #aside {
   float: left;
   width: 32%;
   font-size: 85%;
@@ -493,18 +493,15 @@ ul.list {
 /********************************************************************************************/
 #topstory {
   border: 1px solid #D5C179;
- -moz-border-radius: 6px;
- -webkit-border-radius: 6px;
- overflow: hidden; 
- position: relative;
- margin-bottom: 8px;
+  overflow: hidden; 
+  position: relative;
+  margin-bottom: 8px;
 }
 
 #topstory img {
   float: right;
-  -moz-border-radius: 7px;
-  -webkit-border-radius: 7px;
-  height: 250px;
+  margin-left: 300px;
+  max-width: 755px;
 }
 
 #epla {
@@ -512,8 +509,6 @@ ul.list {
   height: 100%;
   background: transparent url(/s/aple.png) 0 0 repeat-y;
   position: absolute;
-  -moz-border-radius: 7px;
-  -webkit-border-radius: 7px;
   padding: 10px;
 }
 

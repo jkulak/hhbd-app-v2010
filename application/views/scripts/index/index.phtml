@@ -57,7 +57,7 @@
   
   <!-- soon to be released -->
   <?php if (!empty($this->announcedList->items)): ?>
-  <div class="box albums" id="latest">
+  <div class="box albums" id="to-be-released">
     <h2>Najbliższe premiery</h2>
     <?php echo $this->partial('album/_list.phtml', array('items' => $this->announcedList->items)) ?>
     <a href="<?php echo $this->url(array(), 'announced') ?>">Pokaż wszystkie zapowiedzi</a>

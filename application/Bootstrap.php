@@ -61,8 +61,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     $view->headMeta()->setCharset('utf-8');    
     $view->headMeta()->setName('robots', 'index,follow');
     $view->headMeta()->setName('author', 'Jakub Kułak, www.webascrazy.net');
-    $view->headTitle()->setSeparator(' | ');
-    $view->headTitle('HHBD.PL');
+    $view->headTitle()->setSeparator(' - ');
+    $view->headTitle('Hhbd.pl');
     
     $configApp = Zend_Registry::get('Config_App');
     $view->headIncludes = $configApp['includes'];

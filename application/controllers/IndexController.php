@@ -13,7 +13,7 @@ class IndexController extends Zend_Controller_Action
     {
       $this->view->news = Model_News_Api::getInstance()->getRecent(7);
       $this->view->newestList = Model_Album_Api::getInstance()->getNewest(5);
-      $this->view->announcedList = Model_Album_Api::getInstance()->getAnnounced(4);
+      $this->view->announcedList = Model_Album_Api::getInstance()->getAnnounced(5);
       
       $artist = Model_Artist_Api::getInstance()->find(6, true);
       $artist->addPopularSongs(Model_Song_Api::getInstance()->getMostPopularByArtist($artist->id, 4, true));
