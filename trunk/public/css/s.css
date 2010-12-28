@@ -552,6 +552,15 @@ ul.list {
 .searches ul {list-style-type: square; margin-left: 20px;}
 #site-search ol {list-style-type: disc; margin-left: 32px;}
 
+/* album/_list */
+#site-search .albums li img {
+  width: 75px;
+}
+
+#site-search .albums span {
+  margin-left: 83px;
+}
+
 
 /********************************************************************************************/
 /* Tipsy                                                                                    */

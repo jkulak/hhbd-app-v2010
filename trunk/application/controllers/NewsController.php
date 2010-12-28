@@ -17,7 +17,7 @@ class NewsController extends Zend_Controller_Action
   public function viewAction()
   {
     $newsId = $this->params['id'];
-    $news = Model_News_Api::getInstance()->find($newsId);
+    $news = Model_News_Api::getInstance()->find($newsId, true);
     
     $this->view->news = $news;
     

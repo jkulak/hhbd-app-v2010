@@ -57,7 +57,7 @@ class Model_News_Api extends Jkl_Model_Api
   /*
   * Get news detail
   */
-  public function find($id)
+  public function find($id, $full = false)
   {
     $id = intval($id);
     
@@ -66,7 +66,7 @@ class Model_News_Api extends Jkl_Model_Api
               FROM news t1
               WHERE (t1.id=$id)";
     $result = $this->_db->fetchAll($query);
-    return new Model_News_Container($result[0]);
+    return new Model_News_Container($result[0], $full);
   }
   
   public function redirectById($id)
