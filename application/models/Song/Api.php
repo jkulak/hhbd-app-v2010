@@ -155,14 +155,6 @@ class Model_Song_Api extends Jkl_Model_Api
               ' . (($limit)?'LIMIT ' . $limit:'');
     return $this->_getList($query);    
   }
-  
-  // This needs to be moved to separate counting system, not to kill datbase
-  public function increaseViewed($id)
-  {
-    $id = intval($id);
-    $query = 'UPDATE songs SET viewed=viewed+1 WHERE id=' . $id;
-    $this->_db->query($query);
-  }
 
   private function _getYouTubeUrl($searchTerms = 'polski hip-hop')
   {
@@ -259,6 +251,13 @@ class Model_Song_Api extends Jkl_Model_Api
       return $result[0];
     }
     return false;
+  }
+  
+  public function updateView($id)
+  {
+    $id = intval($id);
+    $query = 'UPDATE songs SET viewed=viewed+1 WHERE id=' . $id;
+    $this->_db->query($query);
   }
   
 }

@@ -78,4 +78,11 @@ class Model_News_Api extends Jkl_Model_Api
     $result = $this->_db->fetchAll($query);
     return $result[0];
   }
+  
+  public function updateView($id)
+  {
+    $id = intval($id);
+    $query = 'UPDATE news SET viewed=viewed+1 WHERE id=' . $id;
+    $this->_db->query($query);
+  }
 }

@@ -105,3 +105,5 @@
 <div id="additional">
   <?php echo $this->render('artist/_additional.phtml') ?>
 </div>
+
+<?php echo $this->partial('common/_stat.phtml', array('type' => 'artist', 'id' => $this->artist->id)) ?>

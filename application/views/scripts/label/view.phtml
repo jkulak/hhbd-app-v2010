@@ -61,5 +61,6 @@
   <?php if (isset($this->withMostAlbums->items)): ?>
     <?php echo $this->partial('label/box/_withMostAlbums.phtml', array('withMostAlbums' => $this->withMostAlbums)) ?>
   <?php endif ?>
-  
 </div>
+
+<?php echo $this->partial('common/_stat.phtml', array('type' => 'label', 'id' => $this->label->id)) ?>

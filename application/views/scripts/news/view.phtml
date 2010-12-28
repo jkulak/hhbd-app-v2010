@@ -21,3 +21,5 @@
     <?php echo $this->partial('news/box/_list.phtml', array('items' => $this->recentNews->items)) ?>
   </div>
 </div>
+
+<?php echo $this->partial('common/_stat.phtml', array('type' => 'news', 'id' => $this->news->id)) ?>

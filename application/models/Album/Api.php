@@ -217,14 +217,6 @@ class Model_Album_Api extends Jkl_Model_Api
     return $this->getList($query);
   }
   
-  // This needs to be moved to separate counting system, not to kill datbase
-  public function increaseViewed($id)
-  {
-    $id = intval($id);
-    $query = 'UPDATE albums SET viewed=viewed+1 WHERE id=' . $id;
-    $this->_db->query($query);
-  }
-  
   public function getAlbumCount()
   {
     $query = 'SELECT count(id) as albumcount FROM albums WHERE (year<="' . date('Y-m-d') . '")';
@@ -385,6 +377,13 @@ class Model_Album_Api extends Jkl_Model_Api
   public function getMain()
   {
     // get artist for the homesite Top Story
+  }
+  
+  public function updateView($id)
+  {
+    $id = intval($id);
+    $query = 'UPDATE albums SET viewed=viewed+1 WHERE id=' . $id;
+    $this->_db->query($query);
   }
   
 }

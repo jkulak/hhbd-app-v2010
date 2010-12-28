@@ -579,6 +579,7 @@ ul.list {
 #comments form input[type="text"] {
   border: 1px solid #717171;
   padding: 2px;
+  outline: none;
 }
 
 #comments form input[type="submit"] {
@@ -603,6 +604,7 @@ ul.list {
   font-size: 16px;
   font-family: "trebuchet ms", Georgia;
   border: 0;
+    outline: none;
 }
 
 #comments ul li {

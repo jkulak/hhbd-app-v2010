@@ -32,15 +32,21 @@ class Jkl_Db extends Jkl_Cache
   /*
   * FechtAll with memcached support
   */
-  public function fetchAll($query)
+  public function fetchAll($query, $lifeTime = null)
   {
     $this->_queryCount++;
 
     $cache = $this->_cache->load(md5($query));
     if (empty($cache)) {
+
       $result = $this->_db->fetchAll($query);
-      
-      $test = $this->_cache->save($result, md5($query));    
+      if ($lifeTime === null) {
+        $test = $this->_cache->save($result, md5($query));    
+      }
+      else
+      {
+        $test = $this->_cache->save($result, md5($query), array(), $lifeTime);
+      }
       Zend_Registry::get('Logger')->info(md5($query) . ' - db: ' . $this->_queryCount . '. - ' . $query);
     }
     else {
@@ -49,6 +55,9 @@ class Jkl_Db extends Jkl_Cache
     return $result;
   }
   
+  /*
+  * Used for non cached queries (like UPDATE)
+  */
   public function query($query)
   {
     $this->_queryCount++;
