@@ -1,0 +1,40 @@
+<span class="js-visible"><a href="?showCommentForm=1" id="comment-form-show">Dodaj swój komentarz</a></span>
+<form action="comments" method="post" class="js-hidden">
+  <label>Komentarz</label>
+  <div id="textarea-wrapper">
+    <textarea name="content" value="" onkeyup="limitChars(this, 1000, 'comment-character-count')" /></textarea>
+  </div>
+  <div>
+    <label>Podpis:</label>
+    <input type="text" name="author" value="" />
+    <span id="comment-character-count" class="hidden">Pozostało znaków: 1000</span>
+    <input type="submit" value="Dodaj komentarz" />
+  </div>
+  <input type="hidden" name="com_object_id" value="<?php echo $this->comObjectId ?>" id="com_object_id">
+  <input type="hidden" name="com_object_type" value="<?php echo $this->comObjectType ?>" id="com_object_Type">
+  <input type="hidden" name="com_ajax_request" value="0" id="com_ajax_request">
+</form>
+<script type="text/javascript" charset="utf-8">
+$("#com_ajax_request").attr('value', 1);
+
+function limitChars(textarea, limit, infodiv){
+  var text = textarea.value; 
+  var textlength = text.length;
+  var info = document.getElementById(infodiv);
+  if(textlength > limit)
+  {
+    info.innerHTML = 'Komentarz nie może mieć więcej niż '+  limit +' znaków.';
+    $('#comment-character-count').show();
+    return false;
+  }
+  else if (textlength > (limit - 100))
+  {
+    info.innerHTML = 'Pozostało '+ (limit - textlength) +' znaków!';
+    $('#comment-character-count').show();
+    return true;
+  }
+  else {
+    $('#comment-character-count').hide();
+  }
+}
+</script>
