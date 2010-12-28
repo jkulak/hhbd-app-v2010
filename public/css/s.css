@@ -419,7 +419,7 @@ ul.list {
   margin: 0;
 }
 
-.list table.albums td:first-child {
+.list table td:first-child {
   width: 60px;
 }
 
