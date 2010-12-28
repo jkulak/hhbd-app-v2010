@@ -114,3 +114,5 @@
 <div id="additional">
   <?php echo $this->render('song/view/_additional.phtml') ?>
 </div>
+
+<?php echo $this->partial('common/_stat.phtml', array('type' => 'song', 'id' => $this->song->id)) ?>

@@ -127,5 +127,12 @@ class Model_Label_Api extends Jkl_Model_Api
     }
     return false;
   }
+  
+  public function updateView($id)
+  {
+    $id = intval($id);
+    $query = 'UPDATE labels SET viewed=viewed+1 WHERE id=' . $id;
+    $this->_db->query($query);
+  }
     
 }

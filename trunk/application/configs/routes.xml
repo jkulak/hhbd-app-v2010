@@ -39,16 +39,7 @@
         <reverse>/top10.html</reverse>
       </top10>
       
-      <!-- Comments -->
-      <comment>
-        <route>comments</route>
-        <defaults>
-          <controller>comment</controller>
-          <action>index</action>
-        </defaults>
-      </comment>
-      
-<!-- Albumy Wykonawcy Wytwórnie "O nas" Blog Kontakt "Zasady użytkowania" "Mapa strony" -->
+      <!-- Albumy Wykonawcy Wytwórnie "O nas" Blog Kontakt "Zasady użytkowania" "Mapa strony" -->
       <!-- articles -->
       
       <albums>
@@ -196,6 +187,24 @@
           </map>
           <reverse>www.hhbd.pl</reverse>
         </redirectPrevUrl>
+        
+        <!-- Comments -->
+        <comment>
+          <route>comments</route>
+          <defaults>
+            <controller>comment</controller>
+            <action>index</action>
+          </defaults>
+        </comment>
+
+        <!-- Viev counting/stats -->
+        <stat>
+          <route>stat</route>
+          <defaults>
+            <controller>stat</controller>
+            <action>index</action>
+          </defaults>
+        </stat>
         
     </routes>
   </production>
