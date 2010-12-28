@@ -15,7 +15,7 @@ class IndexController extends Zend_Controller_Action
       $this->view->newestList = Model_Album_Api::getInstance()->getNewest(5);
       $this->view->announcedList = Model_Album_Api::getInstance()->getAnnounced(5);
       
-      $artist = Model_Artist_Api::getInstance()->find(2, true);
+      $artist = Model_Artist_Api::getInstance()->find(6, true);
       $artist->addPopularSongs(Model_Song_Api::getInstance()->getMostPopularByArtist($artist->id, 4, true));
       $this->view->mainArtist = $artist;
       

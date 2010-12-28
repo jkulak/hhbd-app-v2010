@@ -52,13 +52,13 @@ class CommentController extends Zend_Controller_Action
     }
     
     if (empty($content)) {
-      $redirect .= '?postError=1&emptyComment=1';
+      $redirect .= '?postError=1&emptyComment=1#comments';
       header("Location: /" . str_replace(' ', '+', $redirect));
       exit();
     }
     
     if (strlen($content) > 1000) {
-      $redirect .= '?postError=1&commentTooLong=1';
+      $redirect .= '?postError=1&commentTooLong=1#comments';
       header("Location: /" . str_replace(' ', '+', $redirect));
       exit();
     }
