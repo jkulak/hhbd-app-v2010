@@ -58,9 +58,9 @@
 <?php endif ?>
 
 <?php if (!empty($this->resultAlbums->items)): ?>
-  <div class="pane list">
+  <div class="pane albums">
     <h2>Albumy</h2>
-    <?php echo $this->partial('album/_list.phtml', array('albums' => $this->resultAlbums)) ?>
+    <?php echo $this->partial('album/_list.phtml', array('items' => $this->resultAlbums->items, 'showCovers' => false)) ?>
     <?php if (empty($this->type) and ($this->totalAlbumCount > sizeof($this->resultAlbums->items))): ?>
       <span class="right"><a href="<?php echo $this->url(array(), 'search') ?>?q=<?php echo $this->searchQuery ?>&amp;tp=album">Pokaż <?php echo ($this->totalAlbumCount - 4) ?> więcej albumów</a></span>
     <?php endif ?>
