@@ -248,4 +248,17 @@ class Model_Song_Api extends Jkl_Model_Api
     return false;
   }
   
+  public function redirectById($id)
+  {
+    $id = intval($id);
+    $query = "SELECT t1.id AS sng_id, t1.title AS sng_title
+              FROM songs t1
+              WHERE (t1.id = '" . $id . "');";
+    $result = $this->_db->fetchAll($query);
+    if (!empty($result[0])) {
+      return $result[0];
+    }
+    return false;
+  }
+  
 }

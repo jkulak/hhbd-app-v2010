@@ -38,6 +38,8 @@ class LabelController extends Zend_Controller_Action
     $label->artists = implode(', ', array_unique($artists));
     $label->autoDescription = $this->_generateDescription($label);
     $this->view->label = $label;
+    
+    $this->view->comments = Model_Comment_Api::getInstance()->getComments($label->id, Model_Comment_Container::TYPE_LABEL);
   
     $this->view->withMostAlbums = Model_Label_Api::getInstance()->getWithMostAlbums();
     

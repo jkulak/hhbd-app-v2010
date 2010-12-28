@@ -9,9 +9,7 @@ class AlbumController extends Zend_Controller_Action
     $this->view->headTitle()->headTitle('Albumy', 'PREPEND');
     $this->view->headMeta()->setName('description', 'Albumy w hhbd.pl');
     $this->params = $this->getRequest()->getParams();
-    
     $this->view->currentUrl = $this->getRequest()->getBaseUrl() . $this->getRequest()->getRequestUri();
-    
   }
 
   public function indexAction()
@@ -95,6 +93,8 @@ class AlbumController extends Zend_Controller_Action
     if (!empty($album->label)) {
       $this->view->labelsAlbums = Model_Album_Api::getInstance()->getLabelsAlbums($album->label->id, array($album->id), 10);
     }
+    
+    $this->view->comments = Model_Comment_Api::getInstance()->getComments($album->id, Model_Comment_Container::TYPE_ALBUM);
 
     $this->view->title = $album->artist->name . ' - ' . $album->title . ' (' . $album->year . ')';
     $this->view->headTitle()->set($this->view->title, 'PREPEND');

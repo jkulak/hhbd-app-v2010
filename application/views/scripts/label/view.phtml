@@ -43,6 +43,12 @@
   	 <?php if (!empty($this->label->description)): ?><p><?php echo $this->label->description ?></p><?php endif ?>
     <p class="<?php if (!empty($this->label->description)): ?>js-hidden <?php endif ?>auto"><?php echo $this->label->autoDescription ?></p>
   </div>
+  
+  <div class="pane" id="comments">
+    <div class="header"><h2>Wasze komentarze <span class="hidden">na temat <?php echo $this->label->name ?></span></h2></div>
+    <?php echo $this->partial('comments/_form.phtml', array('comObjectId' => $this->label->id, 'comObjectType' => Model_Comment_Container::TYPE_LABEL)) ?>
+    <?php echo $this->partial('comments/_list.phtml', array('items' => $this->comments->items)) ?>
+  </div>
 
 </div> <!-- main -->
 

@@ -39,6 +39,15 @@
         <reverse>/top10.html</reverse>
       </top10>
       
+      <!-- Comments -->
+      <comment>
+        <route>comments</route>
+        <defaults>
+          <controller>comment</controller>
+          <action>index</action>
+        </defaults>
+      </comment>
+      
 <!-- Albumy Wykonawcy Wytwórnie "O nas" Blog Kontakt "Zasady użytkowania" "Mapa strony" -->
       <!-- articles -->
       

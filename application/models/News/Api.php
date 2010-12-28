@@ -55,7 +55,7 @@ class Model_News_Api extends Jkl_Model_Api
   }
   
   /*
-  * Get list of most recent news
+  * Get news detail
   */
   public function find($id)
   {
@@ -67,5 +67,15 @@ class Model_News_Api extends Jkl_Model_Api
               WHERE (t1.id=$id)";
     $result = $this->_db->fetchAll($query);
     return new Model_News_Container($result[0]);
+  }
+  
+  public function redirectById($id)
+  {
+    $id = intval($id);
+    $query = "SELECT t1.id AS nws_id, t1.title AS nws_title
+              FROM news t1
+              WHERE (t1.id=$id)";
+    $result = $this->_db->fetchAll($query);
+    return $result[0];
   }
 }

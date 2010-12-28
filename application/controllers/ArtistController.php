@@ -61,6 +61,8 @@ class ArtistController extends Zend_Controller_Action
     
     $this->view->artist = $artist;
     
+    $this->view->comments = Model_Comment_Api::getInstance()->getComments($artist->id, Model_Comment_Container::TYPE_ARTIST);
+    
     // seo
     $albumListTmp = array();
     foreach ($artist->albums->items as $key => $value) {

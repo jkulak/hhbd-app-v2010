@@ -114,5 +114,18 @@ class Model_Label_Api extends Jkl_Model_Api
     }
     return false;
   }
+  
+  public function redirectById($id)
+  {
+    $id = intval($id);
+    $query = "SELECT t1.id AS lab_id, t1.name AS lab_name
+              FROM labels t1
+              WHERE (t1.id = '" . $id . "');";
+    $result = $this->_db->fetchAll($query);
+    if (!empty($result[0])) {
+      return $result[0];
+    }
+    return false;
+  }
     
 }
