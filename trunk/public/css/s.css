@@ -500,8 +500,6 @@ ul.list {
 
 #topstory img {
   float: right;
-  margin-left: 300px;
-  max-width: 755px;
 }
 
 #epla {
@@ -566,4 +564,65 @@ ul.list {
 .tipsy-east { background-position: right center; }
 .tipsy-west { background-position: left center; }
 
+/********************************************************************************************/
+/* Comments                                                                                 */
+/********************************************************************************************/
+/* form */
+#comments form {
+  margin-bottom: 16px;
+}
+
+#comments form input {
+  font-size: 16px;
+}
+
+#comments form input[type="text"] {
+  border: 1px solid #717171;
+  padding: 2px;
+}
+
+#comments form input[type="submit"] {
+  font-size: 16px;
+  float: right;
+  cursor: pointer;
+}
+
+#comments form > label {
+  display: none;
+}
+
+#textarea-wrapper {
+  padding: 2px;
+  background-color: white;
+  border: 1px solid #717171;
+  margin-bottom: 8px;
+}
+
+#comments form textarea {
+  width: 100%;
+  font-size: 16px;
+  font-family: "trebuchet ms", Georgia;
+  border: 0;
+}
+
+#comments ul li {
+  margin-bottom: 16px;
+  padding-bottom: 4px;
+  border-bottom: 1px dotted #938548;
+}
+
+#comments li > span {
+  display: block;
+  word-wrap: break-word;
+  
+}
+
+#comment-form-show {
+  margin-bottom: 16px;
+  display: block;
+}
+
+
+
+/* list */
 

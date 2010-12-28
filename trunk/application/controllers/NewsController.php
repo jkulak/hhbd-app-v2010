@@ -22,6 +22,7 @@ class NewsController extends Zend_Controller_Action
     $this->view->news = $news;
     
     $this->view->recentNews = Model_News_Api::getInstance()->getRecent(25);
+    $this->view->comments = Model_Comment_Api::getInstance()->getComments($newsId, Model_Comment_Container::TYPE_NEWS);
     
     $this->view->headTitle()->headTitle($news->title, 'PREPEND');
     $this->view->headMeta()->setName('description', $news->content);

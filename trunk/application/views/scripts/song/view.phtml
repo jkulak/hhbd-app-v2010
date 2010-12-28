@@ -102,6 +102,12 @@
       <?php echo $this->song->autoDescription ?>
     </p>
   </div>
+  
+  <div class="pane" id="comments">
+    <div class="header"><h2>Wasze komentarze <span class="hidden">na temat <?php echo $this->song->title ?></span></h2></div>
+    <?php echo $this->partial('comments/_form.phtml', array('comObjectId' => $this->song->id, 'comObjectType' => Model_Comment_Container::TYPE_SONG)) ?>
+    <?php echo $this->partial('comments/_list.phtml', array('items' => $this->comments->items)) ?>
+  </div>
 
 </div>
 

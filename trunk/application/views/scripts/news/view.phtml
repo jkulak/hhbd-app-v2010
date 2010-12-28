@@ -2,7 +2,13 @@
   <h1><?php echo $this->news->title ?></h1>
   <div class="br secondary"><?php echo $this->news->addedNormalized ?></div>
   <p class="br"><?php echo $this->news->content ?></p>
-  <p class="secondary">Wkrótce powróci możliwość komentowania artykułów!</p>
+  
+  <div class="pane" id="comments">
+    <div class="header"><h2>Wasze komentarze <span class="hidden">na temat <?php echo $this->news->title ?></span></h2></div>
+    <?php echo $this->partial('comments/_form.phtml', array('comObjectId' => $this->news->id, 'comObjectType' => Model_Comment_Container::TYPE_NEWS)) ?>
+    <?php echo $this->partial('comments/_list.phtml', array('items' => $this->comments->items)) ?>
+  </div>
+  
 </div>
 
 <div id="aside">

@@ -23,6 +23,8 @@ class SongController extends Zend_Controller_Action
     $song->autoDescription = $this->_generateDescription($song);
     $this->view->song = $song;
     
+    $this->view->comments = Model_Comment_Api::getInstance()->getComments($song->id, Model_Comment_Container::TYPE_SONG);
+    
     // sidenotes
     $albumSongs = array();
     foreach ($this->view->song->featured->items as $key => $value) {

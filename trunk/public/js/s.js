@@ -80,5 +80,14 @@ $(function(){
   if (getCookie('albumShowAuto') == 1) { $("#description span.toggle > a").click(); };
   
   $('.covers img').tipsy({'html':'true','gravity':'n','delayOut':3000,'delayIn':3000,title: function() { return this.getAttribute('original-title'); }});
+  
+  // comments
+  $('#comment-form-show').click(
+    function(){
+      $('#comments form').show();
+      $('#comments form textarea').focus();
+      $('#comment-form-show').hide();
+      return false;
+    });
 
 });

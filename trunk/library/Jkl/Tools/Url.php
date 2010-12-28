@@ -19,6 +19,6 @@ class Jkl_Tools_Url
   public function createUrl($string)
   {
     // $string = urlencode($string);
-    return str_replace('/', ' ', $string);
+    return str_replace(array('/', '?'), ' ', $string);
   }
 }

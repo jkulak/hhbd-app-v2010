@@ -328,4 +328,17 @@ class Model_Artist_Api extends Jkl_Model_Api
     }
     return false;
   }
+  
+  public function redirectById($id)
+  {
+    $id = intval($id);
+    $query = "SELECT t1.id AS art_id, t1.name AS art_name
+              FROM artists t1
+              WHERE (t1.id = '" . $id . "');";
+    $result = $this->_db->fetchAll($query);
+    if (!empty($result[0])) {
+      return $result[0];
+    }
+    return false;
+  }
 }
