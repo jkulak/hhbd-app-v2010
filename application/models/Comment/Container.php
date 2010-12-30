@@ -27,6 +27,7 @@ class Model_Comment_Container
   public $id;
   public $content;
   public $author;
+  public $authorId;
   public $added;
   public $type;
   
@@ -41,6 +42,7 @@ class Model_Comment_Container
     $this->content = $params['com_content'];
     $this->author = $params['com_author'];
     $this->added = $params['com_added'];
+    $this->authorId = $params['com_author_id'];
     $this->type = $this->_commentType[$params['com_object_type']];
     
     $this->_updatedBy = $params['com_updated_by'];

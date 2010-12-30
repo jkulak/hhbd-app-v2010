@@ -11,6 +11,9 @@ class IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
+      $user = Model_User::getInstance()->findByEmail(Zend_Auth::getInstance()->getIdentity());
+      $this->view->user = $user;
+      
       $this->view->news = Model_News_Api::getInstance()->getRecent(7);
       $this->view->newestList = Model_Album_Api::getInstance()->getNewest(5);
       $this->view->announcedList = Model_Album_Api::getInstance()->getAnnounced(5);

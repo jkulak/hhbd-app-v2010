@@ -101,12 +101,14 @@ class AlbumController extends Zend_Controller_Action
     $this->view->headMeta()->setName('keywords', $album->artist->name . ',' . $album->title . ',teksty,premiera,download,hip-hop,polski,hip hop');
     $this->view->headMeta()->setName('description', $album->artist->name . ' "' . $album->title . '" lista utworów, okładka, teksty, słowa piosenek, premiera, oraz inne szczegółowe informacje o albumie na największej polskiej stronie o polskim hip-hopie.');
     
+    // Open Graph Protocol (see more: http://mgp.me)
     $og = new Jkl_Og('Hhbd.pl');
     $og->setTitle($album->artist->name . ' - ' . $album->title . ' (' . $album->year . ')');
     $description = empty($album->description)?$album->autoDescription:$album->description;
     $og->setDescription($description);
     $og->setImage($album->thumbnail);
-    $this->view->og = $og->echoMeta();
+    $og->setType('album');
+    $this->view->og = $og->getMetaData();
     
   }
   

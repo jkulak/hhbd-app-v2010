@@ -12,7 +12,17 @@ class CommentController extends Zend_Controller_Action
   {
     // print_r($this->params);
     $content = htmlentities($this->params['content'], ENT_COMPAT, "UTF-8");
-    $author = htmlentities('~' . $this->params['author'], ENT_COMPAT, "UTF-8");
+    if (isset($this->params['author'])) {
+      $author = htmlentities('~' . $this->params['author'], ENT_COMPAT, "UTF-8");
+    }
+    else
+    {
+      $identity = Zend_Auth::getInstance()->getIdentity();
+      $user = Model_User::getInstance()->findByEmail($identity);
+      $author = $user->getDisplayName();
+      $authorId = $user->getId();
+    }
+    
     $authorIp = $_SERVER['REMOTE_ADDR'];
     $objectId = $this->params['com_object_id'];
     $objectType = $this->params['com_object_type'];
@@ -63,7 +73,7 @@ class CommentController extends Zend_Controller_Action
       exit();
     }
         
-    $result = Model_Comment_Api::getInstance()->postComment($content, $author, $authorIp, $objectId, $objectType);
+    $result = Model_Comment_Api::getInstance()->postComment($content, $author, $authorIp, $objectId, $objectType, $authorId);
     
     if ($data) {
       // data validation      

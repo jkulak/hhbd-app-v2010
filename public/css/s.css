@@ -1,6 +1,6 @@
 /* reset */
 html,body,div,p,script,noscript,table,tr,th,td,caption,label,form,ul,ol,li,hr,br,
-footer,section,nav,article,h1,h2,h3,h4,input[type="text"],img
+footer,section,nav,article,h1,h2,h3,h4,input[type="text"],input[type="password"],img
 {border: 0; margin: 0; padding: 0; font-weight: inherit; font-style: inherit; font-family: inherit; vertical-align: baseline;}
 
 a {
@@ -290,6 +290,64 @@ ul.list {
   border: 0;
 }
 
+#login {
+  float: right;
+  font-size: 13px;
+  margin: 8px 8px 0 0;
+  padding: 0;
+}
+
+#login input {
+  border: 1px solid #7E7E7E;
+  height: 17px;
+  margin: 0;
+  padding: 0;
+}
+
+#login a {
+  text-decoration: none;
+  background: none;
+  text-shadow: transparent 0 0 0;
+  font-weight: normal;
+
+  padding: 0;
+}
+
+#login a:hover {
+  background: transparent;
+}
+
+#login p {
+  margin-top: 32px;
+}
+
+/********************************************************************************************/
+/* Form                                                                                     */
+/********************************************************************************************/
+
+#form {
+  width: 350px;
+  margin: 0 auto;
+}
+
+#form label {
+  display: block;
+  margin-bottom: 4px;
+}
+
+#form input {
+  border: 1px solid #999999;
+  display: block;
+  font-size: 16px;
+  height: 22px;
+  line-height: 22px;
+  padding: 4px 5px;
+  width: 288px;
+}
+
+/********************************************************************************************/
+/* Album                                                                                     */
+/********************************************************************************************/
 
 #picture img {
   width: 300px;
