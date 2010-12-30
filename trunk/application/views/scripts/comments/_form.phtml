@@ -2,11 +2,15 @@
 <form action="comments" method="post" class="js-hidden">
   <label>Komentarz</label>
   <div id="textarea-wrapper">
-    <textarea name="content" value="" onkeyup="limitChars(this, 1000, 'comment-character-count')" /></textarea>
+    <textarea name="content" onkeyup="limitChars(this, 1000, 'comment-character-count')"></textarea>
   </div>
   <div>
-    <label>Podpis:</label>
-    <input type="text" name="author" value="" />
+    <?php if ($this->LoggedIn()): ?>
+      
+    <?php else: ?>
+      <label>Podpis:</label>
+      <input type="text" name="author" value="" />
+    <?php endif ?>
     <span id="comment-character-count" class="hidden">Pozostało znaków: 1000</span>
     <input type="submit" value="Dodaj komentarz" />
   </div>

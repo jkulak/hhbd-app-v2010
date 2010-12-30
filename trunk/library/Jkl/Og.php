@@ -8,6 +8,7 @@ class Jkl_Og
   private $_description;
   private $_image;
   private $_siteName;
+  private $_type;
   
   function __construct($siteName)
   {
@@ -29,7 +30,12 @@ class Jkl_Og
     $this->_image = $image;
   }
   
-  public function echoMeta()
+  public function setType($type)
+  {
+    $this->_type = $type;
+  }
+  
+  public function getMetaData()
   {
     $ogMeta = '';
     if (isset($this->_title)) {
@@ -43,6 +49,10 @@ class Jkl_Og
     
     if (isset($this->_image)) {
       $ogMeta .= '<meta property="og:image" content="' . $this->_image . '" />' . "\n";
+    }
+    
+    if (isset($this->_type)) {
+      $ogMeta .= '<meta property="og:type" content="' . $this->_type . '" />' . "\n";
     }
     
     $ogMeta .= '<meta property="og:site_name" content="' . $this->_siteName . '" />' . "\n";

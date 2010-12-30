@@ -1,0 +1,48 @@
+<div id="main">
+<h2>Rejestracja użytkownika</h2>
+
+<?php if ($this->created == 1): ?>
+  <div class="msg ok">
+    <p>Konto zostało założone poprawnie!</p>
+    <p><a href="<?php echo $this->url(array(), 'userLogin') ?>">Zaloguj się</a>, aby móc w pełni korzystać z serwisu.</p>
+    <p>Kliknij <?php echo $this->partial('user/_link.phtml', array('user'=> $this->user)) ?> aby zobaczyć swój profil.</p>
+  </div>
+<?php else: ?>
+
+<div id="form">  
+  <form action="<?php echo $this->url(array(), 'userRegistration') ?>" method="post" autocomplete="off">
+    <label>Podaj adres e-mail (to będzie Twój login)</label>
+    <input type="text" name="email" value="<?php echo $this->email ?>" />
+    <?php if (isset($this->errors['email'])): ?>
+      <?php foreach ($this->errors['email'] as $key => $value): ?>
+        <span><?php echo $value ?></span>
+      <?php endforeach ?>
+    <?php endif ?>
+    
+    <label>Wpisz hasło</label>
+    <input type="password" name="password" value="<?php echo $this->password ?>" />
+    <?php if (isset($this->errors['password'])): ?>
+      <?php foreach ($this->errors['password'] as $key => $value): ?>
+        <span><?php echo $value ?></span>
+      <?php endforeach ?>
+    <?php endif ?>
+    
+    <label>Potwierdź hasło</label>
+    <input type="password" name="password-confirm" value="<?php echo '' ?>" />
+    
+    <label>Wybierz podpis dla siebie</label>
+    <input type="text" name="display-name" value="<?php echo $this->displayName ?>" />
+    <?php if (isset($this->errors['displayName'])): ?>
+      <?php foreach ($this->errors['displayName'] as $key => $value): ?>
+        <span><?php echo $value ?></span>
+      <?php endforeach ?>
+    <?php endif ?>
+
+    <input type="submit" value="Submit" />
+    <input type="hidden" name="registration" value="1" />
+  </form>
+</div>
+<?php endif ?>
+</div>
+
+<div id="aside">aside content</div>

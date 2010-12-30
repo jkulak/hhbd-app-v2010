@@ -37,6 +37,7 @@ class ArtistController extends Zend_Controller_Action
     $this->view->headMeta()->setName('keywords', 'polski hip-hop,wykonawcy');    
   }
 
+  // View artist detail page
   public function viewAction()
   {
     $artist = Model_Artist_Api::getInstance()->find($this->params['id'], true);
@@ -80,6 +81,15 @@ class ArtistController extends Zend_Controller_Action
         $albumList[] = $albumListTmp[$i];
       }
     }
+    
+    // Open Graph Protocol (see more: http://mgp.me)
+    $og = new Jkl_Og('Hhbd.pl');
+    $og->setTitle($artist->name);
+    $description = empty($artist->profile)?$artist->autoDescription:$artist->profile;
+    $og->setDescription($description);
+    $og->setImage($artist->photos->items[0]->url);
+    $og->setType('musician');
+    $this->view->og = $og->getMetaData();
     
     $this->view->headTitle()->headTitle($artist->name . ' - teksty, dyskografia, biografia', 'PREPEND');
     $this->view->headMeta()->setName('description', $artist->name . ' - teksty, dyskografia, biografia '. implode($albumList, ', '));

@@ -206,6 +206,46 @@
           </defaults>
         </stat>
         
+        <!-- User registration -->
+        <userRegistration>
+          <route>uzytkownik/rejestracja.html</route>
+          <defaults>
+            <controller>user</controller>
+            <action>registration</action>
+          </defaults>
+        </userRegistration>
+        
+        <!-- User login -->
+        <userLogin>
+          <route>uzytkownik/logowanie.html</route>
+          <defaults>
+            <controller>user</controller>
+            <action>login</action>
+          </defaults>
+        </userLogin>
+        
+        <!-- User logout -->
+        <userLogout>
+          <route>user/logout</route>
+          <defaults>
+            <controller>user</controller>
+            <action>logout</action>
+          </defaults>
+        </userLogout>
+        
+        <user type="Zend_Controller_Router_Route_Regex">
+          <route>uzytkownik/(.+)-u(\d+).html</route>
+          <defaults>
+            <controller>user</controller>
+            <action>view</action>
+          </defaults>
+          <map>
+            <seo>1</seo>
+            <id>2</id>
+          </map>
+          <reverse>uzytkownik/%s-u%d.html</reverse>
+        </user>
+        
     </routes>
   </production>
   <development extends="production">
