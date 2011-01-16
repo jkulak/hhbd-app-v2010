@@ -50,10 +50,7 @@ class Model_User extends Zend_Db_Table_Abstract
     
     $validatorChain = new Zend_Validate();
     $validatorChain->addValidator($validLength)->addValidator($validAlnum);
-      
-    
-    
-    
+
     if (! $validatorChain->isValid($data['display-name'])) {
         foreach ($validatorChain->getMessages() as $message) {
             $errors['displayName'][] = $message;
