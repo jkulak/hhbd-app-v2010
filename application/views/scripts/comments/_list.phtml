@@ -4,7 +4,7 @@
       <span class="br"><?php echo $value->content ?></span>
       <span class="secondary">
         <?php if (!empty($value->authorId)): ?>
-          <strong><?php echo $value->author ?></strong>
+          <strong><a href="<?php echo $this->url(array('seo' => $value->author, 'id' => $value->authorId), 'user') ?>"><?php echo $value->author ?></a></strong>
         <?php else: ?>
           <?php echo (empty($value->author)?'~anonim':$value->author) ?>
         <?php endif ?>

@@ -35,9 +35,14 @@ class SongController extends Zend_Controller_Action
     $this->view->autoPlay = isset($this->params['autoplay']);
 
     // seo meta
-    $this->view->headTitle()->set($this->view->song->albumArtist->name . ' - ' . $this->view->song->title . ' tekst, teledysk, sample');
+    $this->view->headTitle()->set($this->view->song->albumArtist->name . ' - ' . $this->view->song->title . ' (' . $this->view->song->featured->items[0]->title . ')');
         $this->view->headMeta()->setName('keywords', $this->view->song->albumArtist->name . ',' . $this->view->song->title . ',tekst,teledysk,sample');
-    $this->view->headMeta()->setName('description', $this->view->song->albumArtist->name . ' - ' . $this->view->song->title . ', tekst, teledysk, premiera, informacje o samplach i inne ciekawe informacje o piosence na największej polskiej stronie o hip-hopie.');
+    if (!empty($song->lyrics)) {
+        $this->view->headMeta()->setName('description', 'Tekst i teledysk utworu ' . $this->view->song->albumArtist->name . ' - ' . $this->view->song->title . '. ' . Jkl_Tools_String::trim_str(str_replace(array(" <br />\r", "<br />\r ", "<br />\r"), ', ', $song->lyrics), 160, false));
+    } else {
+      $this->view->headMeta()->setName('description', 'Teledysk i informacje o utworze ' . $this->view->song->albumArtist->name . ' - ' . $this->view->song->title . '. Na razie nie mamy tekstu, ale jeżeli go podisdasz, możesz dodać.');
+    }
+
   }
   
   // description autogeneration, displayedfor SEO purposes
@@ -97,8 +102,8 @@ class SongController extends Zend_Controller_Action
       $description .= 'Gościnnie na albumie udzielaja się ';
       foreach ($song->featuring->items as $key => $value) {
         $description .= $value->name . ' (' . $value->featType . ')';
-        if (sizeof($song->featured->items) - 1 > $key) {
-          $description .= (sizeof($song->featuring->items) - 1 == $key)?', ':' i ';
+        if (sizeof($song->featuring->items) - 1 > $key) {
+          $description .= (sizeof($song->featuring->items) - 2 != $key)?', ':' i ';
         }
       }
       $description .= '. ';

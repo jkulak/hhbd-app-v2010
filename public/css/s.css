@@ -336,13 +336,23 @@ ul.list {
 }
 
 #form input {
+  margin-bottom: 8px;
+}
+
+#form input[type="text"], #form input[type="password"] {
   border: 1px solid #999999;
   display: block;
   font-size: 16px;
   height: 22px;
   line-height: 22px;
   padding: 4px 5px;
-  width: 288px;
+  width: 340px;
+}
+
+#form input[type="submit"] {
+  float: right;
+  cursor: pointer;
+  font-size: 14px;
 }
 
 /********************************************************************************************/
@@ -691,7 +701,12 @@ ul.list {
   display: block;
 }
 
-
-
-/* list */
-
+/********************************************************************************************/
+/* User                                                                                     */
+/********************************************************************************************/
+.form-errors {
+  background-color: #E76466;
+  border: 1px solid #9C4547;
+  margin-bottom: 8px;
+  padding: 4px;
+}

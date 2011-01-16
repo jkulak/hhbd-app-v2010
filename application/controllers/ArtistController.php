@@ -91,8 +91,14 @@ class ArtistController extends Zend_Controller_Action
     $og->setType('musician');
     $this->view->og = $og->getMetaData();
     
-    $this->view->headTitle()->headTitle($artist->name . ' - teksty, dyskografia, biografia', 'PREPEND');
-    $this->view->headMeta()->setName('description', $artist->name . ' - teksty, dyskografia, biografia '. implode($albumList, ', '));
+    $this->view->headTitle()->headTitle($artist->name, 'PREPEND');
+    // $this->view->headMeta()->setName('description', $artist->name . ' - teksty, dyskografia, biografia '. implode($albumList, ', '));
+    if (!empty($artist->description)) {
+      $this->view->headMeta()->setName('description', Jkl_Tools_String::trim_str($artist->description, 160));
+    } else {
+      $this->view->headMeta()->setName('description', Jkl_Tools_String::trim_str($artist->autoDescription, 160));
+    }
+    
     $this->view->headMeta()->setName('keywords', $artist->name . ',' . implode(',', $albumListTmp) . ',teksty,dyskografia,biografia' );
   }
   

@@ -24,28 +24,32 @@ class UserController extends Zend_Controller_Action
     // if post data received, it's user creation
     $reg = $this->_request->getPost('registration');
     if (!empty($reg)) {
-      $this->registerUser();
+      $this->_registerUser();
     }
     else
     {
-      // what else?
+      // if is registered - move to homesite
+      if (Zend_Auth::getInstance()->hasIdentity()) {
+        $this->_redirect($this->view->url(array(), 'homeSite'));
+      }
     }
   }
   
   public function loginAction()
   {
+    $errors = array();
     if ($this->getRequest()->isPost()) {
       $email = $this->_request->getPost('email');
       $password = $this->_request->getPost('password');
       if (empty($email) || empty($password))
       {
-        $this->view->errors['email'][] = "Please provide your e-mail address and password.";
+        $errors['login'][] = "Podaj adres e-mail i hasło i spróbuj jeszcze raz.";
       }
       else
       {
         $db = Zend_Db_Table::getDefaultAdapter();
         $authAdapter = new Zend_Auth_Adapter_DbTable($db);
-        $authAdapter->setTableName('hhb_user');
+        $authAdapter->setTableName('hhb_users');
         $authAdapter->setIdentityColumn('usr_email');
         $authAdapter->setCredentialColumn('usr_password');
         $authAdapter->setCredentialTreatment('MD5(?)');
@@ -58,13 +62,15 @@ class UserController extends Zend_Controller_Action
 
         // Did the participant successfully login?
         if ($result->isValid()) {
+          // retrive user data needed to build links
+          $data = $authAdapter->getResultRowObject(array('usr_display_name', 'usr_id'));
+          $auth->getStorage()->write($data);
+          
           $url = $this->getRequest()->getPost('url');
-          // echo $url;
-          // echo $this->_helper->('userLogin');
           $this->_redirect($url); 
          
         } else {
-          $this->view->errors[] = "Login failed. Have you confirmed your account?";
+          $errors['login'][] = "Podane dane do logowania nie są poprawne. Popraw je i spróbuj jeszcze raz.";
         }
       }
     }
@@ -74,6 +80,7 @@ class UserController extends Zend_Controller_Action
         $this->_redirect('/');
       }
     }
+    $this->view->errors = $errors;
   }
   
   public function logoutAction()
@@ -83,7 +90,7 @@ class UserController extends Zend_Controller_Action
   }
   
   
-  private function registerUser()
+  private function _registerUser()
   {
     $result = Model_User::getInstance()->save($this->_request->getPost());
     

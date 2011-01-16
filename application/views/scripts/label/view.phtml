@@ -38,7 +38,7 @@
   
   <div id="description" class="pane">
     <div class="header">
-      <h2>Profil wytwórni</h2><?php if (!empty($this->label->description)): ?><span class="toggle js-visible"><a href="?showDefaultDescription=1">Pokaż opis standardowy</a></span><?php endif ?>
+      <h2>Profil wytwórni</h2><?php if (!empty($this->label->description)): ?><span class="toggle js-visible"><a rel="nofollow"  href="?showDefaultDescription=1">Pokaż opis standardowy</a></span><?php endif ?>
     </div>
   	 <?php if (!empty($this->label->description)): ?><p><?php echo $this->label->description ?></p><?php endif ?>
     <p class="<?php if (!empty($this->label->description)): ?>js-hidden <?php endif ?>auto"><?php echo $this->label->autoDescription ?></p>
