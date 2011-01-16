@@ -10,17 +10,15 @@ class CommentController extends Zend_Controller_Action
 
   public function indexAction()
   {
-    // print_r($this->params);
     $content = htmlentities($this->params['content'], ENT_COMPAT, "UTF-8");
     if (isset($this->params['author'])) {
       $author = htmlentities('~' . $this->params['author'], ENT_COMPAT, "UTF-8");
     }
     else
     {
-      $identity = Zend_Auth::getInstance()->getIdentity();
-      $user = Model_User::getInstance()->findByEmail($identity);
-      $author = $user->getDisplayName();
-      $authorId = $user->getId();
+      $user = Zend_Auth::getInstance()->getIdentity();
+      $author = $user->usr_display_name;
+      $authorId = $user->usr_id;
     }
     
     $authorIp = $_SERVER['REMOTE_ADDR'];

@@ -5,7 +5,7 @@
 <?php echo $this->headMeta(); ?>
 <meta name="google-site-verification" content="HsOI_FHfSVoTani2UHBr9Jh7G8sXNYfXTUCyg5VDYLY" />
 <?php echo $this->headTitle(); ?>
-<?php $this->headLink()->prependStylesheet($this->baseUrl() . '/css/s.css'); ?>
+<?php $this->headLink()->prependStylesheet($this->baseUrl() . '/css/s.min.css'); ?>
 <?php echo $this->headLink(); ?>
 <?php if (isset($this->headIncludes['jquery'])) $this->headScript()->appendFile($this->baseUrl() . $this->headIncludes['jquery']['path']); ?>
 <?php $this->headScript()->appendFile($this->baseUrl() . '/js/jquery.tipsy.js') ?>

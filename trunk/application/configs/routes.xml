@@ -234,7 +234,7 @@
         </userLogout>
         
         <user type="Zend_Controller_Router_Route_Regex">
-          <route>uzytkownik/(.+)-u(\d+).html</route>
+          <route>użytkownik/(.+),(\d+).html</route>
           <defaults>
             <controller>user</controller>
             <action>view</action>
@@ -243,7 +243,7 @@
             <seo>1</seo>
             <id>2</id>
           </map>
-          <reverse>uzytkownik/%s-u%d.html</reverse>
+          <reverse>użytkownik/%s,%d.html</reverse>
         </user>
         
     </routes>

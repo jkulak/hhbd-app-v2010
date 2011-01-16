@@ -11,7 +11,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
        'basePath' => APPLICATION_PATH)
        );
     return $moduleLoader;
-    
   }
   
   protected function _initApplication()
