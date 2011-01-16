@@ -6,7 +6,9 @@
  * (new) dodana prosta odsłona profilu, z informacjami, co tam będzie w przyszłości
  * (changed) poprawione tytułu i opisy utworów i wykonawców (dla SEO)
  * (changed) zmieniony adres utworów - przed tytuł doszła jeszcze nazwa wykonawcy
+ * (changed) changelog przeniesiony do wiki projektu (wcześniej wysyłany mailowo)
  * (fixed) pliki stylów są skompresowane, żeby mniej zajmowały - strona będzie działać minimalnie szybciej
+
 
 == v0.49 ==
  * dodane zliczanie odsłon dla wykonawców, albumów, artykułów, wytwórni i utworów (w związku z tym aktualizowane na żywo rankingi najpopularniejszych)
