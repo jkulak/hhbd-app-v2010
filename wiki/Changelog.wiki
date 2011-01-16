@@ -1,9 +1,9 @@
 #summary www.hhbd.pl changelog
 
 == 2011-01-16 (v0.51) ==
- * (new) dodane zakładanie kont i logowanie
- * (new) dodana możliwość komentaowania jako zalogowany użytkownik
- * (new) dodana prosta odsłona profilu, z informacjami, co tam będzie w przyszłości
+ * http://www.galizur.com/images/new_icon.gif dodane zakładanie kont i logowanie
+ * http://www.galizur.com/images/new_icon.gif dodana możliwość komentaowania jako zalogowany użytkownik
+ * http://www.poetrysoup.com/images/new_icon_green.gif dodana prosta odsłona profilu, z informacjami, co tam będzie w przyszłości
  * (changed) poprawione tytułu i opisy utworów i wykonawców (dla SEO)
  * (changed) zmieniony adres utworów - przed tytuł doszła jeszcze nazwa wykonawcy
  * (changed) changelog przeniesiony do wiki projektu (wcześniej wysyłany mailowo)
