@@ -23,6 +23,44 @@ function setCookie(name, value, expires) {
 var exp = new Date();
 exp.setTime(exp.getTime() + (1000 * 60 * 60 * 24 * 350));
 
+
+function commentSuccess(data) {
+  // ukryj formularz do postowania
+  $('#post-comment').hide();
+  $('#post-comment textarea').val('');
+  
+  // pokaż przycisk zapostuj jeszcze raz
+  // $('#comment-form-show').prepend('<span class="msg ok">Twój komentarz został dodany!</span> ');
+  $('#comment-form-show').show();
+  
+  //pojaw ładnie nowy komentarz
+  var newComment = '<li class="hidden"><span class="br">' + data.content + '</span><span class="secondary">';
+  if (data.authorId === null) {
+    newComment = newComment + data.author;    
+  }
+  else 
+  {
+      newComment = newComment + '<strong><a href="/użytkownik/' + data.author + ',' + data.authorId + '.html">' + data.author + '</a></strong>';
+  }
+  var now = new Date();
+  var hour        = now.getHours();
+  if (hour<10) { hour = '0' + hour };
+  var minute      = now.getMinutes();
+  if (minute<10) { minute = '0' + minute }
+  var second      = now.getSeconds();
+  if (second<10) { second = '0' + second }
+  var monthNumber = now.getMonth() + 1;
+  if (monthNumber<10) { monthNumber = '0' + monthNumber }
+  var monthDay    = now.getDate();
+  if (monthDay<10) { monthDay = '0' + monthDay }
+  var year        = now.getFullYear();
+  
+  newComment = newComment + ' (' + year + '-' + monthNumber + '-' + monthDay + ' ' + hour + ':' + minute + ':' + second + ')</span>';
+  
+  $(newComment).prependTo("#comments ul").fadeIn(2500);
+}
+
+
 $(function(){
   // toggle tracklist additional information
   $("#tracklist span.toggle > a").toggle(
@@ -82,12 +120,30 @@ $(function(){
   $('.covers img').tipsy({'html':'true','gravity':'n','delayOut':3000,'delayIn':3000,title: function() { return this.getAttribute('original-title'); }});
   
   // comments
-  $('#comment-form-show').click(
-    function(){
-      $('#comments form').show();
-      $('#comments form textarea').focus();
-      $('#comment-form-show').hide();
-      return false;
-    });
+  $('#comment-form-show').click(function(){
+    $('#comments form').show();
+    $('#comments form textarea').focus();
+    $('#comment-form-show').hide();
+    return false;
+  });
 
+
+  $('#submit').click(function() {
+    var dataString = $('#post-comment').serialize();
+    $.ajax({
+      type: 'POST',
+      url: '/comments',
+      dataType: 'json',
+      data: dataString,
+      success: function(data) {
+        commentSuccess(data);
+      },
+      error: function() {
+        alert('Problem z dodaniem komentarza, spróbuj za jakiś czas.');
+      }
+    })
+    // alert(dataString);
+    
+    return false;
+  })
 });
