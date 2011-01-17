@@ -11,14 +11,21 @@ class CommentController extends Zend_Controller_Action
   public function indexAction()
   {
     $content = htmlentities($this->params['content'], ENT_COMPAT, "UTF-8");
-    if (isset($this->params['author'])) {
-      $author = htmlentities('~' . $this->params['author'], ENT_COMPAT, "UTF-8");
-    }
-    else
-    {
+    
+    $authorId = null;
+
+    if (Zend_Auth::getInstance()->hasIdentity()) {
       $user = Zend_Auth::getInstance()->getIdentity();
       $author = $user->usr_display_name;
       $authorId = $user->usr_id;
+    }
+    else {
+      if (isset($this->params['author'])) {
+        $author = htmlentities('~' . $this->params['author'], ENT_COMPAT, "UTF-8");
+      }
+      else {
+        $author = '~';
+      }
     }
     
     $authorIp = $_SERVER['REMOTE_ADDR'];
@@ -59,31 +66,40 @@ class CommentController extends Zend_Controller_Action
         break;
     }
     
-    if (empty($content)) {
-      $redirect .= '?postError=1&emptyComment=1#comments';
-      header("Location: /" . str_replace(' ', '+', $redirect));
-      exit();
-    }
+    // return error for non ajax request
+    if  (!$this->getRequest()->isXmlHttpRequest()) {  
+      if (empty($content)) {
+        $redirect .= '?postError=1&emptyComment=1#comments';
+        header("Location: /" . str_replace(' ', '+', $redirect));
+        exit();
+      }
     
-    if (strlen($content) > 1000) {
-      $redirect .= '?postError=1&commentTooLong=1#comments';
-      header("Location: /" . str_replace(' ', '+', $redirect));
-      exit();
+      if (strlen($content) > 1000) {
+        $redirect .= '?postError=1&commentTooLong=1#comments';
+        header("Location: /" . str_replace(' ', '+', $redirect));
+        exit();
+      }
     }
         
     $result = Model_Comment_Api::getInstance()->postComment($content, $author, $authorIp, $objectId, $objectType, $authorId);
     
-    if ($data) {
-      // data validation      
-      if (!$result) {
-        $redirect .= '?postError=1&dbError=1';
-      }
-      header("Location: /" . str_replace(' ', '+', $redirect . '#comments'));
-      exit();
+    
+    if  ($this->getRequest()->isXmlHttpRequest()) {
+      $this->_helper->json(array('content' => $content, 'author' => $author, 'authorId' => $authorId));
     }
     else {
-      header("Location: /404.html", true, 404);
-      exit();
+      if ($data) {
+        // data validation      
+        if (!$result) {
+          $redirect .= '?postError=1&dbError=1';
+        }
+        header("Location: /" . str_replace(' ', '+', $redirect . '#comments'));
+        exit();
+      }
+      else {
+        header("Location: /404.html", true, 404);
+        exit();
+      }      
     }
   }
   
