@@ -1,0 +1,40 @@
+v0.53 ()
+ * [changed] SEO - opis i keywordsy albumu poprawione
+ * [changed] Changlog utrzymywany jest w katalogu projektu, w doc/changelog
+
+v0.52 (2011-01-17)
+ * [new] dodana możliwość publikowania komentarzy bez przeładowania strony - przy włączony JavaScript w przeglądarce, dla wszystkich typów danych, które do tej pory można komentować
+
+v0.51 (2011-01-16)
+ * [new] dodane zakładanie kont i logowanie
+ * [new] dodana możliwość komentaowania jako zalogowany użytkownik
+ * [new] dodana prosta odsłona profilu, z informacjami, co tam będzie w przyszłości
+ * [changed] poprawione tytułu i opisy utworów i wykonawców (dla SEO)
+ * [changed] zmieniony adres utworów - przed tytuł doszła jeszcze nazwa wykonawcy
+ * [changed] changelog przeniesiony do wiki projektu (wcześniej wysyłany mailowo)
+ * [fixed] pliki stylów są skompresowane, żeby mniej zajmowały - strona będzie działać minimalnie szybciej
+
+v0.49 ()
+ * dodane zliczanie odsłon dla wykonawców, albumów, artykułów, wytwórni i utworów (w związku z tym aktualizowane na żywo rankingi najpopularniejszych)
+ * poprawione kilka błędów
+
+v0.48 ()
+ * dodane komentarze do wykonawców, albumów, artykułów, wytwórni i utworów
+
+v0.45 ()
+ * pierwsza gotowa wersja strony głównej
+ * lista artykułów na stronie głównej, które prowadzą do prostej odsłony artykułu
+ * drobne poprawki graficzne
+
+v0.33 ()
+ * http://hhbd.megiteam.pl/Abradab-p28.html - zrobione przekierowania ze starej adresacji (dla albumów, wykonawców, wytwórni utworów i newsów - jak będę już)
+ * opis generowany automatycznie dla wykonawców i albumów pokazuje się zawsze, a jeżeli wykonawca/album ma swój własny opis, to automatyczny jest ukryty i można go pokazać po kliknięciu w link
+ * ustawienia "pokaż szczegóły" tracklisty i "pokaż opis standardwy" dla wykonawców i albumów są zapisywane w cookies, także jak raz  ustawisz, tak masz na kolejnych albumach 
+ * usunięcie podkreślenia linków, po najechaniu na nie
+ * usunięcie cienia spod napisu w stopce
+
+== v0.32 ==
+ * na odsłonie wyników, pokazuję szczegółowe informacje o tym, ile jeszcze wyników znalazło
+ * ostylowane prawe bloczki na odsłonach wyszukiwania
+ * gotowa stopka
+ * opis albumu jest pokazywany domyślnie, a wygenerowany jest ukrywany, z możliwością pokazania po kliknięciu w link, jeżeli nie ma opisu albumu, to domyślnie pokazywany jest wygenerowany

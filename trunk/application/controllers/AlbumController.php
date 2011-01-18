@@ -98,8 +98,8 @@ class AlbumController extends Zend_Controller_Action
 
     $this->view->title = $album->artist->name . ' - ' . $album->title . ' (' . $album->year . ')';
     $this->view->headTitle()->set($this->view->title, 'PREPEND');
-    $this->view->headMeta()->setName('keywords', $album->artist->name . ',' . $album->title . ',teksty,premiera,download,hip-hop,polski,hip hop');
-    $this->view->headMeta()->setName('description', $album->artist->name . ' "' . $album->title . '" lista utworów, okładka, teksty, słowa piosenek, premiera, oraz inne szczegółowe informacje o albumie na największej polskiej stronie o polskim hip-hopie.');
+    $this->view->headMeta()->setName('keywords', $album->artist->name . ',' . $album->title . ',teksty,premiera,download,tracklista,' . $album->label->name);
+    $this->view->headMeta()->setName('description', $album->artist->name . ' "' . $album->title . '" premiera, teksty, tracklista, oraz inne szczegółowe informacje o albumie na największej polskiej stronie o polskim hip-hopie. Album wydany przez ' . $album->label->name . '.');
     
     // Open Graph Protocol (see more: http://mgp.me)
     $og = new Jkl_Og('Hhbd.pl');
