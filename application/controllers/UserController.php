@@ -63,7 +63,7 @@ class UserController extends Zend_Controller_Action
         // Did the participant successfully login?
         if ($result->isValid()) {
           // retrive user data needed to build links
-          $data = $authAdapter->getResultRowObject(array('usr_display_name', 'usr_id'));
+          $data = $authAdapter->getResultRowObject(array('usr_display_name', 'usr_id', 'usr_is_admin'));
           $auth->getStorage()->write($data);
           
           $url = $this->getRequest()->getPost('url');

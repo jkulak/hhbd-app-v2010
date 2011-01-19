@@ -246,6 +246,16 @@
           <reverse>użytkownik/%s,%d.html</reverse>
         </user>
         
+        <!-- ADMIN INTERFACE ROUTES -->
+        
+        <saveSong>
+          <route>admin-interface/song</route>
+          <defaults>
+            <controller>song</controller>
+            <action>save-lyrics</action>
+          </defaults>
+        </saveSong>
+        
     </routes>
   </production>
   <development extends="production">

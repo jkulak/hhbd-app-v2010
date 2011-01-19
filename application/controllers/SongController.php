@@ -45,6 +45,23 @@ class SongController extends Zend_Controller_Action
 
   }
   
+  public function saveLyricsAction()
+  {
+    if  ($this->getRequest()->isXmlHttpRequest()) {
+      $lyrics = nl2br($this->params['adm-lyrics']);
+      $songId = $this->params['adm-song-id'];
+      
+      $result = Model_Song_Api::getInstance()->saveLyrics($songId, $lyrics);
+      if ($result) {
+        $this->_helper->json(array('succes' => true, 'adm-lyrics' => $lyrics, 'adm-song-id' => $songId));
+      }
+      else
+      {
+        $this->_helper->json(array('succes' => false, 'adm-lyrics' => $lyrics, 'adm-song-id' => $songId));
+      }
+    }
+  }
+  
   // description autogeneration, displayedfor SEO purposes
   private function _generateDescription($song)
   {

@@ -83,9 +83,15 @@
       Na razie nie mamy informacji o tym jakie sample zostały wykorzystane w "<?php echo $this->song->title ?>". Sprawdź za kilka dni.
     <?php endif ?>
   </div>
+  
 <?php if (!empty($this->song->lyrics)): ?>
   <div id="lyrics" class="pane">
-    <h2><?php echo $this->song->albumArtist->name ?> - <?php echo $this->song->title ?> tekst</h2>
+    <div class="header">
+      <?php if ($this->IsAdmin()): ?>
+        <span class="toggle"><a href="" id="adm-edit-lyrics">Edytuj tekst</a></span>
+      <?php endif ?>
+      <h2><?php echo $this->song->albumArtist->name ?> - <?php echo $this->song->title ?> tekst</h2>
+    </div>
     <p><?php echo $this->song->lyrics ?></p>
   </div>
 <?php endif ?>
@@ -116,3 +122,4 @@
 </div>
 
 <?php echo $this->partial('common/_stat.phtml', array('type' => 'song', 'id' => $this->song->id)) ?>
+<div id="id-song" class="hidden"><?php echo $this->song->id ?></div>
