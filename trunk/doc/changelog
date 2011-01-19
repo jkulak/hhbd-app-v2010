@@ -1,6 +1,7 @@
-v0.53 ()
+v0.53 (2011-01-19)
  * [changed] SEO - opis i keywordsy albumu poprawione
  * [changed] Changlog utrzymywany jest w katalogu projektu, w doc/changelog
+ * [added] Użytkownik zalogowany jako admin ma możliwość edycji tekstu piosenki z jej odsłony
 
 v0.52 (2011-01-17)
  * [new] dodana możliwość publikowania komentarzy bez przeładowania strony - przy włączony JavaScript w przeglądarce, dla wszystkich typów danych, które do tej pory można komentować

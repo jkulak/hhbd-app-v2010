@@ -260,4 +260,12 @@ class Model_Song_Api extends Jkl_Model_Api
     $this->_db->query($query);
   }
   
+  public function saveLyrics($songId, $lyrics)
+  {
+    $id = intval($songId);
+    $query = 'UPDATE songs SET lyrics="' . $lyrics . '" WHERE id=' . $id;
+    $result = $this->_db->query($query);
+    return true;
+  }
+  
 }
