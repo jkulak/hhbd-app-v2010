@@ -1,3 +1,7 @@
+v0.54 ()
+ * [added] Dodana funkcjonalność dodawania tekstów do piosenek przed adminów /Issue #5/
+ * [changed] SEO: dodane data premiery i przeniesiona nazwa wytwórni w meta description /Issue #7/
+
 v0.53 (2011-01-19)
  * [changed] SEO - opis i keywordsy albumu poprawione
  * [changed] Changlog utrzymywany jest w katalogu projektu, w doc/changelog

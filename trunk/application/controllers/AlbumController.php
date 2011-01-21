@@ -99,7 +99,30 @@ class AlbumController extends Zend_Controller_Action
     $this->view->title = $album->artist->name . ' - ' . $album->title . ' (' . $album->year . ')';
     $this->view->headTitle()->set($this->view->title, 'PREPEND');
     $this->view->headMeta()->setName('keywords', $album->artist->name . ',' . $album->title . ',teksty,premiera,download,tracklista,' . $album->label->name);
-    $this->view->headMeta()->setName('description', $album->artist->name . ' "' . $album->title . '" premiera, teksty, tracklista, oraz inne szczegółowe informacje o albumie na największej polskiej stronie o polskim hip-hopie. Album wydany przez ' . $album->label->name . '.');
+    
+    $releaseDate = '';
+    if (!empty($album->releaseDateNormalized)) {
+      if ($album->isAnnounced()) {
+        $releaseInfo = ', premiera albumu zaplanowana jest na ' . $album->releaseDateNormalized . ', przez wytwórnię ' . $album->label->name;
+      }
+      else
+      {
+        $releaseInfo = ', album został wydany ' . $album->releaseDateNormalized . ', przez wytwórnię ' . $album->label->name;
+      }
+    }
+    else 
+    {
+      if ($album->isAnnounced()) {
+        $releaseInfo = ', premiera albumu zaplanowana przez wytwórnię ' . $album->label->name;
+      }
+      else
+      {
+        $releaseInfo = ', album został wydany przez wytwórnię ' . $album->label->name;
+      }
+      
+    }
+    
+    $this->view->headMeta()->setName('description', $album->artist->name . ' "' . $album->title . '"' . $releaseInfo . '. U nas teksty utworów, tracklista, oraz inne szczegółowe informacje o albumie.');
     
     // Open Graph Protocol (see more: http://mgp.me)
     $og = new Jkl_Og('Hhbd.pl');

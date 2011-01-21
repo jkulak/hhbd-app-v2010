@@ -55,8 +55,9 @@
     	<?php endif ?>
 	  </ul>
 	</div>
-	<?php if (isset($this->song->youTubeUrl)): ?>
 
+  <!-- tutaj edycja url do teledysku -->
+	<?php if (isset($this->song->youTubeUrl) or ($this->IsAdmin())): ?>
 	<div id="clip" class="pane">
 	  <h2>Teledysk <?php echo $this->song->albumArtist->name ?> - <?php echo $this->song->title ?>
 	  </h2>
@@ -84,7 +85,7 @@
     <?php endif ?>
   </div>
   
-<?php if (!empty($this->song->lyrics)): ?>
+<?php if (!empty($this->song->lyrics) or ($this->IsAdmin())): ?>
   <div id="lyrics" class="pane">
     <div class="header">
       <?php if ($this->IsAdmin()): ?>
