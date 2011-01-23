@@ -134,5 +134,14 @@ class Model_Label_Api extends Jkl_Model_Api
     $query = 'UPDATE labels SET viewed=viewed+1 WHERE id=' . $id;
     $this->_db->query($query);
   }
-    
+  
+  public function getRecent($limit = 20)
+  {
+    $limit = intval($limit);
+    $query = "SELECT *, t1.id AS lab_id, t1.name AS lab_name
+              FROM labels t1
+              ORDER BY t1.added DESC" .
+              (($limit != null)?' LIMIT ' . $limit:'');
+    return $this->_getList($query);
+  }   
 }

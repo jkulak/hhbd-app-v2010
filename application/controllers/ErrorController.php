@@ -21,6 +21,10 @@ class ErrorController extends Zend_Controller_Action
                 $this->getResponse()->setHttpResponseCode(404);
                 $this->view->title = 'Błąd 404: Nieeee, nie mamy takiej strony (jeszcze)!';
                 $this->view->message = 'Ale nie przejmuj się tym, to nie Twoja wina :) Sprawdź czy wpisałeś dobry adres, a najlepiej chodź na <a href="/">stronę główną</a> lub wpisz czego szukasz w naszej wyszukiwarce!';
+                
+                // see description below
+                // $this->_forward('exception-log-this');
+                
                 break;
                 
             case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_OTHER:
@@ -75,7 +79,7 @@ class ErrorController extends Zend_Controller_Action
     
     public function exceptionDbConnectionFailedAction()
     {
-      $this->view->message = 'Nie udało się połączyć z bazą danych.';
+      $this->view->message = 'Nie udało się połączyć z bazą danych...';
       $this->renderScript('error/error.phtml');
     }
     
@@ -84,6 +88,14 @@ class ErrorController extends Zend_Controller_Action
       $this->view->message = 'Nie udało się połączyć z Memcached.';
       $this->renderScript('error/error.phtml');
     }
+    
+    // 2011, 22 Jan - I started doing this, but finally couldn't find solution for making simple database query outside models
+    // public function exceptionLogThisAction()
+    // {
+    //   $uri = $this->view->request->getRequestUri();
+    //   Jkl_Log::getInstance()->save404ErrorLog($uri);
+    //   $this->renderScript('error/error.phtml');
+    // }
 
 
 }
