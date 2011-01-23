@@ -246,6 +246,27 @@
           <reverse>użytkownik/%s,%d.html</reverse>
         </user>
         
+        <!-- sitemaps -->
+        <sitemap type="Zend_Controller_Router_Route_Regex">
+          <route>sitemap-(.*).xml</route>
+          <defaults>
+            <controller>sitemap</controller>
+            <action>view</action>
+          </defaults>
+          <map>
+            <type>1</type>
+          </map>
+          <reverse>sitemap-%s.xml</reverse>
+        </sitemap>
+        
+        <sitemapIndex>
+          <route>sitemap-index.xml</route>
+          <defaults>
+            <controller>sitemap</controller>
+            <action>index</action>
+          </defaults>
+        </sitemapIndex> 
+        
         <!-- ADMIN INTERFACE ROUTES -->
         
         <saveSong>

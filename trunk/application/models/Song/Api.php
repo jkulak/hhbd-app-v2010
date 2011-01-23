@@ -268,4 +268,33 @@ class Model_Song_Api extends Jkl_Model_Api
     return true;
   }
   
+  /**
+  * Returns list of most recent songs
+  * used for: sitemaps
+  **/
+  public function getRecent($limit = 20)
+  {    
+    $limit = intval($limit);
+    $query = "SELECT *, t1.id AS song_id, t1.title AS sng_title
+              FROM songs t1
+              ORDER BY t1.added DESC" .
+              (($limit != null)?' LIMIT ' . $limit:''); 
+    return $this->_getList($query);
+  }
+  
+  public function getArtist($id)
+  {
+    //set feat as artist
+    $featuring = Model_Artist_Api::getInstance()->getSongFeaturing($id);
+    $artist = Model_Artist_Api::getInstance()->getSongArtist($id);    
+    
+    //if empty 
+    //get list of albums
+    $featured = Model_Album_Api::getInstance()->getSongAlbums($id, null);
+    // seat first album artist not v/a as artist
+    
+    // if still empty
+    // set song's artist
+  }
+  
 }

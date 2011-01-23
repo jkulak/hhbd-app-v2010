@@ -386,4 +386,12 @@ class Model_Album_Api extends Jkl_Model_Api
     $this->_db->query($query);
   }
   
+  public function getSitemap()
+  {
+    $query = "SELECT t1.id AS alb_id, t1.title AS alb_title
+              FROM albums t1
+              ORDER BY t1.year DESC";
+    return $this->getList($query);
+  }
+  
 }
