@@ -23,7 +23,6 @@ class Model_Comment_Api extends Jkl_Model_Api
       if (null === self::$_instance) {
           self::$_instance = new self();
       }
-
       return self::$_instance;
   }
 

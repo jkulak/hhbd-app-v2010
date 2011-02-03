@@ -128,6 +128,9 @@ class Model_Album_Api extends Jkl_Model_Api
     return $this->getList($query);
   }
 
+  /**
+  * Returns list of released albums sorted by release date, decreasing (from most recent to oldest)
+  */
   public function getNewest($count = 20, $page = 1)
   {
     $page = intval($page - 1);
@@ -394,4 +397,20 @@ class Model_Album_Api extends Jkl_Model_Api
     return $this->getList($query);
   }
   
+  /**
+   * Function returns list of all albums sorted by added date descending, for sitemap-albums.xml
+   *
+   * @return JkL_List of Model_Alubm_Container
+   * @author Kuba
+   **/
+   public function getAlbumsSitemap($limit = 10000)
+   {
+     $limit = intval($limit);
+     $query = 'SELECT *, t3.id as alb_id, t1.id as art_id, t4.id as lab_id, t3.added as alb_added, t3.addedby as alb_addedby, t3.viewed as alb_viewed ' .
+       'FROM artists AS t1, album_artist_lookup AS t2, albums AS t3, labels AS t4 ' .
+       'WHERE (t1.id=t2.artistid AND t2.albumid=t3.id AND t4.id=t3.labelid) ' . 
+       'ORDER BY t3.added DESC ' . 
+       'LIMIT ' . $limit;
+     return $this->getList($query);
+   }
 }

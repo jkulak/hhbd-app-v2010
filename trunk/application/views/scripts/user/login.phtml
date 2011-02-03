@@ -9,7 +9,7 @@
       </ul>
     <?php endif ?>
     
-    <?php echo $this->partial('user/_loginForm.phtml') ?>
+    <?php echo $this->partial('user/_loginForm.phtml', array('redirectUrl' => $this->redirectUrl)) ?>
   </div>
 </div>
 

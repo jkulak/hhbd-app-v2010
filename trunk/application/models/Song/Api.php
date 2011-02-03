@@ -13,6 +13,19 @@ class Model_Song_Api extends Jkl_Model_Api
   
   static private $_instance;
   
+  const LYRICS_ACTION_ADD = "add";
+  const LYRICS_ACTION_EDIT = "edit";
+  const LYRICS_ACTION_DELETE = "delete";
+  
+  const MINIMUM_LYRICS_LENGTH = 20;
+  
+  // private $_artistTypes = array(
+  //   'add' => Model_Song_Container::LYRICS_ACTION_ADD,
+  //   'edit' => Model_Song_Container::LYRICS_ACTION_EDIT,
+  //   'delete' => Model_Song_Container::LYRICS_ACTION_DELETE);
+  
+  
+  
   /**
    * Singleton instance
    *
@@ -260,12 +273,37 @@ class Model_Song_Api extends Jkl_Model_Api
     $this->_db->query($query);
   }
   
-  public function saveLyrics($songId, $lyrics)
+  /**
+   * Saves songs lyrics to database
+   *
+   * @return number of affected rows (0 - no changes made, 1 - changes saved)
+   * @author Kuba
+   **/
+  public function saveLyrics($songId, $lyrics, $userId, $action = self::LYRICS_ACTION_EDIT)
   {
+    if (strlen($lyrics) < self::MINIMUM_LYRICS_LENGTH) {
+      $action = self::LYRICS_ACTION_DELETE;
+    }
+    
     $id = intval($songId);
+    $lyrics = addslashes($lyrics);
+    $userId = intval($userId);
+    
     $query = 'UPDATE songs SET lyrics="' . $lyrics . '" WHERE id=' . $id;
     $result = $this->_db->query($query);
-    return true;
+    
+    // if 1 row was updated save information who did the lyrics editing
+    if ($result->rowCount() == 1) {
+      $query = 'INSERT INTO hhb_user_lyrics_edit
+        SET ule_lyrics_id="' . $songId . '", ule_user_id="' . $userId . '", ule_action_type="' . $action . '", ule_lyrics="' . $lyrics . '", ule_action_timestamp="' . date("Y-m-d H:i:s") . '"';
+      $subResult = $this->_db->query($query);
+    }
+    
+    /*
+      TODO 2011-02-02 flush memcached for this song here
+    */
+
+    return $result->rowCount();
   }
   
   /**
@@ -281,20 +319,54 @@ class Model_Song_Api extends Jkl_Model_Api
               (($limit != null)?' LIMIT ' . $limit:''); 
     return $this->_getList($query);
   }
-  
-  public function getArtist($id)
+
+  /**
+   * getArtists
+   * 
+   * returns array with objects of songs artists
+   **/
+  public function getArtists($id)
   {
+    
+    // skladanka, gdzie chcemy wziac artist (album artist mamy v/a wtedy)
+    // plyta producencka, gdzie chcemy wziac feat
+    // normalna plyta gdzie wykonawca jest autor plyty (ale nie mamy jak odroznic od producenckiej)
+    
+    // moze jako wykonawce traktowac zawsze album artist, ale dawac w nawiasie feat ?
+    // hhbd.pl/Dj 600v/_/Merctedes (feat. Tede),4581.html
+    // hhbd.pl/VA/Letnie hity 2010/Merctedes (feat. Tede),4581.html
+    $artists = new Jkl_List();
     //set feat as artist
     $featuring = Model_Artist_Api::getInstance()->getSongFeaturing($id);
-    $artist = Model_Artist_Api::getInstance()->getSongArtist($id);    
+    foreach ($featuring->items as $key => $value) {
+      $artists->add($value);
+    }
     
     //if empty 
     //get list of albums
-    $featured = Model_Album_Api::getInstance()->getSongAlbums($id, null);
     // seat first album artist not v/a as artist
+    if (sizeof($artists->items) < 1) {
+      $featured = Model_Album_Api::getInstance()->getSongAlbums($id, null);
+      foreach ($featured->items as $key => $value) {
+        if ($value->artist->name != 'V/A') {
+          $artists->add($value->artist);
+        }      
+      }
+    }
     
     // if still empty
     // set song's artist
+    if (sizeof($artists->items) < 1) {
+      $artist = Model_Artist_Api::getInstance()->getSongArtist($id); 
+      foreach ($featured->items as $key => $value) {
+        $artists->add($value);
+      }
+    }
+     
+    // print_r($artists);
+    // die('s');
+    
+    return $artists;  
   }
   
 }

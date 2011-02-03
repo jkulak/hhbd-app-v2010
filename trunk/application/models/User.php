@@ -19,8 +19,21 @@ class Model_User extends Zend_Db_Table_Abstract
       if (null === self::$_instance) {
           self::$_instance = new self();
       }
-
       return self::$_instance;
+  }
+  
+  /**
+   * Creates object and fetches the list from database result
+   */
+  private function _getList($query)
+  {
+    $result = $this->_db->fetchAll($query);;
+    $list = new Jkl_List('User list'); 
+    foreach ($result as $params) {
+      // conversion to stdObject, because blah :/ Model_UserContainer takes objects as parameters
+      $list->add(new Model_User_Container((object)$params));
+    }
+    return $list;
   }
 
   /*
@@ -160,6 +173,22 @@ class Model_User extends Zend_Db_Table_Abstract
   {
     $id = intval($id);
     $result = $this->find($id);
-    return new Model_User_Container($result->current());    
+    return new Model_User_Container($result->current());
+  }
+  
+  /**
+   * Returns list of users that edited lyrics of selected song
+   *
+   * @return Jkl_List of Model_User_Container
+   * @since 2011-02-03
+   * @author Kuba
+   **/
+  public function getLyricsEditors($songId)
+  {
+    $query = "SELECT DISTINCT(t1.usr_id), t1.usr_display_name, t1.usr_email
+              FROM hhb_users t1, hhb_user_lyrics_edit t2
+              WHERE (t1.usr_id=t2.ule_user_id AND t2.ule_lyrics_id='" . $songId . "') ORDER BY t2.ule_action_timestamp ASC
+              ;";
+    return self::_getList($query);
   }
 }

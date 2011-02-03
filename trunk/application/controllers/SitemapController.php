@@ -23,7 +23,8 @@ class SitemapController extends Zend_Controller_Action
     $urls = array();
     switch ($this->params['type']) {
       case 'albums':
-        $list = Model_Album_Api::getInstance()->getNewest(10000);
+        // gets album list sorted by release date
+        $list = Model_Album_Api::getInstance()->getAlbumsSitemap();
         foreach ($list->items as $key => $value) {
           $urls[] = $this->view->url(array('id' => $value->id, 'seo' => $value->artist->url . ' - ' . $value->url), 'album');
         }
@@ -43,19 +44,19 @@ class SitemapController extends Zend_Controller_Action
         }
         break;
       
-        case 'songs':
-          $list = Model_Song_Api::getInstance()->getRecent(10000);
-          foreach ($list->items as $key => $value) {
-            $urls[] = $this->view->url(array('id' => $value->id, 'seo' => $value->title), 'song');
-          }
-          break;
+      case 'songs':
+        $list = Model_Song_Api::getInstance()->getRecent(10000);
+        foreach ($list->items as $key => $value) {
+          $urls[] = $this->view->url(array('id' => $value->id, 'seo' => $value->title), 'song');
+        }
+        break;
 
-        case 'labels':
-          $list = Model_Label_Api::getInstance()->getRecent(10000);
-          foreach ($list->items as $key => $value) {
-            $urls[] = $this->view->url(array('id' => $value->id, 'seo' => $value->title), 'label');
-          }
-          break;
+      case 'labels':
+        $list = Model_Label_Api::getInstance()->getRecent(10000);
+        foreach ($list->items as $key => $value) {
+          $urls[] = $this->view->url(array('id' => $value->id, 'seo' => $value->name), 'label');
+        }
+        break;
 
       default:
         # code...

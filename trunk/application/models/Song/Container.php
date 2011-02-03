@@ -10,8 +10,7 @@
  **/
 
 class Model_Song_Container
-{
-  
+{ 
   public $lyrics = '';
   
   function __construct($params, $full = false)

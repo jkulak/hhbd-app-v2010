@@ -1,6 +1,13 @@
 v0.54 ()
- * [added] Dodana funkcjonalność dodawania tekstów do piosenek przed adminów /Issue #5/
+ * [added] Dodana funkcjonalność dodawania tekstów do piosenek przez adminów /Issue #5/
  * [changed] SEO: dodane data premiery i przeniesiona nazwa wytwórni w meta description /Issue #7/
+ * [added] SEO: sitemap index pod adresem /sitemap-index.xml
+ * [added] SEO: albums sitemap under /sitemap-albums.xml
+ * [added] SEO: artists sitemap at /sitemap-artists.xml
+ * [added] SEO: news sitemap at /sitemap-news.xml
+ * [added] SEO: songs sitemap at /sitemap-songs.xml (url without artist name)
+ * [added] SEO: labels sitemap at /sitemap-labels.xml
+ * [added] Logged-in users can add/edit lyrics (with and without js)
 
 v0.53 (2011-01-19)
  * [changed] SEO - opis i keywordsy albumu poprawione
