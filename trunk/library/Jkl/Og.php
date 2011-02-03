@@ -10,6 +10,8 @@ class Jkl_Og
   private $_siteName;
   private $_type;
   
+  const HHBD_FACEBOOK_APP_ID = "189696961054439";
+  
   function __construct($siteName)
   {
     $this->_siteName = $siteName;
@@ -56,6 +58,7 @@ class Jkl_Og
     }
     
     $ogMeta .= '<meta property="og:site_name" content="' . $this->_siteName . '" />' . "\n";
+    $ogMeta .= '<meta property="fb:app_id" content="' . self::HHBD_FACEBOOK_APP_ID . '" />' . "\n";
     
     return $ogMeta;
   }
