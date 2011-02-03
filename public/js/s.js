@@ -171,5 +171,4 @@ $(function(){
    function saveSuccess (data) {
      $('#lyrics p').html(data['adm-lyrics']).hide().fadeIn('slow');
    }
-  
 });
