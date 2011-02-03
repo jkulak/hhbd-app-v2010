@@ -1,5 +1,8 @@
 #summary www.hhbd.pl changelog
 
+v0.56 (2011-02-03)
+ * (added) Facebook App ID added to metadata
+
 == v0.55 (2011-02-03) ==
  * (fixed) Compressed CSS files
  * (fixed) Compressed js files
