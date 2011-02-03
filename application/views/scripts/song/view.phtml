@@ -57,7 +57,7 @@
 	</div>
 
   <!-- tutaj edycja url do teledysku -->
-	<?php if (isset($this->song->youTubeUrl) or ($this->IsAdmin())): ?>
+	<?php if (isset($this->song->youTubeUrl)): ?>
 	<div id="clip" class="pane">
 	  <h2>Teledysk <?php echo $this->song->albumArtist->name ?> - <?php echo $this->song->title ?>
 	  </h2>
@@ -85,17 +85,29 @@
     <?php endif ?>
   </div>
   
-<?php if (!empty($this->song->lyrics) or ($this->IsAdmin())): ?>
   <div id="lyrics" class="pane">
     <div class="header">
-      <?php if ($this->IsAdmin()): ?>
-        <span class="toggle"><a href="" id="adm-edit-lyrics">Edytuj tekst</a></span>
-      <?php endif ?>
       <h2><?php echo $this->song->albumArtist->name ?> - <?php echo $this->song->title ?> tekst</h2>
     </div>
-    <p><?php echo $this->song->lyrics ?></p>
+    <?php if (empty($this->song->lyrics)): ?>
+      <span class="toggle"><a href="<?php echo $this->url(array('id' => $this->song->id, 'seo' => $this->song->title), 'songEditLyrics') ?>" id="edit-lyrics">Dodaj tekst</a></span>
+    <?php else: ?>
+      <span class="toggle"><a href="<?php echo $this->url(array('id' => $this->song->id, 'seo' => $this->song->title), 'songEditLyrics') ?>" id="edit-lyrics">Edytuj tekst</a></span>
+    <?php endif ?>
+    <p><?php echo ($this->song->lyrics) ?></p>
+    <?php if (!empty($this->editors->items)): ?>
+      
+    <div id="lyrics-editors">
+      <span>Tekst edytowali:</span>
+      <ul class="flat">
+        <?php foreach ($this->editors->items as $key => $value): ?>
+          <li><?php echo $this->partial('user/_link.phtml', array('user' => $value)) . (($key + 1 < sizeof($this->editors->items))?',&nbsp;':'') ?></li>
+        <?php endforeach ?>
+      </ul>
+    </div>
+    <?php endif ?>
   </div>
-<?php endif ?>
+
 
   <div id="description" class="pane">
     <div class="header">

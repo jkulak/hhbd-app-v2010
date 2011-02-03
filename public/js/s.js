@@ -15,6 +15,7 @@ function getCookie (name) {
       }
     return null;
 }
+
 // cookies handling
 function setCookie(name, value, expires) {
   document.cookie = name + "=" + escape(value) + "; path=/" + ((expires == null) ? "" : "; expires=" + expires.toGMTString());
@@ -54,9 +55,7 @@ function commentSuccess(data) {
   var monthDay    = now.getDate();
   if (monthDay<10) { monthDay = '0' + monthDay }
   var year        = now.getFullYear();
-  
   newComment = newComment + ' (' + year + '-' + monthNumber + '-' + monthDay + ' ' + hour + ':' + minute + ':' + second + ')</span>';
-  
   $(newComment).prependTo("#comments ul").fadeIn(2500);
 }
 
@@ -127,7 +126,6 @@ $(function(){
     return false;
   });
 
-
   $('#submit').click(function() {
     var dataString = $('#post-comment').serialize();
     $.ajax({
@@ -142,8 +140,36 @@ $(function(){
         alert('Problem z dodaniem komentarza, spróbuj za jakiś czas.');
       }
     })
-    // alert(dataString);
-    
     return false;
-  })
+  });
+  
+  // lyrics editing
+  $('#edit-lyrics').click(function() {
+     // $('#edit-lyrics').hide();
+     var lyrics = $('#lyrics p').text();
+     var songId = $('#id-song').text();
+     $('#lyrics p').html('<div class="adm" id="adm-lyrics"><form action="/" method="post"><textarea name="song-lyrics" rows="30">' + lyrics + '</textarea><input class="submit" type="submit" value="Zapisz" /><input type="hidden" name="song-id" value="' + songId + '" id="com_object_id"></form></div>');
+     $('#adm-lyrics input[type="submit"]').click(function() {
+       var dataString = $('#adm-lyrics form').serialize();
+       $.ajax({
+         type: 'POST',
+         url: '/admin-interface/song',
+         dataType: 'json',
+         data: dataString,
+         success: function(data) {
+           saveSuccess(data);
+         },
+         error: function() {
+           alert('Problem z zapisaniem formularza, spróbuj za jakiś czas.');
+         }
+       });
+       return false;
+     });
+     return false;
+   });
+   
+   function saveSuccess (data) {
+     $('#lyrics p').html(data['adm-lyrics']).hide().fadeIn('slow');
+   }
+  
 });

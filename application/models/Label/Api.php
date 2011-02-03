@@ -142,6 +142,6 @@ class Model_Label_Api extends Jkl_Model_Api
               FROM labels t1
               ORDER BY t1.added DESC" .
               (($limit != null)?' LIMIT ' . $limit:'');
-    return $this->_getList($query);
+    return $this->getList($query);
   }   
 }

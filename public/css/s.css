@@ -709,3 +709,61 @@ ul.list {
   margin-bottom: 8px;
   padding: 4px;
 }
+
+.form-container {
+  clear: both;
+}
+
+.form-container textarea {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.form-info {
+  background-color: #D5C179;
+  border-color: #796E46;  
+}
+
+.form-success {
+  background-color: #C1FDA0;
+  border-color: #4E6642;
+}
+
+.form-message {
+  margin-bottom: 8px;
+  padding: 4px;
+  border-width: 1px;
+  border-style: solid;
+}
+
+form .submit {
+  float: right;
+}
+
+/* lists */
+ul.flat {
+  overflow: hidden;
+}
+
+ul.flat li {
+  float: left;
+}
+
+#lyrics-editors ul {
+  font-size: 12px;
+}
+
+.adm {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.adm form  {
+  width: 100%;
+  display: block;
+}
+
+.adm textarea {
+  width: 100%;
+  margin-bottom: 8px;
+}

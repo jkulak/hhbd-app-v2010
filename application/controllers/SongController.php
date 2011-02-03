@@ -33,6 +33,8 @@ class SongController extends Zend_Controller_Action
     $this->view->albumSongs = $albumSongs;
     $this->view->popularSongs = Model_Song_Api::getInstance()->getMostPopular(15);
     $this->view->autoPlay = isset($this->params['autoplay']);
+    
+    $this->view->editors = Model_User::getInstance()->getLyricsEditors($song->id);
 
     // seo meta
     $this->view->headTitle()->set($this->view->song->albumArtist->name . ' - ' . $this->view->song->title . ' (' . $this->view->song->featured->items[0]->title . ')');
@@ -41,18 +43,78 @@ class SongController extends Zend_Controller_Action
         $this->view->headMeta()->setName('description', 'Tekst i teledysk utworu ' . $this->view->song->albumArtist->name . ' - ' . $this->view->song->title . '. ' . Jkl_Tools_String::trim_str(str_replace(array(" <br />\r", "<br />\r ", "<br />\r"), ', ', $song->lyrics), 160, false));
     } else {
       $this->view->headMeta()->setName('description', 'Teledysk i informacje o utworze ' . $this->view->song->albumArtist->name . ' - ' . $this->view->song->title . '. Na razie nie mamy tekstu, ale jeżeli go podisdasz, możesz dodać.');
+      
+      Model_Song_Api::getInstance()->getArtists($params['id']);
     }
 
   }
   
+  /**
+   * Displays lyrics edit form, or information that user needs to be logged in, and save 
+   *
+   * @author Kuba
+   **/
+  public function editLyricsAction()
+  {
+    // check if user is logged in
+    if ($this->view->loggedIn()) {
+      // check if there was post request to this address
+      if ($this->getRequest()->isPost()) {
+        $this->view->result = $this->_saveLyrics($this->params['song-id'], $this->params['song-lyrics']);
+      }
+      // display edit form
+      $song = Model_Song_Api::getInstance()->find($this->params['id']);
+      $this->view->song = $song;
+    }
+    // user is not logged in
+    else
+    {
+      $this->_forward('not-logged-in', 'User');
+    }
+  }
+
+  /**
+   * Save lyrics
+   *
+   * @return number of affected rows
+   * @author Kuba
+   **/
+  private function _saveLyrics($songId, $lyrics)
+  {
+    // get rid of all bad characters
+    $lyrics = htmlentities($lyrics, ENT_COMPAT, "UTF-8");
+    
+    // replace new lines to <br /> - only allowed html tag in database
+    $lyrics = nl2br($lyrics);
+    $userId = Zend_Auth::getInstance()->getIdentity()->usr_id;
+    $result = Model_Song_Api::getInstance()->saveLyrics($this->params['song-id'], $lyrics, $userId);
+    
+    /*
+      TODO 2011-02-02 Post information to Twitter, that lyrics for the song, have beenupdated
+    */
+    return $result;
+  }
+  
+  /**
+   * XHR version on saving lyrics
+   *
+   * @return json response
+   * @author Kuba
+   **/
   public function saveLyricsAction()
   {
     if  ($this->getRequest()->isXmlHttpRequest()) {
-      $lyrics = nl2br($this->params['adm-lyrics']);
-      $songId = $this->params['adm-song-id'];
+      $songId = $this->params['song-id'];
+      $lyrics = $this->params['song-lyrics'];
+      $result = $this->_saveLyrics($songId, $lyrics);
       
-      $result = Model_Song_Api::getInstance()->saveLyrics($songId, $lyrics);
-      if ($result) {
+      // get rid of all bad characters
+      $lyrics = htmlentities($lyrics, ENT_COMPAT, "UTF-8");
+
+      // replace new lines to <br /> - only allowed html tag in database
+      $lyrics = nl2br($lyrics);
+      
+      if (($result === 0) or ($result == 1)) {
         $this->_helper->json(array('succes' => true, 'adm-lyrics' => $lyrics, 'adm-song-id' => $songId));
       }
       else

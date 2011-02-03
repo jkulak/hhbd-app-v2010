@@ -79,6 +79,7 @@ class UserController extends Zend_Controller_Action
       if (Zend_Auth::getInstance()->hasIdentity()) {
         $this->_redirect('/');
       }
+      $this->view->redirectUrl = $this->getRequest()->getParam('url');
     }
     $this->view->errors = $errors;
   }
@@ -87,6 +88,16 @@ class UserController extends Zend_Controller_Action
   {
     Zend_Auth::getInstance()->clearIdentity();
     $this->_redirect('/');
+  }
+  
+  /**
+   * Displays information that user needs to be logged in to perform this action/view this site
+   *
+   * @author Kuba
+   **/
+  public function notLoggedInAction()
+  {
+    
   }
   
   
