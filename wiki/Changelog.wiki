@@ -1,12 +1,27 @@
 #summary www.hhbd.pl changelog
 
+== v0.55 (2011-02-03) ==
+ * [fixed] Compressed CSS files
+ * [fixed] Compressed js files
+
+== v0.54 (2011-02-03) ==
+ * http://www.poetrysoup.com/images/new_icon_green.gif [added] Dodana funkcjonalność dodawania tekstów do piosenek przez adminów /Issue #5/
+ * [changed] SEO: dodane data premiery i przeniesiona nazwa wytwórni w meta description /Issue #7/
+ * http://www.poetrysoup.com/images/new_icon_green.gif [added] SEO: sitemap index pod adresem /sitemap-index.xml
+ * http://www.poetrysoup.com/images/new_icon_green.gif [added] SEO: albums sitemap under /sitemap-albums.xml
+ * http://www.poetrysoup.com/images/new_icon_green.gif [added] SEO: artists sitemap at /sitemap-artists.xml
+ * http://www.poetrysoup.com/images/new_icon_green.gif [added] SEO: news sitemap at /sitemap-news.xml
+ * http://www.poetrysoup.com/images/new_icon_green.gif [added] SEO: songs sitemap at /sitemap-songs.xml (url without artist name)
+ * http://www.poetrysoup.com/images/new_icon_green.gif [added] SEO: labels sitemap at /sitemap-labels.xml
+ * http://www.galizur.com/images/new_icon.gif [added] Logged-in users can add/edit lyrics (with and without js)
+
 == 2011-01-17 (v0.52) ==
- * http://www.galizur.com/images/new_icon.gif dodana możliwość publikowania komentarzy bez przeładowania strony - przy włączony JavaScript w przeglądarce, dla wszystkich typów danych, które do tej pory można komentować
+ * dodana możliwość publikowania komentarzy bez przeładowania strony - przy włączony JavaScript w przeglądarce, dla wszystkich typów danych, które do tej pory można komentować
 
 == 2011-01-16 (v0.51) ==
- * http://www.poetrysoup.com/images/new_icon_green.gif dodane zakładanie kont i logowanie
- * http://www.poetrysoup.com/images/new_icon_green.gif dodana możliwość komentaowania jako zalogowany użytkownik
- * http://www.poetrysoup.com/images/new_icon_green.gif dodana prosta odsłona profilu, z informacjami, co tam będzie w przyszłości
+ * dodane zakładanie kont i logowanie
+ * dodana możliwość komentaowania jako zalogowany użytkownik
+ * dodana prosta odsłona profilu, z informacjami, co tam będzie w przyszłości
  * (changed) poprawione tytułu i opisy utworów i wykonawców (dla SEO)
  * (changed) zmieniony adres utworów - przed tytuł doszła jeszcze nazwa wykonawcy
  * (changed) changelog przeniesiony do wiki projektu (wcześniej wysyłany mailowo)
