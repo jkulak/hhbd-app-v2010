@@ -23,8 +23,7 @@
   
     <div id="lyrics-form" class="form-container">    
       <form action="<?php echo $this->url() ?>" method="post">
-        <textarea name="song-lyrics" rows="20"><?php echo preg_replace('/<br ?\/?>/',"", $this->song->lyrics) ?></textarea>
-        <input type="hidden" name="song-id" value="<?php echo $this->song->id ?>" id="com_object_id">
+        <textarea name="lyrics" rows="20"><?php echo preg_replace('/<br ?\/?>/',"", $this->song->lyrics) ?></textarea>
         <input class="submit" type="submit" value="Zapisz" />
       </form>
     </div>

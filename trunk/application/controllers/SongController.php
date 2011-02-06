@@ -9,6 +9,12 @@ class SongController extends Zend_Controller_Action
     $this->view->headTitle()->headTitle('Piosenki', 'PREPEND');
     $this->view->headMeta()->setName('description', 'Piosenki, teksty, teledyski w hhbd.pl');
     $this->params = $this->getRequest()->getParams();
+    
+    //set the context switching
+    $this->_helper->getHelper('contextSwitch')
+      ->addActionContext('view', 'xml')
+      ->addActionContext('edit-lyrics', 'xml')
+        ->initContext();
   }
 
   public function indexAction()
@@ -42,7 +48,7 @@ class SongController extends Zend_Controller_Action
     if (!empty($song->lyrics)) {
         $this->view->headMeta()->setName('description', 'Tekst i teledysk utworu ' . $this->view->song->albumArtist->name . ' - ' . $this->view->song->title . '. ' . Jkl_Tools_String::trim_str(str_replace(array(" <br />\r", "<br />\r ", "<br />\r"), ', ', $song->lyrics), 160, false));
     } else {
-      $this->view->headMeta()->setName('description', 'Teledysk i informacje o utworze ' . $this->view->song->albumArtist->name . ' - ' . $this->view->song->title . '. Na razie nie mamy tekstu, ale jeżeli go podisdasz, możesz dodać.');
+      $this->view->headMeta()->setName('description', 'Teledysk i informacje o utworze ' . $this->view->song->albumArtist->name . ' - ' . $this->view->song->title . '. Na razie nie mamy tekstu, ale jeżeli go posiadasz, możesz dodać.');
       
       Model_Song_Api::getInstance()->getArtists($params['id']);
     }
@@ -50,26 +56,72 @@ class SongController extends Zend_Controller_Action
   }
   
   /**
-   * Displays lyrics edit form, or information that user needs to be logged in, and save 
+   * Processes lyrics
    *
+   * @return void
+   * @since 2011-02-06
    * @author Kuba
+   * @file: SongController.php
    **/
-  public function editLyricsAction()
+  public function processLyricsAction()
   {
     // check if user is logged in
-    if ($this->view->loggedIn()) {
-      // check if there was post request to this address
-      if ($this->getRequest()->isPost()) {
-        $this->view->result = $this->_saveLyrics($this->params['song-id'], $this->params['song-lyrics']);
+    $loggedIn = Zend_Auth::getInstance()->hasIdentity();
+    
+    // check if it's a post request (trying to save data)
+    if ($this->getRequest()->isPost()) {
+      
+      $lyrics = htmlentities($this->params['lyrics'], ENT_COMPAT, "UTF-8");
+      $lyrics = nl2br($lyrics); // replace new lines to <br /> - only allowed html tag in database
+      $songId = $this->params['id'];
+      
+      if ($loggedIn) {
+        // zalogowany i post, więc zapisujemy tekst
+        $userId = Zend_Auth::getInstance()->getIdentity()->usr_id;
+        $result = $this->_saveLyrics($songId, $lyrics, $userId);
+        if ($this->getRequest()->isXmlHttpRequest()) {
+          // zalgowany i odpowiedź zwracamy jsonem
+          if (($result === 0) or ($result == 1)) {
+            $this->_helper->json(array('success' => true, 'result-message' => 'Yupi!', 'lyrics' => $lyrics));
+          }
+          else
+          {
+            $this->_helper->json(array('success' => false, 'result-message' => 'Przepraszam, ale wystąpił problem z zapisem, spróbuj ponownie za kilka minut.', 'lyrics' => $lyrics));
+          }
+        }
+        else
+        {
+          $this->view->result = $result;
+          $this->view->song = Model_Song_Api::getInstance()->find($songId);
+        }
       }
-      // display edit form
-      $song = Model_Song_Api::getInstance()->find($this->params['id']);
-      $this->view->song = $song;
+      else
+      {
+        // post i niezalogowany
+        if ($this->getRequest()->isXmlHttpRequest()) {
+          // odpowiedź o tym, że nie zalogowany zwracamy jsonem
+          $this->_helper->json(array('success' => false, 'result-message' => 'Musisz być zalogowany, żeby edytować tekst!', 'lyrics' => $lyrics, 'id' => $songId));
+        }
+        else
+        {
+          // zwracamy normalną opowiedź, że nie zalogowany
+          $this->view->result = false;
+        }
+      }
     }
-    // user is not logged in
     else
     {
-      $this->_forward('not-logged-in', 'User');
+        if ($loggedIn) {
+          // pokazujemy formularz, czyli nic nie robimy tutaj
+          $song = Model_Song_Api::getInstance()->find($this->params['id']);
+          $this->view->song = $song;
+        }
+        else
+        {
+          // get i niezalogowany
+          // pokazujemy informacje, ze to tylko dla zalogowanych
+          $this->_forward('not-logged-in', 'User');
+        }
     }
   }
 
@@ -79,49 +131,14 @@ class SongController extends Zend_Controller_Action
    * @return number of affected rows
    * @author Kuba
    **/
-  private function _saveLyrics($songId, $lyrics)
+  private function _saveLyrics($songId, $lyrics, $userId)
   {
-    // get rid of all bad characters
-    $lyrics = htmlentities($lyrics, ENT_COMPAT, "UTF-8");
-    
-    // replace new lines to <br /> - only allowed html tag in database
-    $lyrics = nl2br($lyrics);
-    $userId = Zend_Auth::getInstance()->getIdentity()->usr_id;
-    $result = Model_Song_Api::getInstance()->saveLyrics($this->params['song-id'], $lyrics, $userId);
+    $result = Model_Song_Api::getInstance()->saveLyrics($songId, $lyrics, $userId);
     
     /*
       TODO 2011-02-02 Post information to Twitter, that lyrics for the song, have beenupdated
     */
     return $result;
-  }
-  
-  /**
-   * XHR version on saving lyrics
-   *
-   * @return json response
-   * @author Kuba
-   **/
-  public function saveLyricsAction()
-  {
-    if  ($this->getRequest()->isXmlHttpRequest()) {
-      $songId = $this->params['song-id'];
-      $lyrics = $this->params['song-lyrics'];
-      $result = $this->_saveLyrics($songId, $lyrics);
-      
-      // get rid of all bad characters
-      $lyrics = htmlentities($lyrics, ENT_COMPAT, "UTF-8");
-
-      // replace new lines to <br /> - only allowed html tag in database
-      $lyrics = nl2br($lyrics);
-      
-      if (($result === 0) or ($result == 1)) {
-        $this->_helper->json(array('succes' => true, 'adm-lyrics' => $lyrics, 'adm-song-id' => $songId));
-      }
-      else
-      {
-        $this->_helper->json(array('succes' => false, 'adm-lyrics' => $lyrics, 'adm-song-id' => $songId));
-      }
-    }
   }
   
   // description autogeneration, displayedfor SEO purposes

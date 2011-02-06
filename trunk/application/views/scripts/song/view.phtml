@@ -89,14 +89,54 @@
     <div class="header">
       <h2><?php echo $this->song->albumArtist->name ?> - <?php echo $this->song->title ?> tekst</h2>
     </div>
-    <?php if (empty($this->song->lyrics)): ?>
-      <span class="toggle"><a href="<?php echo $this->url(array('id' => $this->song->id, 'seo' => $this->song->title), 'songEditLyrics') ?>" id="edit-lyrics">Dodaj tekst</a></span>
-    <?php else: ?>
+    <?php if ($this->LoggedIn()): ?>
       <span class="toggle"><a href="<?php echo $this->url(array('id' => $this->song->id, 'seo' => $this->song->title), 'songEditLyrics') ?>" id="edit-lyrics">Edytuj tekst</a></span>
+    <?php else: ?>
+      <span class="toggle">Zaloguj się, aby móc dodawać i edytować tekst piosenki!</span>
     <?php endif ?>
+    
     <p><?php echo ($this->song->lyrics) ?></p>
-    <?php if (!empty($this->editors->items)): ?>
+     
+     <script type="text/javascript" charset="utf-8">
+        $(function() {
+          // lyrics editing
+           $('#edit-lyrics').click(function() {
+              // $('#edit-lyrics').hide();
+              var lyrics = $('#lyrics p').text();
+              $('#lyrics p').html('<div class="adm" id="adm-lyrics"><form action="/" method="post"><textarea name="lyrics" rows="30">' + lyrics + '</textarea><input class="submit" type="submit" value="Zapisz" /></form></div>');
+              $('#adm-lyrics input[type="submit"]').click(function() {
+                var dataString = $('#adm-lyrics form').serialize();
+                $.ajax({
+                  type: 'POST',
+                  url: '<?php echo $this->url(array("id" => $this->song->id, "seo" => $this->song->url()), "songEditLyrics") ?>',
+                  dataType: 'json',
+                  data: dataString,
+                  success: function(data) {
+                    gotSaveLyricsResponse(data);
+                  },
+                  error: function() {
+                    alert('Problem z zapisaniem formularza, spróbuj za jakiś czas.');
+                  }
+                });
+                return false;
+              });
+              return false;
+            });
+
+            function gotSaveLyricsResponse (data) {
+              if (data['success']) {
+                $('#lyrics p').html(data['lyrics']).hide().fadeIn('slow');
+              }
+              else
+              {
+                alert(data['result-message']);
+              }
+              
+            }
+        });
+      </script>
       
+    <?php if (!empty($this->editors->items)): ?>
     <div id="lyrics-editors">
       <span>Tekst edytowali:</span>
       <ul class="flat">
@@ -130,7 +170,7 @@
 
 </div>
 
-<div id="additional">
+<div id="aside">
   <?php echo $this->render('song/view/_additional.phtml') ?>
 </div>
 
