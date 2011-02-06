@@ -169,7 +169,7 @@ class SongController extends Zend_Controller_Action
     $description .= '. ';
     
     if (!empty($song->music->items)) {
-      $description .= 'Muzykę do tego numer zrobił ';
+      $description .= 'Muzykę do tego numeru zrobił ';
       foreach ($song->music->items as $key => $value) {
         $description .= $value->name;
         if (sizeof($song->featured->items) - 1 > $key) {

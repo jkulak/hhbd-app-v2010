@@ -79,6 +79,11 @@ class UserController extends Zend_Controller_Action
       if (Zend_Auth::getInstance()->hasIdentity()) {
         $this->_redirect('/');
       }
+      /*
+        TODO this is blah blah bad, no redirects to user defined websites!!!
+        to be fixed, it's a great vulnerability
+        bug: http://code.google.com/p/hhbdevolution/issues/detail?id=13
+      */
       $this->view->redirectUrl = $this->getRequest()->getParam('url');
     }
     $this->view->errors = $errors;
