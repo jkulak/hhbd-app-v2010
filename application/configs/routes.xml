@@ -284,7 +284,7 @@
           <route>(.+)-s(\d+)\/edytuj-tekst.html</route>
           <defaults>
             <controller>song</controller>
-            <action>edit-lyrics</action>
+            <action>process-lyrics</action>
           </defaults>
           <map>
             <seo>1</seo>
