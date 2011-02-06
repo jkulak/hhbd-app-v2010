@@ -1,7 +1,7 @@
 v0.57 (not yet released)
  * (fixed) Adding/editing lyrics by logged-in, and not logged-in users
  * (fixed) Handling XHR and regular add/edit song lyrics requests
- * 
+ * (fixed) User is automatically logged-in after successful registration
 
 v0.56 (2011-02-03)
  * (added) Facebook App ID added to metadata

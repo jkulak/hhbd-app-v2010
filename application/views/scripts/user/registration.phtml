@@ -3,8 +3,13 @@
 
 <?php if ($this->created == 1): ?>
   <div class="msg ok">
-    <p>Konto zostało założone poprawnie!</p>
-    <p><a href="<?php echo $this->url(array(), 'userLogin') ?>">Zaloguj się</a>, aby móc w pełni korzystać z serwisu.</p>
+    <p>Konto <?php echo $this->partial('user/_link.phtml', array('user'=> $this->user)) ?> zostało założone poprawnie, 
+    <?php if ($this->LoggedIn()): ?>
+        i zostałeś automatycznie zalogowany! Przyjemnego korzystania z serwisu.
+    <?php else: ?>
+        kliknij <a href="<?php echo $this->url(array(), 'userLogin') ?>">zaloguj się</a>, aby alogowac się i w pełni móc korzystać z serwisu.
+    <?php endif ?>
+    </p>
     <p>Kliknij <?php echo $this->partial('user/_link.phtml', array('user'=> $this->user)) ?> aby zobaczyć swój profil.</p>
   </div>
 <?php else: ?>
@@ -21,7 +26,7 @@
       </ul>
     <?php endif ?>
     
-    <label>Wpisz hasło</label>
+    <label>Wpisz hasło ostrożnie i nie pomyl się :)</label>
     <input type="password" name="password" value="<?php echo $this->password ?>" />
     <?php if (isset($this->errors['password'])): ?>
       <ul class="form-errors">
@@ -31,8 +36,10 @@
       </ul>
     <?php endif ?>
     
-    <label>Potwierdź hasło</label>
-    <input type="password" name="password-confirm" value="<?php echo '' ?>" />
+    <?php if (false): ?>
+      <label>Potwierdź hasło</label>
+      <input type="password" name="password-confirm" value="<?php echo '' ?>" />
+    <?php endif ?>
     
     <label>Wybierz podpis dla siebie</label>
     <input type="text" name="display-name" value="<?php echo $this->displayName ?>" />
@@ -43,9 +50,7 @@
       <?php endforeach ?>
       </ul>
     <?php endif ?>
-
     <input type="submit" value="Załóż konto!" />
-    <input type="hidden" name="registration" value="1" />
   </form>
 </div>
 <?php endif ?>
