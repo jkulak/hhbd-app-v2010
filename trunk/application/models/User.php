@@ -135,7 +135,8 @@ class Model_User extends Zend_Db_Table_Abstract
         'usr_display_name' => $data['display-name'],
         'usr_email' => $data['email'],
         'usr_password' => md5($data['password'] . self::$passwordSalt),
-        'usr_recovery_key' => ''
+        'usr_recovery_key' => '',
+        'usr_added' => date('Y-m-d H:i:s')
         );
         $result = $this->insert($data);
       return $result;
