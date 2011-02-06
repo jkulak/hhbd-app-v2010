@@ -22,8 +22,7 @@ class UserController extends Zend_Controller_Action
   public function registrationAction()
   {
     // if post data received, it's user creation
-    $reg = $this->_request->getPost('registration');
-    if (!empty($reg)) {
+    if ($this->getRequest()->isPost()) {
       $this->_registerUser();
     }
     else
@@ -33,6 +32,41 @@ class UserController extends Zend_Controller_Action
         $this->_redirect($this->view->url(array(), 'homeSite'));
       }
     }
+  }
+  
+  /**
+   * Loggin user in
+   *
+   * @return boolean
+   * @since 2011-02-06
+   * @author Kuba
+   * @file: UserController.php
+   **/
+  private function _loginUser($email, $password)
+  {
+    $result = false;
+    
+    $db = Zend_Db_Table::getDefaultAdapter();
+    $authAdapter = new Zend_Auth_Adapter_DbTable($db);
+    $authAdapter->setTableName('hhb_users');
+    $authAdapter->setIdentityColumn('usr_email');
+    $authAdapter->setCredentialColumn('usr_password');
+    $authAdapter->setCredentialTreatment('MD5(?)');
+
+    $authAdapter->setIdentity($email);
+    $authAdapter->setCredential($password . Model_User::$passwordSalt);
+
+    $auth = Zend_Auth::getInstance();
+    $result = $auth->authenticate($authAdapter);
+
+    // Did the participant successfully login?
+    if ($result->isValid()) {
+      // retrive user data needed in the front
+      $data = $authAdapter->getResultRowObject(array('usr_display_name', 'usr_id', 'usr_is_admin'));
+      $auth->getStorage()->write($data);
+      $result = true;
+    }
+    return $result;
   }
   
   public function loginAction()
@@ -47,28 +81,9 @@ class UserController extends Zend_Controller_Action
       }
       else
       {
-        $db = Zend_Db_Table::getDefaultAdapter();
-        $authAdapter = new Zend_Auth_Adapter_DbTable($db);
-        $authAdapter->setTableName('hhb_users');
-        $authAdapter->setIdentityColumn('usr_email');
-        $authAdapter->setCredentialColumn('usr_password');
-        $authAdapter->setCredentialTreatment('MD5(?)');
-
-        $authAdapter->setIdentity($email);
-        $authAdapter->setCredential($password . Model_User::$passwordSalt);
-
-        $auth = Zend_Auth::getInstance();
-        $result = $auth->authenticate($authAdapter);
-
-        // Did the participant successfully login?
-        if ($result->isValid()) {
-          // retrive user data needed to build links
-          $data = $authAdapter->getResultRowObject(array('usr_display_name', 'usr_id', 'usr_is_admin'));
-          $auth->getStorage()->write($data);
-          
+        if ($this->_loginUser($email, $password)) {
           $url = $this->getRequest()->getPost('url');
           $this->_redirect($url); 
-         
         } else {
           $errors['login'][] = "Podane dane do logowania nie są poprawne. Popraw je i spróbuj jeszcze raz.";
         }
@@ -113,6 +128,9 @@ class UserController extends Zend_Controller_Action
     if (! is_array($result)) {
       $this->view->user = Model_User::getInstance()->findById($result);
       $this->view->created = 1;
+      
+      // after registration, login user automatically
+      $this->_loginUser($this->_request->getPost('email'), $this->_request->getPost('password'));
     } else {
       $this->view->errors = $result;
       // $this->view->firstName = $this->_request->getPost('first-name');
