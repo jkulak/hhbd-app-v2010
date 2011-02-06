@@ -1,4 +1,4 @@
-v0.57 ()
+v0.57 (not yet released)
  * (fixed) Adding/editing lyrics by logged-in, and not logged-in users
  * (fixed) Handling XHR and regular add/edit song lyrics requests
  * 
