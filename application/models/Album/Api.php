@@ -105,13 +105,19 @@ class Model_Album_Api extends Jkl_Model_Api
     $result = $this->_db->fetchAll($query);
     return intval($result[0]['count']);
   }
-  
+  /**
+   * Gets list of popular albums by views count, including incomming albums
+   *
+   * @param integer $count Number of albums to be returned
+   * @return Jkl_List
+   * @author Kuba
+   */
   public function getPopular($count = 20)
   {
     $count = intval($count);
     $query = 'SELECT *, t3.id as alb_id, t1.id as art_id, t4.id as lab_id, t3.added as alb_added, t3.addedby as alb_addedby, t3.viewed as alb_viewed ' .
       'FROM artists AS t1, album_artist_lookup AS t2, albums AS t3, labels AS t4 ' .
-      'WHERE (t1.id=t2.artistid AND t2.albumid=t3.id AND t4.id=t3.labelid AND t3.year' . '<="' . date('Y-m-d') . '") ' . 
+      'WHERE (t1.id=t2.artistid AND t2.albumid=t3.id AND t4.id=t3.labelid) ' . 
       'ORDER BY t3.viewed DESC ' . 
       'LIMIT ' . $count;
     return $this->getList($query);
