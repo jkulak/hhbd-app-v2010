@@ -62,7 +62,7 @@ class Model_News_Api extends Jkl_Model_Api
     $id = intval($id);
     
     $query = "SELECT t1.id AS nws_id, t1.title AS nws_title, t1.news AS nws_content, t1.graph AS nws_attachment_url,
-              t1.added AS nws_added, t1.addedby AS new_added_by
+              t1.added AS nws_added, t1.addedby AS nws_added_by
               FROM news t1
               WHERE (t1.id=$id)";
     $result = $this->_db->fetchAll($query);
