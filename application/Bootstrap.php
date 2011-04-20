@@ -85,11 +85,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     if (!file_exists($dir)) {
       $result = mkdir($dir, 0777, true);
       if (!$result) {
-        throw new Jkl_Exception('Cannot created log directory: ' . $dir);
+        throw new Jkl_Exception('Cannot create log directory: ' . $dir);
       }
     }
 
-    $file = $path . '/log.txt';
+    $file = $path . '/' . date('Y-m-d') . '-hhbd.txt';
     file_put_contents($file, '', FILE_APPEND);
 
     $logger = new Zend_Log(new Zend_Log_Writer_Stream($file));

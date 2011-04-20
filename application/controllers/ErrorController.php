@@ -54,6 +54,7 @@ class ErrorController extends Zend_Controller_Action
         }
         
         // Log exception, if logger available
+
         if ($log = $this->getLog()) {
             $log->crit($this->view->message, $errors->exception);
         }
@@ -62,6 +63,9 @@ class ErrorController extends Zend_Controller_Action
         if ($this->getInvokeArg('displayExceptions') == true) {
             $this->view->exception = $errors->exception;
         }
+        
+        $logger = Zend_Registry::get('Logger');
+        $logger->log($errors->exception, Zend_Log::EMERG);
         
         $this->view->request   = $errors->request;
         
