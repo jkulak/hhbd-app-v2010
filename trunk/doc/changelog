@@ -1,3 +1,6 @@
+v0.60 (2011-04-21)
+ * (fixed) Turned-off exception display on production and added exception logging to /tmp/logs/YYYY-MM-DD-hhbd.txt file
+ 
 v0.59 (2011-04-10)
  * (bug #20) Added new description for main site
  * (bug #19) Fixed typo in website's meta title
