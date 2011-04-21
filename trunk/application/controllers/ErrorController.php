@@ -44,6 +44,10 @@ class ErrorController extends Zend_Controller_Action
                     $this->view->exception = $errors->exception;
                     break;
                   }
+                  
+                  // Log only when it's something different from 404
+                  $logger = Zend_Registry::get('Logger');
+                  $logger->log($errors->exception, Zend_Log::EMERG);
                 
                 break;
             default:
@@ -54,7 +58,6 @@ class ErrorController extends Zend_Controller_Action
         }
         
         // Log exception, if logger available
-
         if ($log = $this->getLog()) {
             $log->crit($this->view->message, $errors->exception);
         }
@@ -64,10 +67,7 @@ class ErrorController extends Zend_Controller_Action
             $this->view->exception = $errors->exception;
         }
         
-        $logger = Zend_Registry::get('Logger');
-        $logger->log($errors->exception, Zend_Log::EMERG);
-        
-        $this->view->request   = $errors->request;
+        $this->view->request = $errors->request;
         
     }
 
@@ -100,6 +100,4 @@ class ErrorController extends Zend_Controller_Action
     //   Jkl_Log::getInstance()->save404ErrorLog($uri);
     //   $this->renderScript('error/error.phtml');
     // }
-
-
 }
