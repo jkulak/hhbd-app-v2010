@@ -1,0 +1,42 @@
+<!-- Nie kasować, to notatki z dokumentacji Zend :) -->
+
+<h2>Helpers</h2>
+
+<nav>
+  <ul>
+    <!-- views/helper/Article.php
+      doesn't use scripts -->
+    <li><?php echo $this->article(); ?></li>
+
+    <!-- action helper
+      uses action's script-->
+    <li><?php echo $this->action('list', 'article', null, array('count' => 99)); ?></li>
+    
+    <!-- initial helpers -->
+    <li><?php echo $this->url(array('title' => 'test')); ?></li>
+    <li><?php echo $this->url(array('controller' => 'article', 'action'=>'add')); ?></li>
+    <li>-<?php echo $this->baseUrl(); ?>-</li>
+    
+    <!-- initial form helper -->
+    <li><?php echo $this->formCheckbox('foo', 'bar', null, array('bar', 'baz')); ?></li>
+  </ul>
+</nav>
+
+<h2>Partials</h2>
+<?php echo $this->partial('article/_brief.phtml', array(
+    'title' => 'Pierwszy artykuł',
+    'lead' => 'Lead artykułu')); ?>
+
+<h2>Loop partial</h2>
+<?php echo $this->partialLoop('article/_brief.phtml', $this->model); ?>
+
+<h2>Test</h2>
+
+<?php echo $this->url(array('id' => 1, 'seo' => 'title'), 'articleView') ?>
+
+<?php echo $this->partial('article/url/view.phtml', array(
+    'id' => 2351,
+    'title' => 'A to jest pierwszy art.')) ?>
+
+<?php echo $this->partial('article/url/edit.phtml', array(
+    'id' => 2351)) ?>
