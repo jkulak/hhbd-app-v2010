@@ -46,9 +46,7 @@ class ErrorController extends Zend_Controller_Action
                   }
                   
                   // Log only when it's something different from 404
-                  $logger = Zend_Registry::get('Logger');
-                  $logger->log($errors->exception, Zend_Log::EMERG);
-                
+
                 break;
             default:
                 // application error
@@ -66,6 +64,10 @@ class ErrorController extends Zend_Controller_Action
         if ($this->getInvokeArg('displayExceptions') == true) {
             $this->view->exception = $errors->exception;
         }
+        
+        $logger = Zend_Registry::get('Logger');
+        $logger->log($this->getRequest()->getRequestUri() . "\n" . $errors->exception, Zend_Log::EMERG);
+        
         
         $this->view->request = $errors->request;
         
