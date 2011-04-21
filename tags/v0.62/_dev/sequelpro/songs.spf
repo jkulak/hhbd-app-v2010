@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ContentFilters</key>
+	<dict/>
+	<key>auto_connect</key>
+	<true/>
+	<key>data</key>
+	<dict>
+		<key>connection</key>
+		<dict>
+			<key>database</key>
+			<string>hhbdrebuild</string>
+			<key>host</key>
+			<string>localhost</string>
+			<key>kcid</key>
+			<string>-7326870819656324988</string>
+			<key>name</key>
+			<string>localhost</string>
+			<key>type</key>
+			<string>SPSocketConnection</string>
+			<key>user</key>
+			<string>root</string>
+		</dict>
+		<key>session</key>
+		<dict>
+			<key>connectionEncoding</key>
+			<string>utf8</string>
+			<key>contentFilter</key>
+			<dict/>
+			<key>contentPageNumber</key>
+			<integer>1</integer>
+			<key>contentSortColIsAsc</key>
+			<true/>
+			<key>contentViewport</key>
+			<string>{{701, 0}, {1085, 710}}</string>
+			<key>isToolbarVisible</key>
+			<true/>
+			<key>table</key>
+			<string>artist_lookup</string>
+			<key>view</key>
+			<string>SP_VIEW_CUSTOMQUERY</string>
+		</dict>
+	</dict>
+	<key>encrypted</key>
+	<false/>
+	<key>format</key>
+	<string>connection</string>
+	<key>queryFavorites</key>
+	<array/>
+	<key>queryHistory</key>
+	<array>
+		<string>SELECT t1.id, t1.title, t3.name, t5.title, t5.id
+FROM songs t1, artist_lookup t2, artists t3, album_lookup t4, albums t5
+WHERE (t1.id = t2.songid AND t3.id = t2.artistid AND t4.songid=t1.id AND t4.albumid=t5.id)</string>
+		<string>SELECT t1.id, t1.title, t3.name, t5.title, DISTINCT(t5.id)
+FROM songs t1, artist_lookup t2, artists t3, album_lookup t4, albums t5
+WHERE (t1.id = t2.songid AND t3.id = t2.artistid AND t4.songid=t1.id AND t4.albumid=t5.id)</string>
+		<string>SELECT t1.id, t1.title, t3.name, t5.title
+FROM songs t1, artist_lookup t2, artists t3, album_lookup t4, albums t5
+WHERE (t1.id = t2.songid AND t3.id = t2.artistid AND t4.songid=t1.id AND t4.albumid=t5.id)</string>
+		<string>SELECT t1.id, t1.title, t3.name, t5.title, t5.artistid
+FROM songs t1, artist_lookup t2, artists t3, album_lookup t4, albums t5
+WHERE (t1.id = t2.songid AND t3.id = t2.artistid AND t4.songid=t1.id AND t4.albumid=t5.id)</string>
+		<string>SELECT t1.id, t1.title, t3.name, t4.title
+FROM songs t1, artist_lookup t2, artists t3, album_lookup t4, albums t5
+WHERE (t1.id = t2.songid AND t3.id = t2.artistid AND t4.songid=t1.id AND t4.albumid=t5.id)</string>
+		<string>SELECT t1.id, t1.title, t3.name
+FROM songs t1, artist_lookup t2, artists t3
+WHERE (t1.id = t2.songid AND t3.id = t2.artistid)</string>
+		<string>SELECT t1.title, t3.name
+FROM songs t1, artist_lookup t2, artists t3
+WHERE (t1.id = t2.songid AND t3.id = t2.artistid)</string>
+		<string>SELECT t1.title, t2.name
+FROM songs t1, artist_lookup t2, artists t3
+WHERE (
+	t1.id = t2.songid AND
+	t3.id = t2.artistid)</string>
+		<string>SELECT t1.title, t2.name
+FROM songs t1, artist_lookup t2, artists, songs t3
+WHERE (
+	t1.id = t2.songid AND
+	t3.id = t2.artistid)</string>
+		<string>SELECT *
+FROM songs t1, artist_lookup t2, artists, songs t3
+WHERE (
+	t1.id = t2.songid AND
+	t3.id = t2.artistid)</string>
+		<string>SELECT *
+FROM songs t1, artist_lookup t2, artists, songs t3
+WHERE (
+	t1.id = t2.songid AND
+	t3.id = t2.artistid AND)</string>
+		<string>SELECT *, t1.id AS sng_id, t1.title AS sng_title
+              FROM songs t1
+              ORDER BY t1.added DESC
+              LIMIT 10000</string>
+		<string>CREATE TABLE `hhb_account` (
+ acc_id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ acc_email VARCHAR(100) NOT NULL,
+ acc_password CHAR(32) NOT NULL,
+ acc_first_name VARCHAR(100) NOT NULL,
+ acc_last_name VARCHAR(100) NOT NULL,
+ acc_recovery_key CHAR(32) DEFAULT ""
+)</string>
+		<string>CREATE TABLE hhb_account {
+ acc_id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ acc_email VARCHAR(100) NOT NULL,
+ acc_password CHAR(32) NOT NULL,
+ acc_first_name VARCHAR(100) NOT NULL,
+ acc_last_name VARCHAR(100) NOT NULL,
+ acc_recovery_key CHAR(32) DEFAULT ""
+}</string>
+		<string>SELECT t1.id AS nws_id, t1.title AS nws_title, t1.news AS nws_content, t1.graph AS nws_attachment, t1.added AS nws_added, t1.addedby AS new_added_by
+FROM news t1
+ORDER BY t1.added DESC
+LIMIT 10</string>
+		<string>SELECT t1.id AS nws_id, t1.title AS nws_title, t1.news AS nws_content, t1.graph AS nws_attachment, t1.added AS nws_added, t1.addedby AS new_added_by
+FROM news t1
+-- WHERE (t1.expires &gt; NOW() OR t1.`expires` = '0000-00-00 00:00:00' OR t1.expires = '')
+ORDER BY t1.added DESC
+-- LIMIT 10;</string>
+		<string>SELECT t1.id AS nws_id, t1.title AS nws_title, t1.news AS nws_content, t1.graph AS nws_attachment, t1.added AS nws_added
+FROM news t1
+-- WHERE (t1.expires &gt; NOW() OR t1.`expires` = '0000-00-00 00:00:00' OR t1.expires = '')
+ORDER BY t1.added DESC
+-- LIMIT 10;</string>
+		<string>SELECT t1.id AS nws_id, t1.title AS nws_title, t1.news AS nws_content, t1.graph AS nws_attachment
+FROM news t1
+-- WHERE (t1.expires &gt; NOW() OR t1.`expires` = '0000-00-00 00:00:00' OR t1.expires = '')
+ORDER BY t1.added DESC
+-- LIMIT 10;</string>
+		<string>SELECT *, t1.id AS nws_id
+FROM news t1
+-- WHERE (t1.expires &gt; NOW() OR t1.`expires` = '0000-00-00 00:00:00' OR t1.expires = '')
+ORDER BY t1.added DESC
+-- LIMIT 10;</string>
+		<string>SELECT *, t1.id AS nws_id
+FROM news t1
+WHERE (t1.expires &gt; NOW() OR t1.`expires` = '0000-00-00 00:00:00' OR t1.expires = '')
+ORDER BY t1.added DESC
+-- LIMIT 10;</string>
+		<string>SELECT *, t1.id AS nws_id
+FROM news t1
+WHERE (t1.expires &gt; NOW() OR t1.`expires` = '0000-00-00 00:00:00' OR t1.expires = NULL)
+ORDER BY t1.added DESC
+-- LIMIT 10;</string>
+		<string>SELECT *, t1.id AS nws_id
+FROM news t1
+WHERE (t1.expires &gt; NOW() OR t1.`expires` = '0000-00-0000 00:00:00' OR t1.expires = NULL)
+ORDER BY t1.added DESC
+-- LIMIT 10;</string>
+		<string>SELECT *, t1.id AS nws_id
+FROM news t1
+WHERE t1.expires &gt; NOW()
+ORDER BY t1.added DESC
+-- LIMIT 10;</string>
+		<string>SELECT *, t1.id AS nws_id
+FROM news t1
+WHERE t1.expires &lt; NOW()
+ORDER BY t1.added DESC
+-- LIMIT 10;</string>
+		<string>SELECT *, t1.id AS nws_id
+FROM news t1
+/* WHERE t1.expires &lt; DATE() */
+ORDER BY t1.added DESC
+-- LIMIT 10;</string>
+		<string>SELECT *, t1.id AS nws_id
+FROM news t1
+/* WHERE t1.expires &lt; DATE() */
+ORDER BY t1.added DESC
+LIMIT 10</string>
+		<string>)
+ORDER BY t1.added DESC
+LIMIT 10</string>
+		<string>SELECT *, t1.id AS nws_id
+FROM news t1
+WHERE t1.expires &lt; DATE()
+ORDER BY t1.added DESC
+LIMIT 10</string>
+		<string>SELECT *, t1.id AS nws_id
+FROM news t1
+ORDER BY t1.added DESC
+LIMIT 10</string>
+		<string>SELECT *, t1.id as song_id FROM songs t1, artist_lookup t2, artists t3 WHERE (t1.id=t2.songid AND t2.artistid=t3.id AND t3.id=183) ORDER BY t1.viewed DESC LIMIT 10</string>
+		<string>SELECT t1.id AS sng_id, t1.title AS sng_title
+FROM songs t1
+WHERE (t1.`urlname` = "Intro")</string>
+		<string>SELECT t1.id AS lab_id, t1.name AS lab_name
+FROM labels t1
+WHERE (t1.`urlname` = "Wielkie_Jol")</string>
+		<string>SELECT t1.id AS art_id, t1.name AS art_name
+FROM artists t1
+WHERE (t1.`urlname` = "Tede")</string>
+		<string>SELECT t1.id AS art_id
+FROM artists t1
+WHERE (t1.`urlname` = "Tede")</string>
+		<string>SELECT t1.id AS alb_id, t1.title AS alb_title, t3.name AS art_name
+FROM albums t1, album_artist_lookup t2, artists t3
+WHERE (t1.id=t2.albumid AND t3.id=t2.`artistid` AND t1.`urlname` = "Hajs_Hajs_Hajs")</string>
+		<string>SELECT *
+FROM albums t1
+WHERE t1.`urlname` = "Hajs_Hajs_Hajs"</string>
+		<string>SELECT *
+FROM albums t1
+WHERE t1.`urlname` = "v_a"</string>
+		<string>SELECT DISTINCT(t1.searchstring) AS sea_query
+FROM searches t1
+ORDER BY id DESC
+LIMIT 15</string>
+		<string>SELECT DISTINCT(t1.searchstring) AS sea_query, count(t1.searchstring) AS sea_count 
+FROM searches t1
+GROUP BY t1.`searchstring`
+ORDER BY sea_count DESC
+LIMIT 15</string>
+		<string>SELECT DISTINCT(t1.searchstring) AS sea_query
+FROM searches t1
+ORDER BY id DESC
+LIMIT 10</string>
+		<string>SELECT LOWER(t1.searchstring) AS sea_query
+FROM searches t1
+ORDER BY id DESC
+LIMIT 10</string>
+		<string>INSERT INTO searches SET searchstring="teste"</string>
+		<string>SELECT LOWER(t1.searchstring) AS sea_query, count(t1.searchstring) AS sea_count 
+FROM searches t1
+GROUP BY t1.`searchstring`
+ORDER BY sea_count DESC
+LIMIT 15</string>
+		<string>SELECT *
+FROM searches t1
+ORDER BY id DESC
+LIMIT 10</string>
+		<string>SELECT LOWER(searchstring) AS sea_query, count(searchstring) AS sea_count 
+FROM searches t1
+GROUP BY t1.`searchstring`
+ORDER BY sea_count DESC
+LIMIT 15</string>
+		<string>SELECT searchstring AS sea_query, count(searchstring) AS sea_count 
+FROM searches t1
+GROUP BY t1.`searchstring`
+ORDER BY sea_count DESC
+LIMIT 15</string>
+		<string>SELECT *, count(searchstring) AS sea_count 
+FROM searches t1
+GROUP BY t1.`searchstring`
+ORDER BY sea_count DESC
+LIMIT 15</string>
+		<string>SELECT *, count(searchstring) AS ser_count 
+FROM searches t1
+GROUP BY t1.`searchstring`
+ORDER BY ser_count DESC
+LIMIT 15</string>
+		<string>SELECT *
+FROM searches t1
+ORDER BY id DESC
+LIMIT 4</string>
+		<string>SELECT *, count(searchstring) AS count 
+FROM searches t1
+GROUP BY t1.`searchstring`
+ORDER BY count DESC
+LIMIT 15</string>
+		<string>SELECT *, count(searchstring) AS count 
+FROM searches t1
+GROUP BY t1.`searchstring`
+ORDER BY count DESC
+LIMIT 10</string>
+		<string>SELECT *, count(searchstring) AS count 
+FROM searches t1
+GROUP BY t1.`searchstring`
+ORDER BY count</string>
+		<string>SELECT count(searchstring) AS count 
+FROM searches t1
+GROUP BY t1.`searchstring`
+ORDER BY count</string>
+		<string>SELECT *
+FROM searches
+ORDER BY id DESC
+LIMIT 4</string>
+	</array>
+	<key>rdbms_type</key>
+	<string>mysql</string>
+	<key>rdbms_version</key>
+	<string>5.5.3-m3</string>
+	<key>version</key>
+	<integer>1</integer>
+</dict>
+</plist>
