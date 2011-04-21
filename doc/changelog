@@ -1,3 +1,7 @@
+v0.63 (2011-04-21)
+ * (added) Deploy.sh script is now part of a repository in _dev/deploy.sh
+ * (fix) Small fix concerning exception logging
+
 v0.62 (2011-04-21)
  * (fixes) Bunch of small bugfixes concerning logging exceptions
 
