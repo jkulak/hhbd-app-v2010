@@ -47,7 +47,9 @@ class Jkl_Db extends Jkl_Cache
       {
         $test = $this->_cache->save($result, md5($query), array(), $lifeTime);
       }
-      Zend_Registry::get('Logger')->info(md5($query) . ' - db: ' . $this->_queryCount . '. - ' . $query);
+      
+      // Turning off logging
+      // Zend_Registry::get('Logger')->info(md5($query) . ' - db: ' . $this->_queryCount . '. - ' . $query);
     }
     else {
       $result = $cache;
