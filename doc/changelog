@@ -1,3 +1,6 @@
+v0.61 (2011-04-21)
+ * Small fixes
+
 v0.60 (2011-04-21)
  * (fixed) Turned-off exception display on production and added exception logging to /tmp/logs/YYYY-MM-DD-hhbd.txt file
  
