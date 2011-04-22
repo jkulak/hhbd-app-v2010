@@ -46,8 +46,7 @@ class ErrorController extends Zend_Controller_Action
                   }
                   
                   // Log only when it's something different from 404
-                  $logger = Zend_Registry::get('Logger');
-                  $logger->log($this->getRequest()->getRequestUri() . "\n" . $errors->exception, Zend_Log::EMERG);
+                  $this->getLog()->emerg($this->getRequest()->getRequestUri() . "\n" . $errors->exception);
 
                 break;
             default:
@@ -91,12 +90,4 @@ class ErrorController extends Zend_Controller_Action
       $this->view->message = 'Nie udało się połączyć z Memcached.';
       $this->renderScript('error/error.phtml');
     }
-    
-    // 2011, 22 Jan - I started doing this, but finally couldn't find solution for making simple database query outside models
-    // public function exceptionLogThisAction()
-    // {
-    //   $uri = $this->view->request->getRequestUri();
-    //   Jkl_Log::getInstance()->save404ErrorLog($uri);
-    //   $this->renderScript('error/error.phtml');
-    // }
 }

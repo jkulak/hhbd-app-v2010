@@ -1,3 +1,6 @@
+v0.64 (2011-04-22)
+ * Set up resource loggers, loggin data in file and emergency using e-mail
+
 v0.63 (2011-04-21)
  * (added) Deploy.sh script is now part of a repository in _dev/deploy.sh
  * (fix) Small fix concerning exception logging
