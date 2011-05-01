@@ -1,3 +1,6 @@
+v0.66 (2011-05-02)
+ * Small fixes in logging debug data
+
 v0.65 (2011-05-02)
  * Fixed bug which cause almost half of queries not to be cached
  * Fixed logging data (emergency on Exception + debug for saving data to memcached) 
