@@ -1,3 +1,7 @@
+v0.65 (2011-05-02)
+ * Fixed bug which cause almost half of queries not to be cached
+ * Fixed logging data (emergency on Exception + debug for saving data to memcached) 
+
 v0.64 (2011-04-22)
  * Set up resource loggers, loggin data in file and emergency using e-mail
 
