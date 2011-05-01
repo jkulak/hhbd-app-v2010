@@ -15,8 +15,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
   
   protected function _initApplication()
   {
-    $registry = new Zend_Registry(array(), ArrayObject::ARRAY_AS_PROPS);
-    Zend_Registry::setInstance($registry);
+    Zend_Registry::set('Logger', $this->bootstrap('log')->getResource('log'));
     
     // Load configuration from file, put it in the registry
     $appConfig = $this->getOption('app');
@@ -39,13 +38,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     $routes = new Zend_Config_Xml(APPLICATION_PATH . '/configs/routes.xml', APPLICATION_ENV);
     //$router->removeDefaultRoutes();
     $router->addConfig($routes, 'routes');
-    
-    // $frontController->throwExceptions(false);
-    
-    
-    $this->_setUpLogger();
-    // In case I need baseUrl()
-    //$frontController->setBaseUrl($this->config['resources']['frontController']['baseUrl'] . '/hhbd');
   }
        
   protected function _initView()
@@ -64,36 +56,5 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     
     $configApp = Zend_Registry::get('Config_App');
     $view->headIncludes = $configApp['includes'];
-
-    // Navigation, not used
-    // $navigation = new Zend_Config_Xml(APPLICATION_PATH . '/configs/navigation.xml', 'nav');
-    // $container = new Zend_Navigation($navigation);
-    // Zend_Registry::set('Zend_Navigation', $navigation);
-    
-    // In case I want to turn translation on
-    // $translator = new Zend_Translate('array', '../lang/en.php', 'en');
-    // $translator->addTranslation('../lang/pl.php', 'pl');
-    // $translator->setLocale('pl');
-    // $view->navigation()->setTranslator($translator);
-    // $view->navigation($container);
-  }
-
-  private function _setUpLogger() {
-    $dir = $path = '/tmp/logs';
-    
-    if (!file_exists($dir)) {
-      $result = mkdir($dir, 0777, true);
-      if (!$result) {
-        throw new Jkl_Exception('Cannot create log directory: ' . $dir);
-      }
-    }
-
-    $file = $path . '/' . date('Y-m-d') . '-hhbd.txt';
-    file_put_contents($file, '', FILE_APPEND);
-
-    $logger = new Zend_Log(new Zend_Log_Writer_Stream($file));
-    Zend_Registry::set('Logger', $logger);
-    
-    return true;
   }
 }

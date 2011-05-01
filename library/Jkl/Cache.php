@@ -10,7 +10,7 @@ class Jkl_Cache
   
   function __construct()
   {
-     $this->_cache = $this->_initMemcached();
+    $this->_cache = $this->_initMemcached();
   }
   
   /**
@@ -29,7 +29,6 @@ class Jkl_Cache
   private function _initMemcached()
   {
     $config = Zend_Registry::get('Config_App');
-    $this->_testCacheEngine($config['cache']['backend']['host'], $config['cache']['backend']['port']);
 
      $oBackend = new Zend_Cache_Backend_Memcached(array(
            'servers' =>array(
@@ -53,18 +52,5 @@ class Jkl_Cache
          ) );
 
      return Zend_Cache::factory($oFrontend, $oBackend);
-   }
-
-   private function _testCacheEngine($host, $port)
-   {
-     $memCacheTest = new Memcache();
-     if (!($memCacheTest->connect($host, $port))) {
-       throw new Jkl_Cache_Exception('Test connection to Memcached failed (' . $host . ':' . $port . ') probably Memcached is not running.', Jkl_Cache_Exception::EXCEPTION_MEMCACHED_CONNECTION_FAILED);
-     }
-     else {
-       $memCacheTest->close();
-       unset($memCacheTest);
-     }
-
    }
 }

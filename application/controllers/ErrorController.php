@@ -21,10 +21,6 @@ class ErrorController extends Zend_Controller_Action
                 $this->getResponse()->setHttpResponseCode(404);
                 $this->view->title = 'Błąd 404: Nieeee, nie mamy takiej strony (jeszcze)!';
                 $this->view->message = 'Ale nie przejmuj się tym, to nie Twoja wina :) Sprawdź czy wpisałeś dobry adres, a najlepiej chodź na <a href="/">stronę główną</a> lub wpisz czego szukasz w naszej wyszukiwarce!';
-                
-                // see description below
-                // $this->_forward('exception-log-this');
-                
                 break;
                 
             case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_OTHER:
@@ -46,7 +42,7 @@ class ErrorController extends Zend_Controller_Action
                   }
                   
                   // Log only when it's something different from 404
-                  $this->getLog()->emerg($this->getRequest()->getRequestUri() . "\n" . $errors->exception);
+                  $this->getLog()->emerg($this->getRequest()->getRequestUri() . '|' . $errors->exception->getCode() . '|' . $errors->exception->getMessage());
 
                 break;
             default:
@@ -54,11 +50,6 @@ class ErrorController extends Zend_Controller_Action
                 $this->getResponse()->setHttpResponseCode(500);
                 $this->view->message = 'Application error 500';
                 break;
-        }
-        
-        // Log exception, if logger available
-        if ($log = $this->getLog()) {
-            $log->crit($this->view->message, $errors->exception);
         }
         
         // conditionally display exceptions
