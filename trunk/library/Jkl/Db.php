@@ -7,6 +7,7 @@ class Jkl_Db extends Jkl_Cache
 {
   private $_db;
   private $_queryCount = 0;
+  private $_cacheHits = 0;
   
   static private $_instance;
   
@@ -34,22 +35,18 @@ class Jkl_Db extends Jkl_Cache
   */
   public function fetchAll($query, $lifeTime = null)
   {
+    if (null === $lifeTime) {
+      $config = Zend_Registry::get('Config_App');
+      $lifeTime = $config['cache']['front']['lifetime'];
+    }
+    
     $this->_queryCount++;
 
     $cache = $this->_cache->load(md5($query));
-    if (empty($cache)) {
-
-      $result = $this->_db->fetchAll($query);
-      if ($lifeTime === null) {
-        $test = $this->_cache->save($result, md5($query));    
-      }
-      else
-      {
-        $test = $this->_cache->save($result, md5($query), array(), $lifeTime);
-      }
-      
-      // Turning off logging
-      // Zend_Registry::get('Logger')->info(md5($query) . ' - db: ' . $this->_queryCount . '. - ' . $query);
+    
+    if (false === $cache) {
+      $result = $this->_db->fetchAll($query);      
+      $test = $this->_cache->save($result, md5($query), array(), $lifeTime);
     }
     else {
       $result = $cache;

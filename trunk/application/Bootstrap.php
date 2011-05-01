@@ -15,7 +15,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
   
   protected function _initApplication()
   {
-    
     $registry = new Zend_Registry(array(), ArrayObject::ARRAY_AS_PROPS);
     Zend_Registry::setInstance($registry);
     
