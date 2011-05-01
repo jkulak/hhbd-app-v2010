@@ -47,7 +47,7 @@ class Jkl_Db extends Jkl_Cache
     if (false === $cache) {
       $result = $this->_db->fetchAll($query);      
       $test = $this->_cache->save($result, md5($query), array(), $lifeTime);
-      Zend_Registry::get('Logger')->info('Saving to memcached: ' . $query);
+      Zend_Registry::get('Logger')->info('Memcached::save ' . (string)str_replace("\n", '', $query));
     }
     else {
       $result = $cache;
