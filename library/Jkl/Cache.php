@@ -27,12 +27,9 @@ class Jkl_Cache
   }
   
   private function _initMemcached()
-   {
-     $config = Zend_Registry::get('Config_App');
-
-     // test if we have connection to memCached, should be turned off after some time
-
-      // $this->_testCacheEngine($config['cache']['backend']['host'], $config['cache']['backend']['port']);
+  {
+    $config = Zend_Registry::get('Config_App');
+    $this->_testCacheEngine($config['cache']['backend']['host'], $config['cache']['backend']['port']);
 
      $oBackend = new Zend_Cache_Backend_Memcached(array(
            'servers' =>array(
