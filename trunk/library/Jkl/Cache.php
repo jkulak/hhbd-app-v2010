@@ -43,7 +43,7 @@ class Jkl_Cache
      $oFrontend = new Zend_Cache_Core(
          array(
              'caching' => $config['cache']['front']['caching'],
-             'cache_id_prefix' => 'hhbdpl',
+             'cache_id_prefix' => 'wwwhhbdpl',
              'logging' => false,
              'write_control' => true,
              'automatic_serialization' => $config['cache']['front']['automatic_serialization'],
