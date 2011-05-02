@@ -1,3 +1,8 @@
+v0.67
+ * Added possibility to edit youtube video url for a song (Issue #4)
+ * Fixed bug where users' last login date was not saved to database (Issue #22)
+ * Added saving users login count to database
+
 v0.66 (2011-05-02)
  * Small fixes in logging debug data
 

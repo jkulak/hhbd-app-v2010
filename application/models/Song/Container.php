@@ -44,8 +44,8 @@ class Model_Song_Container
       $this->artist = $params['artist'];
     }
     
-    if (!empty($params['youTubeUrl'])) {
-      $this->youTubeUrl = $params['youTubeUrl'];
+    if (!empty($params['youtube_url'])) {
+      $this->youTubeUrl = $params['youtube_url'];
     }
 
     if (!empty($params['featured'])) {

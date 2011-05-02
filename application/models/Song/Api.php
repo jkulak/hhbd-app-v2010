@@ -78,6 +78,7 @@ class Model_Song_Api extends Jkl_Model_Api
       }
     } else {
       // song is not featured on any album for some reason? send notification email
+      Zend_Registry::get('Logger')->info('Song ' . $id . ' is not featured on any album.');
     }
     
     if (!isset($albumArtist)) {
@@ -92,14 +93,16 @@ class Model_Song_Api extends Jkl_Model_Api
     if (sizeof($params['artist']->items) < 1) {
       $params['artist']->add($albumArtist);
     }
-
-    if ($full) {
+    
+    if ($params['youtube_url'] === null and $full) {
       $searchTerms = (isset($albumArtist)?$albumArtist->name . ' ':'') . $params['title'];
-
       $rep = array('/', '&', '?', '-');
       $searchTerms = str_replace($rep, ' ', $searchTerms);
-
-      $params['youTubeUrl'] = $this->_getYouTubeUrl($searchTerms);
+      $url = $this->_getYouTubeUrl($searchTerms);
+      $query = 'UPDATE songs SET youtube_url="' . $url . '" WHERE id=' . $id;
+      $this->_db->query($query);
+      $params['youtube_url'] = $url;
+      Zend_Registry::get('Logger')->info('Save YouTube ' . $params['title'] . '(' . $id . '): ' . $url); 
     }
 
     $item = new Model_Song_Container($params);
@@ -182,7 +185,6 @@ class Model_Song_Api extends Jkl_Model_Api
       $query->setSafeSearch('none');
       $query->setVideoQuery($searchTerms);
       $query->setMaxResults(1);
-      // print_r($query); die();
       $videoFeed = $yt->getVideoFeed($query->getQueryUrl(2));
     
       if (sizeof($videoFeed) < 1) {
@@ -362,10 +364,6 @@ class Model_Song_Api extends Jkl_Model_Api
         $artists->add($value);
       }
     }
-     
-    // print_r($artists);
-    // die('s');
-    
     return $artists;  
   }
   

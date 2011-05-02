@@ -62,8 +62,11 @@ class UserController extends Zend_Controller_Action
     // Did the participant successfully login?
     if ($result->isValid()) {
       // retrive user data needed in the front
-      $data = $authAdapter->getResultRowObject(array('usr_display_name', 'usr_id', 'usr_is_admin'));
+      $data = $authAdapter->getResultRowObject(array('usr_display_name', 'usr_id', 'usr_is_admin', 'usr_login_count'));
       $auth->getStorage()->write($data);
+      // save last login info
+      Model_User::getInstance()->update(array('usr_last_login' => date('Y-m-d H:i:s'), 'usr_login_count' => $data->usr_login_count + 1),
+                                        'usr_email="' . $email . '"');
       $result = true;
     }
     return $result;
