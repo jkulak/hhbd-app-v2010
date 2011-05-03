@@ -95,6 +95,13 @@ class AlbumController extends Zend_Controller_Action
     }
     
     $this->view->comments = Model_Comment_Api::getInstance()->getComments($album->id, Model_Comment_Container::TYPE_ALBUM);
+    
+    // if user is logged in
+    if (Zend_Auth::getInstance()->hasIdentity()) {
+      $userId = Zend_Auth::getInstance()->getIdentity()->usr_id;
+      $this->view->inCollection = Model_List::getInstance()->present($params['id'], $userId, Model_List::TYPE_COLLECTION);
+      $this->view->inWishlist = Model_List::getInstance()->present($params['id'], $userId, Model_List::TYPE_WISHLIST);
+    }
 
     $this->view->title = $album->artist->name . ' - ' . $album->title . ' (' . $album->year . ')';
     $this->view->headTitle()->set($this->view->title, 'PREPEND');

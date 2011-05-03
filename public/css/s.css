@@ -780,3 +780,11 @@ ul.flat li {
   width: 100%;
   margin-bottom: 8px;
 }
+
+#details {
+  margin-bottom: 12px;
+}
+
+#controll {
+/*  background: lime;*/
+}

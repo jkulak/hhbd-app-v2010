@@ -1,3 +1,6 @@
+v0. (2011-05-)
+ * Added Wishlist and Collections, it's possible to add and remove albums to Wishlist/Collection (not possible to check own Wishlist/Collection tough)
+
 v0.67
  * Added possibility to edit youtube video url for a song (Issue #4)
  * Fixed bug where users' last login date was not saved to database (Issue #22)

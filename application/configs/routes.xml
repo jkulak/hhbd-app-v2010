@@ -293,7 +293,58 @@
           <reverse>%s-s%d/edytuj-tekst.html</reverse>
         </songEditLyrics>
         
+        <!-- lists, collections, wishlists -->
+        <saveToCollection type="Zend_Controller_Router_Route_Regex">
+          <route>(.+)-a(\d+)\/dodaj-do-kolekcji.html</route>
+          <defaults>
+            <controller>list</controller>
+            <action>addToCollection</action>
+          </defaults>
+          <map>
+            <seo>1</seo>
+            <id>2</id>
+          </map>
+          <reverse>%s-a%d/dodaj-do-kolekcji.html</reverse>
+        </saveToCollection>
         
+        <saveToWishlist type="Zend_Controller_Router_Route_Regex">
+          <route>(.+)-a(\d+)\/dodaj-do-chcelisty.html</route>
+          <defaults>
+            <controller>list</controller>
+            <action>addToWishlist</action>
+          </defaults>
+          <map>
+            <seo>1</seo>
+            <id>2</id>
+          </map>
+          <reverse>%s-a%d/dodaj-do-chcelisty.html</reverse>
+        </saveToWishlist>
+        
+        <removeFromCollection type="Zend_Controller_Router_Route_Regex">
+          <route>(.+)-a(\d+)\/usun-z-kolekcji.html</route>
+          <defaults>
+            <controller>list</controller>
+            <action>removeFromCollection</action>
+          </defaults>
+          <map>
+            <seo>1</seo>
+            <id>2</id>
+          </map>
+          <reverse>%s-a%d/usun-z-kolekcji.html</reverse>
+        </removeFromCollection>
+        
+        <removeFromWishlist type="Zend_Controller_Router_Route_Regex">
+          <route>(.+)-a(\d+)\/usun-z-chcelisty.html</route>
+          <defaults>
+            <controller>list</controller>
+            <action>removeFromWishlist</action>
+          </defaults>
+          <map>
+            <seo>1</seo>
+            <id>2</id>
+          </map>
+          <reverse>%s-a%d/usun-z-chcelisty.html</reverse>
+        </removeFromWishlist>
         
         <!-- ADMIN INTERFACE ROUTES -->
         
