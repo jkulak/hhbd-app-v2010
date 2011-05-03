@@ -1,0 +1,18 @@
+<div id="main">
+    <?php if ($this->success === true): ?>
+        <h1>Album <?php echo $this->album->title ?> został dodany do Twojej chcęlisty!</h1>
+    <?php else: ?>
+        <h1>Wystąpił problem z dodawaniem albumu <?php echo $this->album->title ?> do Twojej chcęlisty.</h1>
+        <p>Może masz go już w chcęliście?</p>
+    <?php endif ?>
+
+    <p>Sprawdź swoją chcęlistę: <?php echo $this->profileLink() ?></p>
+
+    <p>Wróc do odsłony albumu: <?php echo $this->partial('album/_link.phtml', array('album' => $this->album)) ?></p>
+</div>
+<div id="aside">
+  <div class="box googleads">
+    <h3 class="hidden">Google Ads</h3>
+    <?php echo $this->partial('common/googleAds/_rectangle.phtml'); ?>
+  </div>
+</div>
