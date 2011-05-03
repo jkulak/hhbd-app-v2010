@@ -298,7 +298,7 @@
           <route>(.+)-a(\d+)\/dodaj-do-kolekcji.html</route>
           <defaults>
             <controller>list</controller>
-            <action>addToCollection</action>
+            <action>add-to-collection</action>
           </defaults>
           <map>
             <seo>1</seo>
@@ -311,7 +311,7 @@
           <route>(.+)-a(\d+)\/dodaj-do-chcelisty.html</route>
           <defaults>
             <controller>list</controller>
-            <action>addToWishlist</action>
+            <action>add-to-wishlist</action>
           </defaults>
           <map>
             <seo>1</seo>
@@ -324,7 +324,7 @@
           <route>(.+)-a(\d+)\/usun-z-kolekcji.html</route>
           <defaults>
             <controller>list</controller>
-            <action>removeFromCollection</action>
+            <action>remove-from-collection</action>
           </defaults>
           <map>
             <seo>1</seo>
@@ -337,7 +337,7 @@
           <route>(.+)-a(\d+)\/usun-z-chcelisty.html</route>
           <defaults>
             <controller>list</controller>
-            <action>removeFromWishlist</action>
+            <action>remove-from-wishlist</action>
           </defaults>
           <map>
             <seo>1</seo>
