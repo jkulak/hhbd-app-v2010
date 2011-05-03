@@ -142,4 +142,19 @@ $(function(){
     })
     return false;
   });
+
+  // lists, collections, wishlists
+  $('#add-to-collection').click(function(){
+     $.ajax({
+        url: $(this).attr('href'),
+        success: function(data) {
+          alert(data);
+        },
+        error: function() {
+          alert('Problem z dodaniem albumu do kolekcji, spróbuj za jakiś czas.');
+        }
+      })
+      return false;
+  });
+
 });

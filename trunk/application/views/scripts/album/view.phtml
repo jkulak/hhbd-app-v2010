@@ -62,16 +62,16 @@
     <ul id="controll">
         <li>
             <?php if ($this->inCollection === false): ?>
-                <a href="<?php echo $this->url(array('id' => $this->album->id, 'seo' => $this->album->artist . ' - ' . $this->album->title), 'saveToCollection') ?>">Dodaj "<?php echo $this->album->title ?>" do swojej kolekcji</a>
+                <a id="add-to-collection" href="<?php echo $this->url(array('id' => $this->album->id, 'seo' => $this->album->artist . ' - ' . $this->album->title), 'saveToCollection') ?>">Dodaj "<?php echo $this->album->title ?>" do swojej kolekcji</a>
             <?php else: ?>
-                Album jest w Twojej kolekcji (<a href="<?php echo $this->url(array('id' => $this->album->id, 'seo' => $this->album->artist . ' - ' . $this->album->title), 'removeFromCollection') ?>">usuń</a>)
+                Album jest w Twojej kolekcji (<a id="remove-from-collection" href="<?php echo $this->url(array('id' => $this->album->id, 'seo' => $this->album->artist . ' - ' . $this->album->title), 'removeFromCollection') ?>">usuń</a>)
             <?php endif ?>
         </li>
         <li>
             <?php if ($this->inWishlist === false): ?>
-                <a href="<?php echo $this->url(array('id' => $this->album->id, 'seo' => $this->album->artist . ' - ' . $this->album->title), 'saveToWishlist') ?>">Dodaj "<?php echo $this->album->title ?>" do swojej chcęlisty</a>
+                <a id="add-to-wishlist" href="<?php echo $this->url(array('id' => $this->album->id, 'seo' => $this->album->artist . ' - ' . $this->album->title), 'saveToWishlist') ?>">Dodaj "<?php echo $this->album->title ?>" do swojej chcęlisty</a>
             <?php else: ?>
-                Album jest w Twojej chcęliście (<a href="<?php echo $this->url(array('id' => $this->album->id, 'seo' => $this->album->artist . ' - ' . $this->album->title), 'removeFromWishlist') ?>">usuń</a>)
+                Album jest w Twojej chcęliście (<a id="remove-from-wishlist" href="<?php echo $this->url(array('id' => $this->album->id, 'seo' => $this->album->artist . ' - ' . $this->album->title), 'removeFromWishlist') ?>">usuń</a>)
             <?php endif ?>
             
         </li>

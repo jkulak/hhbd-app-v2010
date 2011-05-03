@@ -108,8 +108,7 @@ class Model_List extends Zend_Db_Table_Abstract
       );
     
     $row = $this->delete($where);
-    
-    return $row !== null;
+    return ($row > 0);
   }
   
   

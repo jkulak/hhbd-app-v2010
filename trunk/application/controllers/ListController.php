@@ -4,37 +4,62 @@ class ListController extends Zend_Controller_Action
 {
   
   public function init()
-  {
+  { 
+    // $ajaxContext = $this->_helper->getHelper('AjaxContext');
+    // $ajaxContext->addActionContext('addtocollection', 'json')->initContext();
+    
+    // $contextSwitch = $this->_helper->getHelper('contextSwitch');
+    //         $contextSwitch->addActionContext('addtocollection', 'json')
+    //                       ->initContext();
+                          
+    // $this->_helper->ajaxContext()->addActionContext('addtocollection', 'json')->initContext('json');
+    
+    $ajaxContext = $this->_helper->getHelper('AjaxContext');
+    
+    $ajaxContext->addActionContext('add-to-collection', 'json');
+    $ajaxContext->addActionContext('add-to-wishlist', 'json');
+    $ajaxContext->addActionContext('remove-from-collection', 'json');
+    $ajaxContext->addActionContext('remove-from-wishlist', 'json');
+    
+    $ajaxContext->initContext('json');
+    
     $this->_request = $this->getRequest();
     $this->_requestParams = $this->_request->getParams();
-    $this->view->album = Model_Album_Api::getInstance()->find($this->_requestParams['id']);
+    
+    if (!$this->_request->isXmlHttpRequest()) {
+        $this->view->album = Model_Album_Api::getInstance()->find($this->_requestParams['id']);
+    }
   }
 
   public function indexAction()
   {
   }
   
-  public function addtocollectionAction()
+  /**
+   * Adds album to users collection
+   *
+   * @return void
+   * @since 2011-05-03
+   * @author Kuba
+   * @file: ListController.php
+   **/
+  public function addToCollectionAction()
   {
-    //check if logged in
-    if ($this->_checkAuth()) {
-      $userId = Zend_Auth::getInstance()->getIdentity()->usr_id;
-      $albumId = $this->_requestParams['id'];
-      if (Model_List::getInstance()->save($albumId, $userId, Model_List::TYPE_COLLECTION)) {
-        $this->view->success = true;
-      }
-    }
+    $this->view->test = 'yes';
+    $this->_addToList(Model_List::TYPE_COLLECTION);
   }
   
-  public function addtowishlistAction()
+  /**
+   * Adds album to users wishlist
+   *
+   * @return void
+   * @since 2011-05-03
+   * @author Kuba
+   * @file: ListController.php
+   **/
+  public function addToWishlistAction()
   {
-    if ($this->_checkAuth()) {
-      $userId = Zend_Auth::getInstance()->getIdentity()->usr_id;
-      $albumId = $this->_requestParams['id'];
-      if (Model_List::getInstance()->save($albumId, $userId, Model_List::TYPE_WISHLIST)) {
-        $this->view->success = true;
-      }
-    }
+    $this->_addToList(Model_List::TYPE_WISHLIST);
   }
   
   /**
@@ -45,15 +70,9 @@ class ListController extends Zend_Controller_Action
    * @author Kuba
    * @file: ListController.php
    **/
-  public function removefromcollectionAction()
+  public function removeFromCollectionAction()
   {
-    if ($this->_checkAuth()) {
-      $userId = Zend_Auth::getInstance()->getIdentity()->usr_id;
-      $albumId = $this->_requestParams['id'];
-      if (Model_List::getInstance()->remove($albumId, $userId, Model_List::TYPE_COLLECTION)) {
-        $this->view->success = true;
-      }
-    }
+    $this->_removeFromList(Model_List::TYPE_COLLECTION);
   }
   
   /**
@@ -64,12 +83,37 @@ class ListController extends Zend_Controller_Action
    * @author Kuba
    * @file: ListController.php
    **/
-  public function removefromwishlistAction()
+  public function removeFromWishlistAction()
+  {
+    $this->_removeFromList(Model_List::TYPE_WISHLIST);
+  }
+  
+  /**
+   * Add album to users list
+   *
+   * @return boolean
+   * @since 2011-05-03
+   * @author Kuba
+   * @file: ListController.php
+   **/
+  private function _addToList($listType)
+  {
+    $this->view->success = false;
+    if ($this->_checkAuth()) {
+      $userId = Zend_Auth::getInstance()->getIdentity()->usr_id;
+      $albumId = $this->_requestParams['id'];
+      if (Model_List::getInstance()->save($albumId, $userId, $listType)) {
+        $this->view->success = true;
+      }
+    }
+  }
+  
+  private function _removeFromList($listType)
   {
     if ($this->_checkAuth()) {
       $userId = Zend_Auth::getInstance()->getIdentity()->usr_id;
       $albumId = $this->_requestParams['id'];
-      if (Model_List::getInstance()->remove($albumId, $userId, Model_List::TYPE_WISHLIST)) {
+      if (Model_List::getInstance()->remove($albumId, $userId, $listType)) {
         $this->view->success = true;
       }
     }
