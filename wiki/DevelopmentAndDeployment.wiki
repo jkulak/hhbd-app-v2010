@@ -1,5 +1,5 @@
 #summary Development, building and deploying procedures
-#labels developmeny,deploymeny,Phase-Implementation
+#labels Featured,Phase-Implementation
 
 = Building =
 
